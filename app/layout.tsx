@@ -30,12 +30,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR">
-      <body>
-        <div data-estilo="sinapse" className={`${archivoBlack.variable} ${spaceGrotesk.variable}`}>
-          {children}
-        </div>
-      </body>
+    <html lang="pt-BR" className={`${archivoBlack.variable} ${spaceGrotesk.variable}`}>
+      <body>{children}</body>
     </html>
   )
 }

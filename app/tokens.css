@@ -3,7 +3,7 @@
    aberto do meio e névoa ciano junto à crista. Crista: brasa vermelha, laranja quente, pêssego,
    dourado das estrelas, rosa do gás ionizado, branco das estrelas. Poeira: ferrugem e marrom.
    Única fonte de cor do site (G26): os canvas leem estes tokens em runtime. */
-[data-estilo="sinapse"] {
+:root {
   /* Céu. */
   --color-sinapse-fundo-baixo: #04101d;   /* marinho quase preto: cabeçalho, boot, cartões */
   --color-sinapse-fundo: #071a30;         /* azul-petróleo escuro: o céu base */
