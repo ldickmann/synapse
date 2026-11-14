@@ -2,16 +2,7 @@
 // Uso: pnpm build && pnpm verificar:testes   (um só: pnpm verificar:testes tests/site.spec.ts -g "X2")
 import { expect, test, type BrowserContextOptions, type Page } from '@playwright/test'
 import { linkWhatsApp } from '../lib/contato.ts'
-
-const CELULAR = {
-  viewport: { width: 390, height: 844 },
-  deviceScaleFactor: 2,
-  isMobile: true,
-  hasTouch: true,
-}
-// A primeira tela vale também em 375×667 (SPEC §11).
-const CELULAR_375 = { ...CELULAR, viewport: { width: 375, height: 667 } }
-const DESKTOP = { viewport: { width: 1440, height: 900 } }
+import { CELULAR, CELULAR_375, DESKTOP } from './comum.ts'
 
 // A entrada acaba por volta de 2,6 s depois da hidratação: o Decodificar conta o atraso a partir do efeito que roda
 // com `data-pronto`, e o nome do hero decodifica de 1,5 s até 1,5 s + 2 × 180 ms + 720 ms (componentes/Hero.tsx).

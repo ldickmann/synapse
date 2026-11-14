@@ -4,6 +4,7 @@
 import { existsSync, mkdirSync } from 'node:fs'
 import path from 'node:path'
 import { chromium, type Browser, type BrowserContextOptions, type Page } from '@playwright/test'
+import { CELULAR_375, DESKTOP } from '../tests/comum.ts'
 
 type Estado = 'hero' | 'pico' | 'final'
 
@@ -13,11 +14,8 @@ const BASE = `http://localhost:${process.env.PORTA ?? 3000}`
 const ESTADOS: Estado[] = ['hero', 'pico', 'final']
 type Largura = { largura: number; opcoes: BrowserContextOptions }
 const LARGURAS: Largura[] = [
-  {
-    largura: 375,
-    opcoes: { viewport: { width: 375, height: 667 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
-  },
-  { largura: 1440, opcoes: { viewport: { width: 1440, height: 900 } } },
+  { largura: 375, opcoes: CELULAR_375 },
+  { largura: 1440, opcoes: DESKTOP },
 ]
 
 const gerados: string[] = []
@@ -118,7 +116,7 @@ try {
     }
   }
 
-  const foco = await navegador.newContext({ viewport: { width: 1440, height: 900 } })
+  const foco = await navegador.newContext(DESKTOP)
   const pagina = await foco.newPage()
   await pagina.goto(`${BASE}/`)
   await esperarPagina(pagina, '/ foco')
