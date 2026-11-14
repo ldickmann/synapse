@@ -8,7 +8,7 @@ import { lerEntrada, pnpm, RAIZ, relativoARaiz, ultimasLinhas } from './comum.mj
 const entrada = await lerEntrada()
 const relativo = relativoARaiz(entrada.tool_input?.file_path)
 if (relativo && existsSync(path.join(RAIZ, relativo))) {
-  const r = pnpm(['exec', 'prettier', '--write', '--ignore-unknown', '--log-level', 'warn', relativo])
+  const r = await pnpm(['exec', 'prettier', '--write', '--ignore-unknown', '--log-level', 'warn', relativo])
   if (r.status !== 0) {
     process.stderr.write(`O Prettier não formatou ${relativo}:\n${ultimasLinhas(r.saida, 20)}\n`)
     process.exit(2)

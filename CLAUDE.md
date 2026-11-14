@@ -37,7 +37,7 @@ pnpm verificar:testes tests/site.spec.ts -g "X2"   # um teste só, pelo código 
 ## Hooks deste repositório
 
 - Depois de cada edição, o Prettier formata o arquivo; não precisa rodar `pnpm formatar` a cada passo.
-- Ao terminar uma resposta com mudança em `app/`, `componentes/`, `lib/`, `tests/` ou `scripts/`, o `Stop` roda typecheck e lint e devolve o erro. Corrija antes de encerrar.
+- Ao terminar uma resposta com mudança em `app/`, `componentes/`, `lib/`, `tests/` ou `scripts/`, o `Stop` roda typecheck e lint e devolve o erro. Corrija e rode de novo o comando que falhou antes de encerrar: a parada seguinte não é barrada outra vez. Se nada mudou nessas pastas desde a última verificação que passou, ele não roda.
 
 ## Armadilhas
 

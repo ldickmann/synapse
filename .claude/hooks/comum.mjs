@@ -1,5 +1,5 @@
 // Funções dos hooks do Claude Code deste repositório (.claude/settings.json). Sem dependências.
-import { spawnSync } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import path from 'node:path'
 
 /** Raiz do repositório: os scripts ficam em .claude/hooks/. */
@@ -16,9 +16,9 @@ export async function lerEntrada() {
   }
 }
 
-/** Roda o git sem shell e devolve { status, saida }. */
+/** Roda o git sem shell e devolve { status, saida }. O limite da saída cabe um `git diff` grande. */
 export function git(args, cwd = RAIZ) {
-  const r = spawnSync('git', args, { cwd, encoding: 'utf8', windowsHide: true })
+  const r = spawnSync('git', args, { cwd, encoding: 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024 })
   return { status: r.status ?? 1, saida: `${r.stdout ?? ''}${r.stderr ?? ''}`.trim() }
 }
 
@@ -29,15 +29,22 @@ function citar(arg) {
 }
 
 /**
- * Roda o pnpm e devolve { status, saida }. No Windows o pnpm é um .cmd, que só roda por um shell; a linha vai
- * inteira, já com as aspas, porque passar `args` junto com `shell: true` é obsoleto desde o Node 24.
+ * Roda o pnpm e resolve com { status, saida }, sem bloquear: dois pnpm podem rodar ao mesmo tempo. No Windows o
+ * pnpm é um .cmd, que só roda por um shell; a linha vai inteira, já com as aspas, porque passar `args` junto com
+ * `shell: true` é obsoleto desde o Node 24.
  */
 export function pnpm(args) {
   const linha = ['pnpm', ...args.map(citar)].join(' ')
   // Sem cor: a saída volta para o Claude como texto.
   const env = { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0' }
-  const r = spawnSync(linha, { cwd: RAIZ, encoding: 'utf8', shell: true, windowsHide: true, env })
-  return { status: r.status ?? 1, saida: `${r.stdout ?? ''}${r.stderr ?? ''}`.trim() }
+  return new Promise((resolve) => {
+    let saida = ''
+    const filho = spawn(linha, { cwd: RAIZ, shell: true, windowsHide: true, env })
+    filho.stdout.setEncoding('utf8').on('data', (pedaco) => (saida += pedaco))
+    filho.stderr.setEncoding('utf8').on('data', (pedaco) => (saida += pedaco))
+    filho.on('error', (erro) => resolve({ status: 1, saida: String(erro) }))
+    filho.on('close', (status) => resolve({ status: status ?? 1, saida: saida.trim() }))
+  })
 }
 
 /** Responde a um PreToolUse negando a ferramenta, com o motivo que volta para o Claude. */
