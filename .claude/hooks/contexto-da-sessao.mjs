@@ -1,4 +1,4 @@
-// SessionStart (startup|resume|compact): o estado do git entra no contexto do Claude, como texto.
+// SessionStart (startup|resume|clear|compact): o estado do git entra no contexto do Claude, como texto.
 import { git, lerEntrada } from './comum.mjs'
 
 await lerEntrada()
