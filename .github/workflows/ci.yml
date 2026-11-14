@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  # Um push novo no PR cancela a execução anterior; em main, cada push roda até o fim.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # O prepare do package.json liga o Husky; no CI não há commits.
+      HUSKY: 0
+    steps:
+      - uses: actions/checkout@v7
+
+      # Versão do pnpm pelo packageManager do package.json.
+      - uses: pnpm/action-setup@v6
+
+      # Versão do Node pelo .nvmrc, a mesma do engines e da Vercel.
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Instala as dependências pelo lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Audita as dependências de produção
+        run: pnpm audit --prod --audit-level=high
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Formatação
+        run: pnpm formatar:checar
+
+      - name: Padrões (G21, G22 e G26)
+        run: pnpm verificar:padroes
+
+      - name: Build
+        run: pnpm build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Instala o Chromium do Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Testes do Playwright
+        run: pnpm verificar:testes
+
+      - name: Guarda capturas e resultados dos testes
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: verificacao
+          path: verificacao/
+          retention-days: 7
+          if-no-files-found: ignore
