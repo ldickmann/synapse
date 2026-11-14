@@ -1,12 +1,11 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { useSyncExternalStore, type ReactNode } from 'react'
 import { prefereMovimentoReduzido } from '@/lib/capacidades'
 import { Cabecalho } from './Cabecalho'
 import { Carregamento } from './Carregamento'
 import { Contato, Rodape } from './Contato'
 import { Fundo } from './Fundo'
-import { AssinaturaEncaixe } from './AssinaturaEncaixe'
 import { Hero } from './Hero'
 import { Perguntas } from './Perguntas'
 import { Servicos } from './Servicos'
@@ -25,8 +24,9 @@ function assinarMovimento(aoMudar: () => void): () => void {
  * Sinapse (direção 10). Dono do invólucro: `data-motion` ("normal" ou "reduzido") e `data-pronto`
  * (true depois da hidratação, quando o canvas das sinapses e os efeitos por JavaScript entram).
  * O HTML do servidor já tem o texto inteiro e o quadriculado em CSS (X3, X4).
+ * A `assinatura` chega renderizada de app/page.tsx, de servidor, para não entrar no JS do cliente.
  */
-export function Pagina() {
+export function Pagina({ assinatura }: { assinatura: ReactNode }) {
   const pronto = useSyncExternalStore(
     semAssinatura,
     () => true,
@@ -54,9 +54,7 @@ export function Pagina() {
         <Contato movimento={movimento} />
       </main>
       <Rodape />
-      <div className="sinapse-assinatura">
-        <AssinaturaEncaixe tom="escuro" />
-      </div>
+      <div className="sinapse-assinatura">{assinatura}</div>
     </div>
   )
 }
