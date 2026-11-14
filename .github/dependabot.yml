@@ -23,6 +23,13 @@ updates:
       desenvolvimento:
         dependency-type: development
         update-types: [minor, patch]
+    ignore:
+      # O TypeScript fica no 6: o typescript-eslint 8.72.2 só aceita TypeScript abaixo de 6.1.0.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+      # O @types/node acompanha o major do Node, 26.x no engines e no .nvmrc.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions
     directory: /
