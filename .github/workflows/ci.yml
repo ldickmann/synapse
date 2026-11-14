@@ -3,8 +3,10 @@ name: CI
 on:
   pull_request:
     branches: [develop, main]
+  # Depois de cada merge, develop roda o CI no estado integrado. A main só recebe o PR de develop,
+  # que já passou pelo CI.
   push:
-    branches: [main]
+    branches: [develop]
   workflow_dispatch:
 
 permissions:
@@ -12,7 +14,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
-  # Um push novo no PR cancela a execução anterior; em main, cada push roda até o fim.
+  # Um push novo no PR cancela a execução anterior; em develop, cada push roda até o fim.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:

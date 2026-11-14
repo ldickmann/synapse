@@ -56,7 +56,7 @@ docs/         especificação e decisões
 
 ## Verificação
 
-O CI roda o mesmo, em todo PR:
+O CI roda o mesmo em todo PR e a cada push em `develop`:
 
 ```sh
 pnpm install --frozen-lockfile
