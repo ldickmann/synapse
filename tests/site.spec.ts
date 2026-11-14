@@ -141,7 +141,7 @@ test.describe('G7 movimento reduzido', () => {
   test('G7: data-motion="reduzido" e duas capturas com 3 s de intervalo quase iguais', async ({ page, context }, testInfo) => {
     await page.goto('/')
     await expect(page.locator('[data-motion="reduzido"]').first()).toBeAttached()
-    await page.waitForTimeout(1000)
+    await esperarEntrada(page)
     // Os robôs continuam se mexendo com movimento reduzido (exceção do X4): ficam fora da comparação.
     const mask = [page.locator('.sinapse-robo'), page.locator('.sinapse-operador-faisca')]
     const antes = await page.screenshot({ mask })
@@ -218,8 +218,8 @@ test.describe('G10 orçamento de transferência e de JS (390×844)', () => {
     const navegacao = await page.goto('/')
     expect(navegacao, 'resposta da navegação').not.toBeNull()
     const html = await navegacao!.text()
+    await esperarEntrada(page)
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(1000)
     await Promise.all(pendentes)
 
     // Scripts referenciados no HTML inicial (<script src> e <link rel=preload|modulepreload as=script>).
@@ -352,14 +352,14 @@ for (const [tela, opcoes] of [
       for (const seletor of ['svg[data-monograma="dLK"]', 'h1', '[data-testid="whatsapp-hero"]']) {
         expect(await algumDentroDaViewport(page, seletor), `${seletor} visível dentro da viewport`).toBe(true)
       }
-      // Rola até o fim em passos, para montar o que entra por IntersectionObserver.
-      const altura = await page.evaluate(() => document.documentElement.scrollHeight)
-      for (let y = 0; y <= altura; y += opcoes.viewport.height / 2) {
-        await page.evaluate((topo) => window.scrollTo({ top: topo, behavior: 'instant' }), y)
-        await page.waitForTimeout(100)
+      // Para em cada seção até o IntersectionObserver revelar o que entra ao rolar; depois, no fim da página.
+      const secoes = page.locator('section')
+      for (let i = 0; i < (await secoes.count()); i++) {
+        await secoes.nth(i).scrollIntoViewIfNeeded()
+        await expect(secoes.nth(i), `section ${i} revelada`).not.toHaveAttribute('data-visto', 'false')
       }
       await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }))
-      await page.waitForTimeout(500)
+      await esperarEntrada(page)
       const largura = await page.evaluate(() => ({ rolagem: document.documentElement.scrollWidth, janela: innerWidth }))
       expect(largura.rolagem, `scrollWidth com janela de ${largura.janela} px`).toBeLessThanOrEqual(largura.janela)
     })
