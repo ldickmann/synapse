@@ -13,7 +13,7 @@ export const TRABALHOS: Trabalho[] = [
     id: 'maos-de-tesoura',
     nome: 'Mãos de Tesoura',
     tipo: 'Site de barbearia, com agenda de horários',
-    imagem: '/trabalhos/maos-de-tesoura.png',
+    imagem: '/trabalhos/maos-de-tesoura.webp',
     link: 'https://ldickmann.github.io/maos-de-tesoura/',
   },
   { id: 'trabalho-2', nome: 'Trabalho 2', tipo: 'Tipo de projeto', imagem: null, link: null },
