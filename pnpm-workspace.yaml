@@ -1,3 +1,7 @@
 shellEmulator: true
 allowBuilds:
   unrs-resolver: true
+# Padrão do pnpm 12, escrito aqui para a regra não depender da versão do pnpm.
+# Declarar o minimumReleaseAge liga o modo estrito; false mantém o comportamento do padrão.
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: false
