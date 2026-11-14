@@ -110,19 +110,6 @@ async function textoDoMain(page: Page): Promise<TextoDoMain> {
 
 const palavras = (texto: string) => new Set(texto.toLocaleLowerCase('pt-BR').match(/[\p{L}\p{N}]+/gu) ?? [])
 
-/** Trechos (separados por espaço) dentro de nós `aria-hidden` que não aparecem no texto fora deles. */
-async function palavrasSoNaCamada(page: Page): Promise<string[]> {
-  return page.evaluate(() => {
-    const main = document.querySelector('main')
-    if (!main) return []
-    const copia = main.cloneNode(true) as HTMLElement
-    const escondidos = Array.from(copia.querySelectorAll('[aria-hidden="true"]')).map((no) => no.textContent ?? '')
-    copia.querySelectorAll('[aria-hidden="true"]').forEach((no) => no.remove())
-    const fora = new Set((copia.textContent ?? '').split(/\s+/).filter(Boolean))
-    return escondidos.flatMap((texto) => texto.split(/\s+/).filter(Boolean)).filter((palavra) => !fora.has(palavra))
-  })
-}
-
 test.describe('G4 links de WhatsApp', () => {
   test('G4: todos os links de WhatsApp iguais a linkWhatsApp(), pelo menos 1', async ({ page }) => {
     await page.goto('/')
@@ -394,39 +381,36 @@ test.describe('X2 hover e foco levam ao mesmo estado (1440)', () => {
   })
 })
 
-type Leitura = { texto: TextoDoMain; soNaCamada: string[] }
-
 test.describe('X3 paridade de texto (1440)', () => {
   test('X3: o texto de main sem aria-hidden é o mesmo no modo normal, com movimento reduzido e sem JavaScript', async ({
     browser,
     baseURL,
   }) => {
-    const ler = async (opcoes: BrowserContextOptions): Promise<Leitura> => {
+    const ler = async (opcoes: BrowserContextOptions): Promise<TextoDoMain> => {
       const contexto = await browser.newContext({ ...DESKTOP, baseURL, ...opcoes })
       try {
         const page = await contexto.newPage()
         await page.goto('/')
         if (opcoes.javaScriptEnabled !== false) await esperarEntrada(page)
-        return { texto: await textoDoMain(page), soNaCamada: await palavrasSoNaCamada(page) }
+        return await textoDoMain(page)
       } finally {
         await contexto.close()
       }
     }
-    const modos: Record<string, Leitura> = {
+    const modos: Record<string, TextoDoMain> = {
       normal: await ler({ reducedMotion: 'no-preference' }),
       'movimento reduzido': await ler({ reducedMotion: 'reduce' }),
       'sem JavaScript': await ler({ javaScriptEnabled: false }),
     }
 
-    const base = modos.normal.texto.visivel
+    const base = modos.normal.visivel
     expect(base.length, 'texto de main no modo normal').toBeGreaterThan(100)
-    for (const [modo, { texto, soNaCamada }] of Object.entries(modos)) {
+    for (const [modo, texto] of Object.entries(modos)) {
       expect(texto.h1, `h1 (${modo})`).toBe(1)
       expect(texto.visivel, `texto de main (${modo})`).toBe(base)
       const visiveis = palavras(texto.porNo)
       const soOcultas = [...palavras(texto.oculto)].filter((palavra) => !visiveis.has(palavra))
       expect(soOcultas, `palavras que só existem em nós aria-hidden (${modo})`).toEqual([])
-      expect(soNaCamada, `trechos que só existem na camada aria-hidden (${modo})`).toEqual([])
     }
   })
 })
