@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { Archivo_Black, Space_Grotesk } from 'next/font/google'
-import { metadadosDoSite } from '@/lib/metadados'
+import { metadataBase } from '@/lib/metadados'
 import './globals.css'
 import './tokens.css'
 import './pagina.css'
@@ -22,8 +22,9 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--fonte-sinapse-texto',
 })
 
+// Só o que vale para qualquer rota, até a de 404: título, descrição e canonical ficam em app/page.tsx.
 export const metadata: Metadata = {
-  ...metadadosDoSite,
+  metadataBase,
   icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
 }
 
