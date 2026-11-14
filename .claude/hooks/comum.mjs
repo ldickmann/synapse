@@ -16,10 +16,13 @@ export async function lerEntrada() {
   }
 }
 
-/** Roda o git sem shell e devolve { status, saida }. O limite da saída cabe um `git diff` grande. */
+/**
+ * Roda o git sem shell e devolve { status, saida, erro }: a saída padrão e a de erro ficam separadas, para um aviso
+ * do git não entrar no valor lido (o nome da branch, por exemplo). O limite da saída cabe um `git diff` grande.
+ */
 export function git(args, cwd = RAIZ) {
   const r = spawnSync('git', args, { cwd, encoding: 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024 })
-  return { status: r.status ?? 1, saida: `${r.stdout ?? ''}${r.stderr ?? ''}`.trim() }
+  return { status: r.status ?? 1, saida: (r.stdout ?? '').trim(), erro: (r.stderr ?? '').trim() }
 }
 
 /** Aspas para um argumento na linha de comando do shell (cmd.exe no Windows, sh nos outros). */
