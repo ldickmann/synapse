@@ -109,7 +109,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 **Na leitura dos arquivos** (`pnpm verificar:padroes`, `scripts/checar-padroes.ts`), em `app/`, `componentes/` e `lib/`:
 
 - **G21.** `lib/` não contém `.css`, `.tsx` nem `className`: só dados e funções, sem visual.
-- **G22.** Padrões proibidos do §2 ausentes: sem Inter, Roboto ou Arial; sem `font-mono` em rótulos; sem "→" em botões e links; sem caixa alta com espaçamento de letras em rótulos; sem numeração 01/02/03. O resto da lista se confere nas capturas.
+- **G22.** Padrões proibidos do §2 ausentes: sem Inter, Roboto ou Arial; sem `font-mono` em rótulos; sem "→" em botões e links; sem caixa alta com espaçamento de letras em rótulos; sem numeração 01/02/03; sem ponto médio (`·`) em texto. O resto da lista se confere nas capturas.
 - **G26.** Nenhum literal de cor (hex, `0xRRGGBB`, `rgb()`, `hsl()` ou `new Color('…')`) fora de `app/tokens.css`. Os canvas leem as cores dos tokens em runtime.
 
 **No Lighthouse** (`pnpm verificar:lighthouse`, contra `pnpm start`):
