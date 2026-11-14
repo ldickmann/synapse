@@ -21,7 +21,7 @@ function assinarMovimento(aoMudar: () => void): () => void {
 }
 
 /**
- * Sinapse (direção 10). Dono do invólucro: `data-motion` ("normal" ou "reduzido") e `data-pronto`
+ * Invólucro da página, dono de `data-motion` ("normal" ou "reduzido") e `data-pronto`
  * (true depois da hidratação, quando o canvas das sinapses e os efeitos por JavaScript entram).
  * O HTML do servidor já tem o texto inteiro e o quadriculado em CSS (X3, X4).
  * A `assinatura` chega renderizada de app/page.tsx, de servidor, para não entrar no JS do cliente.
@@ -38,7 +38,6 @@ export function Pagina({ assinatura }: { assinatura: ReactNode }) {
   return (
     <div
       className="sinapse-invol"
-      data-render="css"
       data-motion={reduzido ? 'reduzido' : 'normal'}
       data-pronto={pronto ? 'true' : 'false'}
     >

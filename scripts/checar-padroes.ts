@@ -6,7 +6,7 @@ import path from 'node:path'
 type Violacao = { criterio: 'G21' | 'G22' | 'G26'; arquivo: string; linha: number; mensagem: string; trecho: string }
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
-// O site: rotas, componentes e dados. O "→" e os padrões valem em todas; as regras de lib/ só nela.
+// Pastas do site: app/ (página e estilos), componentes/ e lib/ (dados). G22 e G26 valem nas três; o G21, só em lib/.
 const PASTAS_DO_SITE = ['app', 'componentes', 'lib']
 const LIB = path.join(RAIZ, 'lib')
 // Única fonte de cor do site (G26): os canvas leem estes tokens em runtime.
