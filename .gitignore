@@ -1,6 +1,5 @@
 node_modules/
 .next/
-.next-verificacao/
 out/
 verificacao/
 test-results/
@@ -10,3 +9,7 @@ next-env.d.ts
 .env
 .env.local
 .claude/worktrees/
+
+# Pessoais, fora do git
+CLAUDE.local.md
+.claude/settings.local.json
