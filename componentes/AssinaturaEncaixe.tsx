@@ -12,7 +12,7 @@ const CSS = `
 .ldk-encaixe[data-tom=escuro]{--ldk-encaixe-bg:#0F1B33;--ldk-encaixe-fg:#E8EEF8;--ldk-encaixe-ac:#8DB4FF}
 .ldk-encaixe__l{position:relative;display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 12px;color:inherit;text-decoration:none;white-space:nowrap;outline:0;border-radius:3px;-webkit-tap-highlight-color:transparent}
 .ldk-encaixe__l b{font-weight:700}
-.ldk-encaixe__l:focus-visible{outline:2px solid var(--ldk-encaixe-ac);outline-offset:-5px}
+.ldk-encaixe__l:focus-visible{outline:3px solid var(--ldk-encaixe-ac);outline-offset:-5px}
 .ldk-encaixe__l:active{--ldk-encaixe-t:.26s}
 .ldk-encaixe__m{display:block;flex:none;width:22px;height:22px;overflow:visible;color:var(--ldk-encaixe-ac)}
 .ldk-encaixe__m path{fill:none;stroke:currentColor;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round}
