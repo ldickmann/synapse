@@ -1,7 +1,7 @@
 import { Pagina } from '@/componentes/Pagina'
-import { metadadosDoSite } from '@/lib/metadados'
+import { metadadosDaPagina } from '@/lib/metadados'
 
-export const metadata = metadadosDoSite
+export const metadata = metadadosDaPagina
 
 export default function SinapsePagina() {
   return <Pagina />

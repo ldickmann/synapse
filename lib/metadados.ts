@@ -17,33 +17,26 @@ function enderecoDoSite(): string {
 
 export const metadataBase = new URL(enderecoDoSite())
 
-export const descricaoPadrao =
-  'Faço sites, sistemas sob medida e manutenção, em Navegantes e à distância para todo o Brasil.'
-
 // Título provisório: o texto final fica para a fase de conteúdo.
-export const tituloPadrao = NOME_COMPLETO
+const TITULO = NOME_COMPLETO
+const DESCRICAO = 'Faço sites, sistemas sob medida e manutenção, em Navegantes e à distância para todo o Brasil.'
 
-export function metadadosDaRota(titulo: string, descricao: string, rota: string): Metadata {
-  return {
-    metadataBase,
-    title: titulo,
-    description: descricao,
-    alternates: { canonical: rota },
-    openGraph: {
-      type: 'website',
-      locale: 'pt_BR',
-      siteName: NOME_COMPLETO,
-      url: rota,
-      title: titulo,
-      description: descricao,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: titulo,
-      description: descricao,
-    },
-  }
+/** Metadados de `/`, exportados por app/page.tsx; o layout raiz só define o metadataBase e o ícone. */
+export const metadadosDaPagina: Metadata = {
+  title: TITULO,
+  description: DESCRICAO,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: NOME_COMPLETO,
+    url: '/',
+    title: TITULO,
+    description: DESCRICAO,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITULO,
+    description: DESCRICAO,
+  },
 }
-
-/** Metadados da página inicial, a única do site. */
-export const metadadosDoSite: Metadata = metadadosDaRota(tituloPadrao, descricaoPadrao, '/')
