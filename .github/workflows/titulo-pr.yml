@@ -1,0 +1,38 @@
+name: Título do PR
+
+# O título vira a mensagem do squash em develop, e o release-please lê essa mensagem.
+on:
+  pull_request:
+    # synchronize: o check obrigatório precisa de resultado em cada commit novo do PR.
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  titulo:
+    name: titulo
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Os mesmos tipos do commitlint (CONTRIBUTING.md).
+          types: |
+            feat
+            fix
+            perf
+            refactor
+            style
+            test
+            docs
+            build
+            ci
+            chore
+            revert
+          subjectPattern: '^(?![A-ZÀ-Ý]).+[^.]$'
+          subjectPatternError: |
+            A descrição "{subject}" do título "{title}" começa com letra minúscula e termina sem ponto,
+            como em "fix(contato): corrige o foco do botão grande".
