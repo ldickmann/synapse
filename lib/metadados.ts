@@ -20,6 +20,9 @@ export const metadataBase = new URL(enderecoDoSite())
 export const descricaoPadrao =
   'Faço sites, sistemas sob medida e manutenção, em Navegantes e à distância para todo o Brasil.'
 
+// Título provisório: o texto final fica para a fase de conteúdo.
+export const tituloPadrao = NOME_COMPLETO
+
 export function metadadosDaRota(titulo: string, descricao: string, rota: string): Metadata {
   return {
     metadataBase,
@@ -41,3 +44,6 @@ export function metadadosDaRota(titulo: string, descricao: string, rota: string)
     },
   }
 }
+
+/** Metadados da página inicial, a única do site. */
+export const metadadosDoSite: Metadata = metadadosDaRota(tituloPadrao, descricaoPadrao, '/')

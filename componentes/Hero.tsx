@@ -1,6 +1,6 @@
 'use client'
 
-import { APOIO, H1, NOME_GIGANTE, PAPEIS } from '../texto'
+import { APOIO, H1, NOME_GIGANTE, PAPEIS } from '@/lib/texto'
 import { BotaoWhatsApp } from './BotaoWhatsApp'
 import { Decodificar } from './Decodificar'
 import { Robo } from './Robo'

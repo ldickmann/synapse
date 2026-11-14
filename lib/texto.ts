@@ -1,7 +1,7 @@
-// Todas as strings da Sinapse. Os fatos vêm de lib/.
-import { NUMERO_WHATSAPP } from '@/lib/contato'
-import { CIDADE, NOME_COMPLETO } from '@/lib/marca'
-import { ATENDIMENTO, REGIAO, type Servico } from '@/lib/oferta'
+// Todas as strings do site. Os fatos vêm dos outros arquivos de lib/.
+import { NUMERO_WHATSAPP } from './contato'
+import { CIDADE, NOME_COMPLETO } from './marca'
+import { ATENDIMENTO, REGIAO, type Servico } from './oferta'
 
 /** O nome gigante do hero, uma palavra por linha. */
 export const NOME_GIGANTE: readonly string[] = NOME_COMPLETO.split(' ')

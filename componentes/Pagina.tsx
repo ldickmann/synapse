@@ -2,16 +2,16 @@
 
 import { useSyncExternalStore } from 'react'
 import { prefereMovimentoReduzido } from '@/lib/capacidades'
-import { Cabecalho } from './componentes/Cabecalho'
-import { Carregamento } from './componentes/Carregamento'
-import { Contato, Rodape } from './componentes/Contato'
-import { Fundo } from './componentes/Fundo'
-import { AssinaturaEncaixe } from '@/docs/assinatura/codigo/encaixe/AssinaturaEncaixe'
-import { Hero } from './componentes/Hero'
-import { Perguntas } from './componentes/Perguntas'
-import { Servicos } from './componentes/Servicos'
-import { Sobre } from './componentes/Sobre'
-import { Trabalhos } from './componentes/Trabalhos'
+import { Cabecalho } from './Cabecalho'
+import { Carregamento } from './Carregamento'
+import { Contato, Rodape } from './Contato'
+import { Fundo } from './Fundo'
+import { AssinaturaEncaixe } from './AssinaturaEncaixe'
+import { Hero } from './Hero'
+import { Perguntas } from './Perguntas'
+import { Servicos } from './Servicos'
+import { Sobre } from './Sobre'
+import { Trabalhos } from './Trabalhos'
 
 const semAssinatura = () => () => undefined
 

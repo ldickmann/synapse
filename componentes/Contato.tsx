@@ -1,6 +1,6 @@
 'use client'
 
-import { CONTATO_TEXTO, CONTATO_TITULO, RODAPE } from '../texto'
+import { CONTATO_TEXTO, CONTATO_TITULO, RODAPE } from '@/lib/texto'
 import { BotaoWhatsApp } from './BotaoWhatsApp'
 import { useRevelar } from './revelar'
 import { Robo } from './Robo'

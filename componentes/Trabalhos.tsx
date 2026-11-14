@@ -1,7 +1,7 @@
 'use client'
 
 import { TRABALHOS_REAIS } from '@/lib/trabalhos'
-import { TRABALHOS_APOIO, TRABALHOS_LINK, TRABALHOS_TITULO } from '../texto'
+import { TRABALHOS_APOIO, TRABALHOS_LINK, TRABALHOS_TITULO } from '@/lib/texto'
 import { useAtivo } from './ativo'
 import { useRevelar } from './revelar'
 import { Robo } from './Robo'
