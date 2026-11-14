@@ -1,6 +1,6 @@
-// G8, G11 e G23 (SPEC §6 passo 3 e §8.1): Lighthouse mobile por rota, contra `pnpm build && pnpm start`.
-// Uso: node scripts/lighthouse.mjs   (env opcionais: PORTA=3000  ESTILOS=mesa,sinapse)
-// Relatórios em verificacao/lighthouse-<estilo>.report.{json,html}; sai com 1 se algum limite falhar.
+// G8, G11 e G23 (SPEC §6 passo 3 e §8.1): Lighthouse mobile em `/`, contra `pnpm build && pnpm start`.
+// Uso: node scripts/lighthouse.mjs   (env opcional: PORTA=3000)
+// Relatórios em verificacao/lighthouse.report.{json,html}; sai com 1 se algum limite falhar.
 import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
@@ -9,7 +9,6 @@ const RAIZ = path.resolve(import.meta.dirname, '..')
 const BASE = `http://localhost:${process.env.PORTA ?? 3000}`
 // O binário JS do pacote, rodado pelo próprio Node (evita o lighthouse.cmd no Windows).
 const CLI = path.join(RAIZ, 'node_modules', 'lighthouse', 'cli', 'index.js')
-const TODOS = ['mesa', 'sinapse']
 const LIMITES = { performance: 80, accessibility: 95, 'best-practices': 90, seo: 90, lcpMs: 2500, tbtMs: 300, cls: 0.1 }
 const CATEGORIAS = [
   ['performance', 'Performance'],
@@ -18,12 +17,6 @@ const CATEGORIAS = [
   ['seo', 'SEO'],
 ]
 
-const estilos = process.env.ESTILOS ? process.env.ESTILOS.split(',').map((s) => s.trim()).filter(Boolean) : TODOS
-const invalidos = estilos.filter((s) => !TODOS.includes(s))
-if (invalidos.length > 0) {
-  console.error(`ESTILOS inválidos: ${invalidos.join(', ')} (use ${TODOS.join(',')})`)
-  process.exit(1)
-}
 if (!existsSync(CLI)) {
   console.error(`Lighthouse não encontrado em ${CLI}. Rode pnpm install.`)
   process.exit(1)
@@ -65,10 +58,10 @@ function tabela(linhas) {
 }
 
 const resultados = []
-for (const estilo of estilos) {
+for (const pagina of ['/']) {
   // Exatamente o comando do SPEC §6, passo 3 (com a base em PORTA).
   const argumentos = [
-    `${BASE}/${estilo}`,
+    `${BASE}${pagina}`,
     '--form-factor=mobile',
     '--screenEmulation.mobile',
     '--throttling-method=simulate',
@@ -76,14 +69,14 @@ for (const estilo of estilos) {
     '--only-categories=performance,accessibility,best-practices,seo',
     '--output=json',
     '--output=html',
-    `--output-path=verificacao/lighthouse-${estilo}`,
+    '--output-path=verificacao/lighthouse',
     '--chrome-flags=--headless',
   ]
   console.log(`\n> lighthouse ${argumentos.join(' ')}`)
   const inicio = Date.now()
   const execucao = spawnSync(process.execPath, [CLI, ...argumentos], { cwd: RAIZ, stdio: 'inherit' })
-  const arquivo = path.join(RAIZ, 'verificacao', `lighthouse-${estilo}.report.json`)
-  const resultado = { estilo, notas: {}, lcp: null, tbt: null, cls: null, contraste: '-', elementoLcp: '-', falhas: [] }
+  const arquivo = path.join(RAIZ, 'verificacao', 'lighthouse.report.json')
+  const resultado = { pagina, notas: {}, lcp: null, tbt: null, cls: null, contraste: '-', elementoLcp: '-', falhas: [] }
   resultados.push(resultado)
   if (!existsSync(arquivo) || statSync(arquivo).mtimeMs < inicio - 1000) {
     resultado.falhas.push(`relatório não gerado (lighthouse saiu com ${execucao.status ?? execucao.error?.message})`)
@@ -135,9 +128,9 @@ for (const estilo of estilos) {
 const ms = (valor) => (valor === null ? '-' : `${Math.round(valor)} ms`)
 console.log(
   `\n${tabela([
-    ['Estilo', 'Perf', 'A11y', 'Boas pr.', 'SEO', 'LCP', 'TBT', 'CLS', 'Contraste', 'Elemento de LCP', 'Resultado'],
+    ['Página', 'Perf', 'A11y', 'Boas pr.', 'SEO', 'LCP', 'TBT', 'CLS', 'Contraste', 'Elemento de LCP', 'Resultado'],
     ...resultados.map((r) => [
-      r.estilo,
+      r.pagina,
       r.notas.performance ?? '-',
       r.notas.accessibility ?? '-',
       r.notas['best-practices'] ?? '-',
@@ -152,7 +145,7 @@ console.log(
   ])}`,
 )
 for (const r of resultados.filter((r) => r.falhas.length > 0)) {
-  console.log(`\n${r.estilo}:`)
+  console.log(`\n${r.pagina}:`)
   for (const falha of r.falhas) console.log(`  - ${falha}`)
 }
 if (resultados.some((r) => r.falhas.length > 0)) process.exitCode = 1
