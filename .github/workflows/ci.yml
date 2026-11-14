@@ -50,14 +50,42 @@ jobs:
       - name: Padrões (G21, G22 e G26)
         run: pnpm verificar:padroes
 
+      # A chave muda com o lockfile e com o código; sem acerto exato, o cache mais novo do mesmo
+      # lockfile ainda adianta o build.
+      - name: Cache do build do Next.js
+        uses: actions/cache@v6
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('app/**', 'componentes/**', 'lib/**', 'public/**', 'next.config.ts', 'postcss.config.mjs', 'tsconfig.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+
       - name: Build
         run: pnpm build
 
       - name: Typecheck
         run: pnpm typecheck
 
+      # O Chromium que o Playwright baixa depende só da versão do @playwright/test (exata, sem ^).
+      - name: Lê a versão do Playwright
+        id: playwright
+        run: echo "versao=$(node -p "require('./package.json').devDependencies['@playwright/test']")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache do Chromium do Playwright
+        id: cache-playwright
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.versao }}
+
       - name: Instala o Chromium do Playwright
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+
+      # As bibliotecas do sistema ficam fora do cache: com o Chromium do cache, só elas são instaladas.
+      - name: Instala as dependências de sistema do Chromium
+        if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
 
       - name: Testes do Playwright
         run: pnpm verificar:testes
