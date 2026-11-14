@@ -86,4 +86,4 @@ Não edite à mão o `CHANGELOG.md`, o `.release-please-manifest.json` nem o cam
 
 O Prettier (`.prettierrc.json`) formata o código no estilo dele: sem ponto e vírgula, aspas simples (duplas no CSS) e linhas de até 120 caracteres. `pnpm formatar` aplica, e `pnpm formatar:checar` confere, como no CI.
 
-Um commit só de formatação vai para o `.git-blame-ignore-revs`, para o `git blame` pular esse commit. Como o merge para `develop` é com squash, o SHA que vale é o do commit em `develop`, registrado num PR seguinte. No terminal, ligue com `git config blame.ignoreRevsFile .git-blame-ignore-revs`.
+Mudança só de formatação vai num PR próprio, sem nenhuma outra mudança junto: o squash junta o PR inteiro num commit, e o `git blame` vai pular esse commit todo. Depois do merge, o SHA desse commit em `develop` entra no `.git-blame-ignore-revs` num PR seguinte, como foi feito com o PR do Prettier (#4). No terminal, ligue com `git config blame.ignoreRevsFile .git-blame-ignore-revs`.
