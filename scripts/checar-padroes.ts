@@ -1,4 +1,4 @@
-// G21, G22 (SPEC §8.1) e G26 (SPEC §11): isolamento entre estilos, padrões proibidos e literais de cor, por leitura dos arquivos.
+// G21 (lib/ sem visual), G22 (padrões proibidos) e G26 (cor só em app/tokens.css), por leitura dos arquivos do site.
 // Uso: node scripts/checar-padroes.ts  (sai com 1 se houver violação)
 import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
@@ -6,11 +6,16 @@ import path from 'node:path'
 type Violacao = { criterio: 'G21' | 'G22' | 'G26'; arquivo: string; linha: number; mensagem: string; trecho: string }
 
 const RAIZ = path.resolve(import.meta.dirname, '..')
-const APP = path.join(RAIZ, 'app')
+// Pastas do site: app/ (página e estilos), componentes/ e lib/ (dados). G22 e G26 valem nas três; o G21, só em lib/.
+const PASTAS_DO_SITE = ['app', 'componentes', 'lib']
 const LIB = path.join(RAIZ, 'lib')
-const ESTILOS = ['mesa', 'sinapse']
-// Rotas de exploração (SPEC §11): cor só em tokens.css (G26).
-const ESTILOS_G26 = ['sinapse']
+// Única fonte de cor do site (G26): os canvas leem estes tokens em runtime.
+const TOKENS = 'app/tokens.css'
+// Exceções declaradas, impressas a cada execução. A assinatura de autoria leva a outros projetos a mesma
+// paleta própria e a pilha de fontes do sistema (o Roboto é a do Android).
+const EXCECOES: Record<string, { fontes?: true; cores?: true }> = {
+  'componentes/AssinaturaEncaixe.tsx': { fontes: true, cores: true },
+}
 const EXT_TEXTO = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.css', '.json', '.md', '.svg', '.html', '.txt'])
 const EXT_CODIGO = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'])
 const EXT_JSX = new Set(['.tsx', '.jsx'])
@@ -124,46 +129,6 @@ function registrar(
   vistas.add(chave)
   const trecho = (fonte.split('\n')[linha - 1] ?? '').trim().slice(0, 140)
   violacoes.push({ criterio, arquivo: relativo(arquivo), linha, mensagem, trecho })
-}
-
-/** Estilo dono do arquivo (`app/<estilo>/...`) ou null. */
-function estiloDe(arquivo: string): string | null {
-  const partes = path.relative(APP, arquivo).split(path.sep)
-  if (partes.length < 2 || partes[0] === '..') return null
-  return ESTILOS.includes(partes[0]) ? partes[0] : null
-}
-
-/** Para onde um especificador de import aponta dentro de app/ (nome do estilo) ou null. */
-function estiloImportado(arquivo: string, especificador: string): string | null {
-  let destino: string | null = null
-  if (especificador.startsWith('.')) destino = path.resolve(path.dirname(arquivo), especificador)
-  else if (especificador.startsWith('@/')) destino = path.join(RAIZ, especificador.slice(2))
-  if (destino === null) return null
-  const partes = path.relative(APP, destino).split(path.sep)
-  if (partes[0] === '..' || partes[0] === '') return null
-  return ESTILOS.includes(partes[0]) ? partes[0] : null
-}
-
-const PADROES_IMPORT: RegExp[] = [
-  /\b(?:import|export)\s+(?:type\s+)?(?:[^'"`;]*?\s+from\s+)?['"]([^'"]+)['"]/g,
-  /\bimport\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g,
-  /\brequire\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
-  /@(?:import|source|reference|plugin|config)\s+(?:not\s+)?(?:url\(\s*)?['"]?([^'")\s;]+)/g,
-  /\burl\(\s*['"]?([^'")\s]+)/g,
-]
-
-function checarIsolamento(arquivo: string, fonte: string, limpo: string, local: (i: number) => number): void {
-  const proprio = estiloDe(arquivo)
-  if (proprio === null) return
-  for (const padrao of PADROES_IMPORT) {
-    for (const achado of limpo.matchAll(padrao)) {
-      const especificador = achado[1]
-      const outro = estiloImportado(arquivo, especificador)
-      if (outro !== null && outro !== proprio) {
-        registrar('G21', arquivo, fonte, local(achado.index), `app/${proprio} importa de app/${outro} ("${especificador}")`)
-      }
-    }
-  }
 }
 
 function checarLib(arquivo: string, fonte: string, local: (i: number) => number): void {
@@ -295,18 +260,17 @@ const LITERAIS_DE_COR: { padrao: RegExp; mensagem: string }[] = [
 ]
 
 function checarCores(arquivo: string, fonte: string, limpo: string, local: (i: number) => number): void {
-  const estilo = estiloDe(arquivo)
-  if (estilo === null || !ESTILOS_G26.includes(estilo) || path.basename(arquivo) === 'tokens.css') return
+  if (relativo(arquivo) === TOKENS) return
   for (const { padrao, mensagem } of LITERAIS_DE_COR) {
     for (const achado of limpo.matchAll(padrao)) {
       // Âncora interna (href="#...") não é cor.
       if (/href\s*=\s*\{?\s*["'`]$/.test(limpo.slice(Math.max(0, achado.index - 12), achado.index))) continue
-      registrar('G26', arquivo, fonte, local(achado.index), `${mensagem} fora de tokens.css`)
+      registrar('G26', arquivo, fonte, local(achado.index), `${mensagem} fora de ${TOKENS}`)
     }
   }
 }
 
-function checar(arquivo: string, naLib: boolean): void {
+function checar(arquivo: string): void {
   const ext = path.extname(arquivo).toLowerCase()
   if (!EXT_TEXTO.has(ext)) {
     ignorados++
@@ -316,21 +280,26 @@ function checar(arquivo: string, naLib: boolean): void {
   const fonte = readFileSync(arquivo, 'utf8')
   const limpo = semComentarios(fonte, ext)
   const local = criarLocalizador(fonte)
+  const naLib = !path.relative(LIB, arquivo).startsWith('..')
+  const excecao = EXCECOES[relativo(arquivo)] ?? {}
   if (naLib) checarLib(arquivo, fonte, local)
-  else checarIsolamento(arquivo, fonte, limpo, local)
-  checarFontes(arquivo, fonte, limpo, local)
-  // Em app/ o "→" é proibido em qualquer lugar (até em comentário); em lib/ só fora de comentários.
+  if (!excecao.fontes) checarFontes(arquivo, fonte, limpo, local)
+  // Em app/ e componentes/ o "→" é proibido em qualquer lugar (até em comentário); em lib/ só fora de comentários.
   checarSeta(arquivo, fonte, naLib ? limpo : fonte, local)
   checarCaixaAlta(arquivo, fonte, limpo, local)
   checarNumeracao(arquivo, fonte, limpo, local)
   checarPontoMedio(arquivo, fonte, limpo, local)
-  if (!naLib) checarCores(arquivo, fonte, limpo, local)
+  if (!excecao.cores) checarCores(arquivo, fonte, limpo, local)
 }
 
-for (const arquivo of listar(APP)) checar(arquivo, false)
-for (const arquivo of listar(LIB)) checar(arquivo, true)
+for (const pasta of PASTAS_DO_SITE) for (const arquivo of listar(path.join(RAIZ, pasta))) checar(arquivo)
 
-console.log(`checar-padroes: ${lidos} arquivos lidos em app/ e lib/ (${ignorados} binários ignorados, ex.: og/*.ttf)`)
+const pastas = PASTAS_DO_SITE.map((pasta) => `${pasta}/`).join(', ')
+console.log(`checar-padroes: ${lidos} arquivos lidos em ${pastas} (${ignorados} binários ignorados)`)
+for (const [arquivo, { fontes, cores }] of Object.entries(EXCECOES)) {
+  const regras = [fontes && 'fontes do G22', cores && 'G26'].filter(Boolean).join(' e ')
+  console.log(`Exceção: ${arquivo} fica fora de ${regras}.`)
+}
 if (violacoes.length === 0) {
   console.log('G21, G22 e G26: nenhuma violação.')
 } else {

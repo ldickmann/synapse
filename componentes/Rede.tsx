@@ -104,8 +104,7 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    const raiz = canvas.closest('[data-estilo="sinapse"]') ?? document.documentElement
-    const estilo = getComputedStyle(raiz)
+    const estilo = getComputedStyle(document.documentElement)
     const cor = (nome: string) => estilo.getPropertyValue(`--color-sinapse-${nome}`).trim()
     const cores = {
       baixo: cor('fundo-baixo'),

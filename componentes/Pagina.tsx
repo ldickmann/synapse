@@ -1,17 +1,16 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { useSyncExternalStore, type ReactNode } from 'react'
 import { prefereMovimentoReduzido } from '@/lib/capacidades'
-import { Cabecalho } from './componentes/Cabecalho'
-import { Carregamento } from './componentes/Carregamento'
-import { Contato, Rodape } from './componentes/Contato'
-import { Fundo } from './componentes/Fundo'
-import { AssinaturaEncaixe } from '@/docs/assinatura/codigo/encaixe/AssinaturaEncaixe'
-import { Hero } from './componentes/Hero'
-import { Perguntas } from './componentes/Perguntas'
-import { Servicos } from './componentes/Servicos'
-import { Sobre } from './componentes/Sobre'
-import { Trabalhos } from './componentes/Trabalhos'
+import { Cabecalho } from './Cabecalho'
+import { Carregamento } from './Carregamento'
+import { Contato, Rodape } from './Contato'
+import { Fundo } from './Fundo'
+import { Hero } from './Hero'
+import { Perguntas } from './Perguntas'
+import { Servicos } from './Servicos'
+import { Sobre } from './Sobre'
+import { Trabalhos } from './Trabalhos'
 
 const semAssinatura = () => () => undefined
 
@@ -22,11 +21,12 @@ function assinarMovimento(aoMudar: () => void): () => void {
 }
 
 /**
- * Sinapse (direção 10). Dono do invólucro: `data-motion` ("normal" ou "reduzido") e `data-pronto`
+ * Invólucro da página, dono de `data-motion` ("normal" ou "reduzido") e `data-pronto`
  * (true depois da hidratação, quando o canvas das sinapses e os efeitos por JavaScript entram).
  * O HTML do servidor já tem o texto inteiro e o quadriculado em CSS (X3, X4).
+ * A `assinatura` chega renderizada de app/page.tsx, de servidor, para não entrar no JS do cliente.
  */
-export function Pagina() {
+export function Pagina({ assinatura }: { assinatura: ReactNode }) {
   const pronto = useSyncExternalStore(
     semAssinatura,
     () => true,
@@ -38,7 +38,6 @@ export function Pagina() {
   return (
     <div
       className="sinapse-invol"
-      data-render="css"
       data-motion={reduzido ? 'reduzido' : 'normal'}
       data-pronto={pronto ? 'true' : 'false'}
     >
@@ -54,9 +53,7 @@ export function Pagina() {
         <Contato movimento={movimento} />
       </main>
       <Rodape />
-      <div className="sinapse-assinatura">
-        <AssinaturaEncaixe tom="escuro" />
-      </div>
+      <div className="sinapse-assinatura">{assinatura}</div>
     </div>
   )
 }

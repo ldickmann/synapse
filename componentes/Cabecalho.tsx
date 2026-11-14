@@ -1,7 +1,7 @@
 'use client'
 
 import { NOME_COMPLETO } from '@/lib/marca'
-import { NAV } from '../texto'
+import { NAV } from '@/lib/texto'
 import { useAtivo } from './ativo'
 import { Monograma } from './Monograma'
 import { Robo } from './Robo'

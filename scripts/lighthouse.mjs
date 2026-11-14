@@ -1,6 +1,6 @@
-// G8, G11 e G23 (SPEC §6 passo 3 e §8.1): Lighthouse mobile por rota, contra `pnpm build && pnpm start`.
-// Uso: node scripts/lighthouse.mjs   (env opcionais: PORTA=3000  ESTILOS=mesa,sinapse)
-// Relatórios em verificacao/lighthouse-<estilo>.report.{json,html}; sai com 1 se algum limite falhar.
+// G8, G11 e G23 (SPEC §6 passo 3 e §8.1): Lighthouse mobile em `/`, contra `pnpm build && pnpm start`.
+// Uso: node scripts/lighthouse.mjs   (env opcional: PORTA=3000)
+// Relatórios em verificacao/lighthouse.report.{json,html}; sai com 1 se algum limite falhar.
 import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
@@ -9,7 +9,6 @@ const RAIZ = path.resolve(import.meta.dirname, '..')
 const BASE = `http://localhost:${process.env.PORTA ?? 3000}`
 // O binário JS do pacote, rodado pelo próprio Node (evita o lighthouse.cmd no Windows).
 const CLI = path.join(RAIZ, 'node_modules', 'lighthouse', 'cli', 'index.js')
-const TODOS = ['mesa', 'sinapse']
 const LIMITES = { performance: 80, accessibility: 95, 'best-practices': 90, seo: 90, lcpMs: 2500, tbtMs: 300, cls: 0.1 }
 const CATEGORIAS = [
   ['performance', 'Performance'],
@@ -18,12 +17,6 @@ const CATEGORIAS = [
   ['seo', 'SEO'],
 ]
 
-const estilos = process.env.ESTILOS ? process.env.ESTILOS.split(',').map((s) => s.trim()).filter(Boolean) : TODOS
-const invalidos = estilos.filter((s) => !TODOS.includes(s))
-if (invalidos.length > 0) {
-  console.error(`ESTILOS inválidos: ${invalidos.join(', ')} (use ${TODOS.join(',')})`)
-  process.exit(1)
-}
 if (!existsSync(CLI)) {
   console.error(`Lighthouse não encontrado em ${CLI}. Rode pnpm install.`)
   process.exit(1)
@@ -64,11 +57,11 @@ function tabela(linhas) {
     .join('\n')
 }
 
-const resultados = []
-for (const estilo of estilos) {
+/** Roda o Lighthouse em `/` e lê do relatório as notas, as medidas e o que falhou. */
+function medir() {
   // Exatamente o comando do SPEC §6, passo 3 (com a base em PORTA).
   const argumentos = [
-    `${BASE}/${estilo}`,
+    `${BASE}/`,
     '--form-factor=mobile',
     '--screenEmulation.mobile',
     '--throttling-method=simulate',
@@ -76,18 +69,17 @@ for (const estilo of estilos) {
     '--only-categories=performance,accessibility,best-practices,seo',
     '--output=json',
     '--output=html',
-    `--output-path=verificacao/lighthouse-${estilo}`,
+    '--output-path=verificacao/lighthouse',
     '--chrome-flags=--headless',
   ]
   console.log(`\n> lighthouse ${argumentos.join(' ')}`)
   const inicio = Date.now()
   const execucao = spawnSync(process.execPath, [CLI, ...argumentos], { cwd: RAIZ, stdio: 'inherit' })
-  const arquivo = path.join(RAIZ, 'verificacao', `lighthouse-${estilo}.report.json`)
-  const resultado = { estilo, notas: {}, lcp: null, tbt: null, cls: null, contraste: '-', elementoLcp: '-', falhas: [] }
-  resultados.push(resultado)
+  const arquivo = path.join(RAIZ, 'verificacao', 'lighthouse.report.json')
+  const resultado = { notas: {}, lcp: null, tbt: null, cls: null, contraste: '-', elementoLcp: '-', falhas: [] }
   if (!existsSync(arquivo) || statSync(arquivo).mtimeMs < inicio - 1000) {
     resultado.falhas.push(`relatório não gerado (lighthouse saiu com ${execucao.status ?? execucao.error?.message})`)
-    continue
+    return resultado
   }
   if (execucao.status !== 0) {
     // No Windows o Chrome às vezes falha ao apagar a pasta temporária depois de gravar o relatório.
@@ -130,29 +122,30 @@ for (const estilo of estilos) {
     acharNo(auditoria('lcp-breakdown-insight')?.details)
   resultado.elementoLcp = no ? (no.snippet ?? no.selector ?? '?').slice(0, 60) : 'ausente'
   if (!ehH1(no)) resultado.falhas.push(`elemento de LCP não é o <h1>: ${no ? `${no.selector} ${no.snippet}` : 'ausente'}`)
+  return resultado
 }
 
+const resultado = medir()
 const ms = (valor) => (valor === null ? '-' : `${Math.round(valor)} ms`)
 console.log(
   `\n${tabela([
-    ['Estilo', 'Perf', 'A11y', 'Boas pr.', 'SEO', 'LCP', 'TBT', 'CLS', 'Contraste', 'Elemento de LCP', 'Resultado'],
-    ...resultados.map((r) => [
-      r.estilo,
-      r.notas.performance ?? '-',
-      r.notas.accessibility ?? '-',
-      r.notas['best-practices'] ?? '-',
-      r.notas.seo ?? '-',
-      ms(r.lcp),
-      ms(r.tbt),
-      r.cls === null ? '-' : r.cls.toFixed(3),
-      r.contraste,
-      r.elementoLcp,
-      r.falhas.length === 0 ? 'aprovado' : 'FALHOU',
-    ]),
+    ['Perf', 'A11y', 'Boas pr.', 'SEO', 'LCP', 'TBT', 'CLS', 'Contraste', 'Elemento de LCP', 'Resultado'],
+    [
+      resultado.notas.performance ?? '-',
+      resultado.notas.accessibility ?? '-',
+      resultado.notas['best-practices'] ?? '-',
+      resultado.notas.seo ?? '-',
+      ms(resultado.lcp),
+      ms(resultado.tbt),
+      resultado.cls === null ? '-' : resultado.cls.toFixed(3),
+      resultado.contraste,
+      resultado.elementoLcp,
+      resultado.falhas.length === 0 ? 'aprovado' : 'FALHOU',
+    ],
   ])}`,
 )
-for (const r of resultados.filter((r) => r.falhas.length > 0)) {
-  console.log(`\n${r.estilo}:`)
-  for (const falha of r.falhas) console.log(`  - ${falha}`)
+if (resultado.falhas.length > 0) {
+  console.log('\nFalhas:')
+  for (const falha of resultado.falhas) console.log(`  - ${falha}`)
+  process.exitCode = 1
 }
-if (resultados.some((r) => r.falhas.length > 0)) process.exitCode = 1

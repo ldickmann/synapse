@@ -1,9 +1,9 @@
-/* Sinapse (direção 10): paleta tirada da nebulosa de Carina vista pelo Webb, com as cores no ponto
+/* Sinapse: paleta tirada da nebulosa de Carina vista pelo Webb, com as cores no ponto
    mais forte de cada região da imagem. Céu: marinho quase preto nos cantos, azul-petróleo, azul
    aberto do meio e névoa ciano junto à crista. Crista: brasa vermelha, laranja quente, pêssego,
    dourado das estrelas, rosa do gás ionizado, branco das estrelas. Poeira: ferrugem e marrom.
-   Única fonte de cor da rota (G26): os canvas leem estes tokens em runtime. */
-[data-estilo="sinapse"] {
+   Única fonte de cor do site (G26): os canvas leem estes tokens em runtime. */
+:root {
   /* Céu. */
   --color-sinapse-fundo-baixo: #04101d;   /* marinho quase preto: cabeçalho, boot, cartões */
   --color-sinapse-fundo: #071a30;         /* azul-petróleo escuro: o céu base */

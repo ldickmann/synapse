@@ -1,7 +1,7 @@
 'use client'
 
 import { linkWhatsApp } from '@/lib/contato'
-import { COORDENADAS, SOBRE_PARAGRAFOS, SOBRE_TITULO, TRECHOS, numeroFormatado } from '../texto'
+import { COORDENADAS, SOBRE_PARAGRAFOS, SOBRE_TITULO, TRECHOS, numeroFormatado } from '@/lib/texto'
 import { useAtivo } from './ativo'
 import { Memoria } from './Memoria'
 import { Monograma } from './Monograma'

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { SERVICOS, type Servico } from '@/lib/oferta'
-import { FRASE_GIGANTE, SERVICOS_APOIO, SERVICOS_LINHAS, SERVICOS_TITULO } from '../texto'
+import { FRASE_GIGANTE, SERVICOS_APOIO, SERVICOS_LINHAS, SERVICOS_TITULO } from '@/lib/texto'
 import { useAtivo } from './ativo'
 import { Operador } from './Operador'
 import { Rede } from './Rede'

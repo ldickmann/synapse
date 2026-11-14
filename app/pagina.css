@@ -1,12 +1,16 @@
-/* Sinapse (direção 10): layout, estados e movimento. As cores só por tokens (G26).
+/* Sinapse: layout, estados e movimento. As cores só por tokens (G26).
    Modelo: nome gigante, marquee, bloco "quem" com coordenadas e faixa de bits, "S E R V I Ç O S" com
    letras que se espalham ao rolar, frase gigante, perguntas e "C ON TATO". No lugar dos pássaros,
    mini IAs em pixel art; no lugar do código de barras, uma faixa de bits lida por um feixe. */
 
-[data-estilo="sinapse"] {
+/* O fundo no html: é ele que aparece na rolagem elástica do Safari, acima e abaixo da página. */
+html {
+  background: var(--color-sinapse-fundo);
+}
+
+body {
   --gutter: 20px;
   --topo: 56px;
-  background: var(--color-sinapse-fundo);
   color: var(--color-sinapse-texto);
   font-family: var(--fonte-sinapse-texto), sans-serif;
   font-size: 17px;
@@ -15,27 +19,27 @@
   -webkit-font-smoothing: antialiased;
 }
 
-[data-estilo="sinapse"] h1,
-[data-estilo="sinapse"] h2,
-[data-estilo="sinapse"] p,
-[data-estilo="sinapse"] pre {
+.sinapse-invol h1,
+.sinapse-invol h2,
+.sinapse-invol p,
+.sinapse-invol pre {
   margin: 0;
 }
 
-[data-estilo="sinapse"] :focus-visible {
+.sinapse-invol :focus-visible {
   outline: 3px solid var(--color-sinapse-dourado);
   outline-offset: 3px;
 }
 
 @media (min-width: 768px) {
-  [data-estilo="sinapse"] {
+  body {
     --gutter: 40px;
     --topo: 64px;
   }
 }
 
 @media (min-width: 1200px) {
-  [data-estilo="sinapse"] {
+  body {
     --gutter: 64px;
   }
 }

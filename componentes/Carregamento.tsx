@@ -1,4 +1,4 @@
-import { BOOT_TEXTO } from '../texto'
+import { BOOT_TEXTO } from '@/lib/texto'
 import { Robo } from './Robo'
 
 // Sequência de carregamento só em CSS: vem no HTML do servidor, roda uma vez e some sozinha

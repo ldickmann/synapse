@@ -1,7 +1,7 @@
 'use client'
 
 import { PERGUNTAS } from '@/lib/oferta'
-import { PERGUNTAS_TITULO } from '../texto'
+import { PERGUNTAS_TITULO } from '@/lib/texto'
 import { useAtivo } from './ativo'
 import { useRevelar } from './revelar'
 

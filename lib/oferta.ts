@@ -1,4 +1,4 @@
-// Fatos da oferta (SPEC §1). Iguais nas três páginas; o tom de cada uma fica no próprio estilo.
+// Fatos da oferta (SPEC §1). O tom fica nos textos da página, em lib/texto.ts.
 
 export type Servico = 'site' | 'sistema' | 'manutencao'
 

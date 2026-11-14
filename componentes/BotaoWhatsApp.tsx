@@ -1,7 +1,7 @@
 'use client'
 
 import { linkWhatsApp } from '@/lib/contato'
-import { BOTAO_WHATSAPP } from '../texto'
+import { BOTAO_WHATSAPP } from '@/lib/texto'
 import { useAtivo } from './ativo'
 
 /** Botão de contato: ao passar, os pixels da borda "disparam" e um robô espia pelo canto. */
