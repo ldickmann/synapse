@@ -60,7 +60,7 @@ Origem: reescrita do `SPEC.md` de `ldickmann/frontend-design-prototypes@c993d7f`
 - Animação com CSS, SVG e canvas 2D, sem biblioteca. Nada de WebGL.
 - Verificação: ESLint, Prettier, Playwright no Chromium, Lighthouse e `@next/bundle-analyzer`.
 - pnpm, na versão do `packageManager` do `package.json`; Node na versão do `engines` e do `.nvmrc`.
-- Versões exatas, sem `^` (`save-exact` no `.npmrc`), atualizadas pelo Dependabot. O pnpm só instala versão publicada há mais tempo que o seu `minimumReleaseAge`.
+- Versões exatas, sem `^` (`save-exact` no `.npmrc`), atualizadas pelo Dependabot. O pnpm só instala versão publicada há mais tempo que o `minimumReleaseAge`, declarado no `pnpm-workspace.yaml`: 1440 minutos (um dia), em modo não estrito (`minimumReleaseAgeStrict: false`).
 - Pacote novo só com motivo escrito no commit. Ficam fora GSAP, Lenis, bibliotecas de 3D e CDN de fontes.
 - O projeto roda em Windows: o `.npmrc` liga o `shell-emulator`, para os scripts com variável de ambiente na linha (como o `analisar`) funcionarem.
 
