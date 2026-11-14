@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  # Depois de cada merge, develop roda o CI no estado integrado. A main só recebe o PR de develop,
+  # que já passou pelo CI.
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  # Um push novo no PR cancela a execução anterior; em develop, cada push roda até o fim.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # O prepare do package.json liga o Husky; no CI não há commits.
+      HUSKY: 0
+    steps:
+      - uses: actions/checkout@v7
+
+      # Versão do pnpm pelo packageManager do package.json.
+      - uses: pnpm/action-setup@v6
+
+      # Versão do Node pelo .nvmrc, a mesma do engines e da Vercel.
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Instala as dependências pelo lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Audita as dependências de produção
+        run: pnpm audit --prod --audit-level=high
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Formatação
+        run: pnpm formatar:checar
+
+      - name: Padrões (G21, G22 e G26)
+        run: pnpm verificar:padroes
+
+      # Antes do build, para falhar mais cedo: o next typegen gera os tipos sem precisar do build.
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # A chave muda com o lockfile e com o código; sem acerto exato, o cache mais novo do mesmo
+      # lockfile ainda adianta o build.
+      - name: Cache do build do Next.js
+        uses: actions/cache@v6
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('app/**', 'componentes/**', 'lib/**', 'public/**', 'next.config.ts', 'postcss.config.mjs', 'tsconfig.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+
+      - name: Build
+        run: pnpm build
+
+      # O Chromium que o Playwright baixa depende só da versão do @playwright/test (exata, sem ^).
+      - name: Lê a versão do Playwright
+        id: playwright
+        run: echo "versao=$(node -p "require('./package.json').devDependencies['@playwright/test']")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache do Chromium do Playwright
+        id: cache-playwright
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.versao }}
+
+      - name: Instala o Chromium do Playwright
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      # As bibliotecas do sistema ficam fora do cache: com o Chromium do cache, só elas são instaladas.
+      - name: Instala as dependências de sistema do Chromium
+        if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Testes do Playwright
+        run: pnpm verificar:testes
+
+      - name: Guarda capturas e resultados dos testes
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: verificacao
+          path: verificacao/
+          retention-days: 7
+          if-no-files-found: ignore

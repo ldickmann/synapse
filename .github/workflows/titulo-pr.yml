@@ -1,0 +1,50 @@
+name: Título do PR
+
+# O título vira a mensagem do squash em develop, e o release-please lê essa mensagem.
+# Quem confere é o commitlint do projeto, com o commitlint.config.mjs do hook commit-msg:
+# os tipos, a caixa da descrição e o limite de 100 caracteres vêm de uma fonte só.
+on:
+  pull_request:
+    # synchronize: o check obrigatório precisa de resultado em cada commit novo do PR.
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Um título editado de novo cancela a conferência do título anterior.
+  group: titulo-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  titulo:
+    name: titulo
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      # O prepare do package.json liga o Husky; no CI não há commits.
+      HUSKY: 0
+    steps:
+      - uses: actions/checkout@v7
+
+      # Versão do pnpm pelo packageManager do package.json.
+      - uses: pnpm/action-setup@v6
+
+      # Versão do Node pelo .nvmrc, a mesma do ci.yml.
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Instala as dependências pelo lockfile
+        run: pnpm install --frozen-lockfile
+
+      - name: Confere o título com o commitlint
+        env:
+          # O título é texto de quem abre o PR: entra por variável de ambiente, nunca interpolado no script.
+          TITULO: ${{ github.event.pull_request.title }}
+        run: |
+          if ! printf '%s\n' "$TITULO" | pnpm exec commitlint; then
+            echo "::error title=Título do PR fora do padrão::O título não segue o padrão de commits do commitlint.config.mjs. Cada regra que falhou está no log deste passo, nas linhas com ✖. Exemplo válido: fix(contato): corrige o foco do botão grande. O padrão está no CONTRIBUTING.md."
+            exit 1
+          fi

@@ -20,7 +20,8 @@
     "verificar:lighthouse": "node scripts/lighthouse.mjs",
     "verificar:padroes": "node scripts/checar-padroes.ts",
     "verificar:testes": "playwright test",
-    "analisar": "ANALYZE=1 next build --webpack"
+    "analisar": "ANALYZE=1 next build --webpack",
+    "prepare": "husky"
   },
   "dependencies": {
     "next": "16.4.6",
@@ -28,6 +29,8 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
     "@next/bundle-analyzer": "16.4.6",
     "@playwright/test": "1.65.0",
     "@tailwindcss/postcss": "4.3.5",
@@ -36,6 +39,7 @@
     "@types/react-dom": "19.3.0",
     "eslint": "10.14.0",
     "eslint-config-next": "16.4.6",
+    "husky": "9.1.7",
     "lighthouse": "13.6.0",
     "postcss": "8.5.32",
     "prettier": "3.10.1",
