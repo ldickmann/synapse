@@ -53,7 +53,7 @@ O hook `commit-msg` (Husky e commitlint, em `commitlint.config.mjs`) barra a men
 - Para `develop`, com o [modelo de PR](.github/pull_request_template.md).
 - O título segue o padrão de commits, porque vira a mensagem do squash e entra no CHANGELOG. A quebra vai no título, com `!`.
 - Dois checks precisam passar:
-  - `titulo` confere o título do PR;
+  - `titulo` confere o título do PR com o mesmo commitlint dos commits;
   - `ci` roda install com o lockfile, auditoria das dependências de produção, lint, formatação, padrões, build, typecheck e os testes do Playwright no Chromium.
 - O merge para `develop` é com squash. No diálogo do merge, o título precisa ser o do PR, com o `(#N)` que o GitHub põe no fim, e o corpo fica vazio: não edite nenhum dos dois. O release-please lê esse título, e o `(#N)` liga a entrada do CHANGELOG ao PR.
 - Antes de abrir, rode `pnpm formatar` e a verificação do [README](README.md#verificação).
