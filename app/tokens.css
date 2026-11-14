@@ -5,35 +5,35 @@
    Única fonte de cor do site (G26): os canvas leem estes tokens em runtime. */
 :root {
   /* Céu. */
-  --color-sinapse-fundo-baixo: #04101d;   /* marinho quase preto: cabeçalho, boot, cartões */
-  --color-sinapse-fundo: #071a30;         /* azul-petróleo escuro: o céu base */
-  --color-sinapse-fundo-alto: #0f3a5c;    /* painéis e segundo tom dos pixels */
-  --color-sinapse-ceu: #1f7fb0;           /* azul aberto do meio do céu */
-  --color-sinapse-azul: #5ad2f0;          /* névoa ciano junto à crista */
-  --color-sinapse-linha: #1d5a85;         /* bordas e ligações em repouso */
-  --color-sinapse-poeira: #8aa0b8;        /* poeira cinza-azulada, neurônios em repouso */
+  --color-sinapse-fundo-baixo: #04101d; /* marinho quase preto: cabeçalho, boot, cartões */
+  --color-sinapse-fundo: #071a30; /* azul-petróleo escuro: o céu base */
+  --color-sinapse-fundo-alto: #0f3a5c; /* painéis e segundo tom dos pixels */
+  --color-sinapse-ceu: #1f7fb0; /* azul aberto do meio do céu */
+  --color-sinapse-azul: #5ad2f0; /* névoa ciano junto à crista */
+  --color-sinapse-linha: #1d5a85; /* bordas e ligações em repouso */
+  --color-sinapse-poeira: #8aa0b8; /* poeira cinza-azulada, neurônios em repouso */
 
   /* Crista iluminada. */
-  --color-sinapse-acento: #ff8a2a;        /* laranja quente da frente de ionização. 7,2:1 no fundo */
-  --color-sinapse-brasa: #d9471a;         /* vermelho-brasa da crista em sombra */
-  --color-sinapse-pessego: #ffb37a;       /* pêssego das bordas finas da poeira */
-  --color-sinapse-dourado: #ffd166;       /* dourado das estrelas com picos */
-  --color-sinapse-rosa: #ff6b9d;          /* rosa do gás ionizado nos pontos brilhantes */
-  --color-sinapse-estrela: #fff6e0;       /* branco quente das estrelas */
+  --color-sinapse-acento: #ff8a2a; /* laranja quente da frente de ionização. 7,2:1 no fundo */
+  --color-sinapse-brasa: #d9471a; /* vermelho-brasa da crista em sombra */
+  --color-sinapse-pessego: #ffb37a; /* pêssego das bordas finas da poeira */
+  --color-sinapse-dourado: #ffd166; /* dourado das estrelas com picos */
+  --color-sinapse-rosa: #ff6b9d; /* rosa do gás ionizado nos pontos brilhantes */
+  --color-sinapse-estrela: #fff6e0; /* branco quente das estrelas */
 
   /* Poeira densa. */
-  --color-sinapse-ferrugem: #7a2e18;      /* ferrugem da poeira em sombra: o penhasco do contato */
-  --color-sinapse-marrom: #2e1912;        /* marrom-escuro da base das nuvens: rodapé */
+  --color-sinapse-ferrugem: #7a2e18; /* ferrugem da poeira em sombra: o penhasco do contato */
+  --color-sinapse-marrom: #2e1912; /* marrom-escuro da base das nuvens: rodapé */
 
   /* Texto. */
-  --color-sinapse-texto: #fff1d6;         /* creme das estrelas. 15:1 no fundo */
-  --color-sinapse-texto-suave: #d9b88a;   /* poeira clara. 9:1 no fundo */
+  --color-sinapse-texto: #fff1d6; /* creme das estrelas. 15:1 no fundo */
+  --color-sinapse-texto-suave: #d9b88a; /* poeira clara. 9:1 no fundo */
 
   --ease-sinapse-pulso: cubic-bezier(0.2, 0.9, 0.3, 1);
   --ease-sinapse-pixel: steps(6, end);
-  --dur-sinapse-curta: 140ms;  /* hover, foco */
-  --dur-sinapse-media: 420ms;  /* revelar, abrir */
-  --dur-sinapse-boot: 1300ms;  /* sequência de carregamento */
+  --dur-sinapse-curta: 140ms; /* hover, foco */
+  --dur-sinapse-media: 420ms; /* revelar, abrir */
+  --dur-sinapse-boot: 1300ms; /* sequência de carregamento */
 
   --radius-sinapse-pixel: 0;
   --radius-sinapse-botao: 2px;

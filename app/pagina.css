@@ -65,7 +65,9 @@ body {
       var(--color-sinapse-ferrugem) 90%,
       var(--color-sinapse-marrom)
     );
-  background-size: 40px 40px, 100% 100vh;
+  background-size:
+    40px 40px,
+    100% 100vh;
   background-attachment: scroll, fixed;
 }
 
@@ -1292,7 +1294,9 @@ body {
   color: var(--color-sinapse-texto);
   text-decoration: none;
   border-bottom: 4px solid var(--color-sinapse-linha);
-  transition: border-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel), color var(--dur-sinapse-curta);
+  transition:
+    border-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel),
+    color var(--dur-sinapse-curta);
 }
 
 .sinapse-numero[data-ativo="true"] {
@@ -1431,7 +1435,9 @@ body {
   height: 100%;
   object-fit: cover;
   filter: saturate(0.85);
-  transition: filter var(--dur-sinapse-media) var(--ease-sinapse-pulso), transform var(--dur-sinapse-media) var(--ease-sinapse-pulso);
+  transition:
+    filter var(--dur-sinapse-media) var(--ease-sinapse-pulso),
+    transform var(--dur-sinapse-media) var(--ease-sinapse-pulso);
 }
 
 /* A varredura: um feixe dourado passa pela prévia quando o cartão está ativo. */
@@ -1556,7 +1562,9 @@ body {
   inset: 0;
   margin: auto;
   background: var(--color-sinapse-dourado);
-  transition: transform var(--dur-sinapse-media) var(--ease-sinapse-pixel), background-color var(--dur-sinapse-curta);
+  transition:
+    transform var(--dur-sinapse-media) var(--ease-sinapse-pixel),
+    background-color var(--dur-sinapse-curta);
 }
 
 .sinapse-pergunta-mais::before {
@@ -1616,8 +1624,12 @@ body {
   background-image:
     repeating-conic-gradient(var(--color-sinapse-brasa) 0 25%, transparent 0 50%),
     repeating-conic-gradient(var(--color-sinapse-ferrugem) 0 25%, transparent 0 50%);
-  background-size: 56px 56px, 56px 56px;
-  background-position: 0 0, 28px 14px;
+  background-size:
+    56px 56px,
+    56px 56px;
+  background-position:
+    0 0,
+    28px 14px;
   pointer-events: none;
 }
 
@@ -1730,7 +1742,6 @@ body {
   .sinapse-balao {
     opacity: 1;
   }
-
 }
 
 .sinapse-invol[data-motion="reduzido"] .sinapse-secao .sinapse-conteudo > * {

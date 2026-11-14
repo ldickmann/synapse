@@ -41,7 +41,11 @@ const canal = (hex: string, i: number) => parseInt(hex.slice(1 + i * 2, 3 + i * 
 /** Mistura dois tokens em hex numa fração t e devolve hex. */
 function misturar(a: string, b: string, t: number): string {
   return `#${[0, 1, 2]
-    .map((i) => Math.round(canal(a, i) + (canal(b, i) - canal(a, i)) * t).toString(16).padStart(2, '0'))
+    .map((i) =>
+      Math.round(canal(a, i) + (canal(b, i) - canal(a, i)) * t)
+        .toString(16)
+        .padStart(2, '0'),
+    )
     .join('')}`
 }
 
@@ -87,7 +91,8 @@ export function Fundo({ ativo }: { ativo: boolean }) {
       for (let l = 0; l < linhas; l++) {
         const y = l / Math.max(1, linhas - 1)
         // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.
-        const ceu = y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)
+        const ceu =
+          y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)
         b.fillStyle = ceu
         b.fillRect(0, l * t, base!.width, t)
         for (let c = 0; c < colunas; c++) {

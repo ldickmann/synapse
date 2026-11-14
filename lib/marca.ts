@@ -11,8 +11,7 @@ export const CIDADE = 'Navegantes, SC'
  * `fill="none"`, `stroke="currentColor"`, `strokeWidth={MONOGRAMA_TRACO}`,
  * `strokeLinecap` e `strokeLinejoin` = MONOGRAMA_TERMINACAO.
  */
-export const MONOGRAMA_PATH =
-  'M21 7 V45 a9 12 0 0 1 -18 0 a9 12 0 0 1 18 0 V57 H43 V7 V31 L61 8 L43 31 L61 57'
+export const MONOGRAMA_PATH = 'M21 7 V45 a9 12 0 0 1 -18 0 a9 12 0 0 1 18 0 V57 H43 V7 V31 L61 8 L43 31 L61 57'
 export const MONOGRAMA_VIEWBOX = '0 0 64 64'
 /** Espessura do traço em unidades do viewBox (1,4 px a 16 px; 2,4 px a 28 px; 3,4 px a 40 px). */
 export const MONOGRAMA_TRACO = 5.5

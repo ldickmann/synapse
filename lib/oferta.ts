@@ -39,8 +39,7 @@ export const PERGUNTAS: readonly Pergunta[] = [
   },
   {
     pergunta: 'Quanto custa?',
-    resposta:
-      'Depende do que o seu negócio precisa. Me chama no WhatsApp, eu entendo o caso e te passo um orçamento.',
+    resposta: 'Depende do que o seu negócio precisa. Me chama no WhatsApp, eu entendo o caso e te passo um orçamento.',
   },
   {
     pergunta: 'Você atende fora de Navegantes?',
@@ -56,7 +55,6 @@ export const PERGUNTAS: readonly Pergunta[] = [
   },
   {
     pergunta: 'Posso mudar textos e fotos depois?',
-    resposta:
-      'Sim. No começo definimos o que você vai precisar alterar sozinho e eu preparo o site para isso.',
+    resposta: 'Sim. No começo definimos o que você vai precisar alterar sozinho e eu preparo o site para isso.',
   },
 ]

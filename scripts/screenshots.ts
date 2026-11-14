@@ -34,7 +34,10 @@ async function rolarAteOFim(page: Page): Promise<void> {
   await page.mouse.move(viewport.width / 2, viewport.height / 2)
   let parado = 0
   for (let i = 0; i < 400 && parado < 5; i++) {
-    const { y, max } = await page.evaluate(() => ({ y: scrollY, max: document.documentElement.scrollHeight - innerHeight }))
+    const { y, max } = await page.evaluate(() => ({
+      y: scrollY,
+      max: document.documentElement.scrollHeight - innerHeight,
+    }))
     if (y >= max - 1) break
     await page.mouse.wheel(0, Math.min(viewport.height * 0.8, max - y + 50))
     await page.waitForTimeout(90)

@@ -147,7 +147,10 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo
       CAMADAS.map((cam) =>
         Array.from({ length: cam.n }, (_, i) => ({
           x: cam.x * largura,
-          y: cam.n === SAIDAS ? altura * (0.28 + (i / (SAIDAS - 1)) * 0.44) : altura * (0.08 + ((i + 0.5) / cam.n) * 0.84),
+          y:
+            cam.n === SAIDAS
+              ? altura * (0.28 + (i / (SAIDAS - 1)) * 0.44)
+              : altura * (0.08 + ((i + 0.5) / cam.n) * 0.84),
         })),
       )
 
@@ -242,7 +245,10 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo
             const paraVencedora = k === CAMADAS.length - 2 ? j === vencedora : true
             if (!paraVencedora && peso < 0.9) continue
             const a = (peso - 0.72) * 2.2 * esfriando
-            ctx!.strokeStyle = comAlfa(paraVencedora && k === CAMADAS.length - 2 ? cores.dourado : cores.acento, Math.min(0.9, a))
+            ctx!.strokeStyle = comAlfa(
+              paraVencedora && k === CAMADAS.length - 2 ? cores.dourado : cores.acento,
+              Math.min(0.9, a),
+            )
             const xi = p[k][i].x
             const yi = p[k][i].y
             const xj = xi + (p[k + 1][j].x - xi) * parcial

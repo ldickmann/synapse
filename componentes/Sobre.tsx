@@ -7,13 +7,17 @@ import { Memoria } from './Memoria'
 import { Monograma } from './Monograma'
 import { useRevelar } from './revelar'
 
-
 /** Os trechos e a faixa de bits são desenhados por `content: attr(...)`: decoração que não vira texto (X3). */
 function Trechos() {
   return (
     <div className="sinapse-trechos" aria-hidden="true">
       {TRECHOS.map((linhas, i) => (
-        <span key={i} className="sinapse-trecho" data-texto={linhas.join('\n')} style={{ '--i': i } as React.CSSProperties} />
+        <span
+          key={i}
+          className="sinapse-trecho"
+          data-texto={linhas.join('\n')}
+          style={{ '--i': i } as React.CSSProperties}
+        />
       ))}
     </div>
   )
