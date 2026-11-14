@@ -2,35 +2,7 @@
 // Uso: pnpm build && pnpm verificar:testes   (um só: pnpm verificar:testes tests/site.spec.ts -g "X2")
 import { expect, test, type BrowserContextOptions, type Page } from '@playwright/test'
 import { linkWhatsApp } from '../lib/contato.ts'
-import { CELULAR, CELULAR_375, DESKTOP } from './comum.ts'
-
-// A entrada acaba por volta de 2,6 s depois da hidratação: o Decodificar conta o atraso a partir do efeito que roda
-// com `data-pronto`, e o nome do hero decodifica de 1,5 s até 1,5 s + 2 × 180 ms + 720 ms (componentes/Hero.tsx).
-// O boot, só em CSS, conta da carga do HTML e termina antes; o getAnimations() cobre o que ainda estiver rodando.
-const ENTRADA_MS = 3000
-
-/**
- * Espera a página assentar: hidratação (`data-pronto`), ENTRADA_MS contados dela, nenhuma palavra decodificando
- * e nenhuma animação finita rodando. As infinitas (robôs, marquee) não contam.
- */
-async function esperarEntrada(page: Page): Promise<void> {
-  await page.locator('[data-pronto="true"]').waitFor({ state: 'attached' })
-  // Contado de quando o teste vê `data-pronto`, que nunca é antes da hidratação.
-  const fim = (await page.evaluate(() => performance.now())) + ENTRADA_MS
-  await page.waitForFunction(
-    (limite) =>
-      performance.now() >= limite &&
-      document.querySelector('[data-decodificando="true"]') === null &&
-      document
-        .getAnimations()
-        .every(
-          (animacao) =>
-            animacao.playState !== 'running' || animacao.effect?.getComputedTiming().iterations === Infinity,
-        ),
-    fim,
-    { timeout: 20_000 },
-  )
-}
+import { CELULAR, CELULAR_375, DESKTOP, esperarEntrada } from './comum.ts'
 
 async function conferirLinksWhatsApp(page: Page, minimo: number): Promise<void> {
   const hrefs = await page.evaluate(() =>

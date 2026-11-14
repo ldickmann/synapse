@@ -4,7 +4,7 @@
 import { existsSync, mkdirSync } from 'node:fs'
 import path from 'node:path'
 import { chromium, type Browser, type BrowserContextOptions, type Page } from '@playwright/test'
-import { CELULAR_375, DESKTOP } from '../tests/comum.ts'
+import { CELULAR_375, DESKTOP, esperarEntrada } from '../tests/comum.ts'
 
 type Estado = 'hero' | 'pico' | 'final'
 
@@ -27,16 +27,6 @@ async function capturar(page: Page, nome: string): Promise<void> {
   await page.screenshot({ path: arquivo })
   gerados.push(nome)
   console.log(`  ${nome}`)
-}
-
-/** Espera a hidratação ([data-pronto="true"]) e a tela de carregamento. */
-async function esperarPagina(page: Page, contexto: string): Promise<void> {
-  try {
-    await page.locator('[data-pronto="true"]').waitFor({ timeout: 20_000 })
-  } catch {
-    avisos.push(`${contexto}: [data-pronto="true"] não apareceu em 20 s; capturado assim mesmo`)
-  }
-  await page.waitForTimeout(1500)
 }
 
 async function rolarAteOFim(page: Page): Promise<void> {
@@ -78,8 +68,8 @@ async function capturarLargura(navegador: Browser, largura: number, opcoes: Brow
   const nome = `/ ${largura}`
   try {
     await page.goto(`${BASE}/`)
-    await esperarPagina(page, nome)
-    await page.waitForTimeout(600)
+    // A primeira tela assentada: sem o boot e com o nome já decodificado, não a camada de 0 e 1.
+    await esperarEntrada(page)
     await capturar(page, `hero-${largura}.png`)
     for (const [estado, executar] of [
       ['pico', pico],
@@ -119,7 +109,7 @@ try {
   const foco = await navegador.newContext(DESKTOP)
   const pagina = await foco.newPage()
   await pagina.goto(`${BASE}/`)
-  await esperarPagina(pagina, '/ foco')
+  await esperarEntrada(pagina)
   for (let i = 0; i < 3; i++) await pagina.keyboard.press('Tab')
   await pagina.waitForTimeout(300)
   await capturar(pagina, 'foco-1440.png')
