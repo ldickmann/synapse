@@ -50,6 +50,10 @@ jobs:
       - name: Padrões (G21, G22 e G26)
         run: pnpm verificar:padroes
 
+      # Antes do build, para falhar mais cedo: o next typegen gera os tipos sem precisar do build.
+      - name: Typecheck
+        run: pnpm typecheck
+
       # A chave muda com o lockfile e com o código; sem acerto exato, o cache mais novo do mesmo
       # lockfile ainda adianta o build.
       - name: Cache do build do Next.js
@@ -62,9 +66,6 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-      - name: Typecheck
-        run: pnpm typecheck
 
       # O Chromium que o Playwright baixa depende só da versão do @playwright/test (exata, sem ^).
       - name: Lê a versão do Playwright

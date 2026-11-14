@@ -64,8 +64,8 @@ pnpm audit --prod --audit-level=high
 pnpm lint
 pnpm formatar:checar
 pnpm verificar:padroes
-pnpm build
 pnpm typecheck
+pnpm build
 pnpm verificar:testes
 ```
 
