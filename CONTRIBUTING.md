@@ -55,8 +55,17 @@ O hook `commit-msg` (Husky e commitlint, em `commitlint.config.mjs`) barra a men
 - Dois checks precisam passar:
   - `titulo` confere o título do PR;
   - `ci` roda install com o lockfile, auditoria das dependências de produção, lint, formatação, padrões, build, typecheck e os testes do Playwright no Chromium.
-- O merge é com squash, e a branch é apagada depois.
+- O merge para `develop` é com squash. No diálogo do merge, o título precisa ser o do PR, com o `(#N)` que o GitHub põe no fim, e o corpo fica vazio: não edite nenhum dos dois. O release-please lê esse título, e o `(#N)` liga a entrada do CHANGELOG ao PR.
 - Antes de abrir, rode `pnpm formatar` e a verificação do [README](README.md#verificação).
+
+### Configuração do GitHub
+
+O fluxo depende destas opções, em Settings, General, Pull Requests:
+
+- **Squash ligado** (`Allow squash merging`), com o título do PR como título do commit e o corpo vazio: na mensagem padrão do squash, a opção que usa só o título do PR.
+- **Rebase desligado** (`Allow rebase merging`).
+- **Merge commit ligado** (`Allow merge commits`), mas usado só no PR de `develop` para `main`, que precisa dele (ver [Versões](#versões)). Os outros PRs entram com squash.
+- **Branch apagada depois do merge** (`Automatically delete head branches`).
 
 ## Versões
 
