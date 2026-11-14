@@ -16,7 +16,20 @@ const TOKENS = 'app/tokens.css'
 const EXCECOES: Record<string, { fontes?: true; cores?: true }> = {
   'componentes/AssinaturaEncaixe.tsx': { fontes: true, cores: true },
 }
-const EXT_TEXTO = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.css', '.json', '.md', '.svg', '.html', '.txt'])
+const EXT_TEXTO = new Set([
+  '.ts',
+  '.tsx',
+  '.js',
+  '.jsx',
+  '.mjs',
+  '.cjs',
+  '.css',
+  '.json',
+  '.md',
+  '.svg',
+  '.html',
+  '.txt',
+])
 const EXT_CODIGO = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'])
 const EXT_JSX = new Set(['.tsx', '.jsx'])
 
@@ -156,10 +169,13 @@ const CONTEXTO_FONTE: RegExp[] = [
 
 function checarFontes(arquivo: string, fonte: string, limpo: string, local: (i: number) => number): void {
   // Imports de next/font (podem ocupar várias linhas).
-  for (const achado of limpo.matchAll(/\bimport\s+((?:type\s+)?[^'";]*?)\s+from\s*['"]next\/font\/(?:google|local)['"]/g)) {
+  for (const achado of limpo.matchAll(
+    /\bimport\s+((?:type\s+)?[^'";]*?)\s+from\s*['"]next\/font\/(?:google|local)['"]/g,
+  )) {
     const nomes = achado[1].replace(/_/g, ' ')
     const proibida = nomes.match(FONTE_PROIBIDA)
-    if (proibida) registrar('G22', arquivo, fonte, local(achado.index), `fonte proibida "${proibida[1]}" importada de next/font`)
+    if (proibida)
+      registrar('G22', arquivo, fonte, local(achado.index), `fonte proibida "${proibida[1]}" importada de next/font`)
   }
   const linhas = limpo.split('\n')
   linhas.forEach((linha, i) => {
@@ -219,7 +235,8 @@ function checarCaixaAlta(arquivo: string, fonte: string, limpo: string, local: (
       const bloco = achado[0]
       const apply = /@apply[^;]*\buppercase\b[^;]*\btracking-|@apply[^;]*\btracking-[^;]*\buppercase\b/.test(bloco)
       const declarado = /text-transform\s*:\s*uppercase/i.test(bloco) && /letter-spacing\s*:/i.test(bloco)
-      if (apply || declarado) registrar('G22', arquivo, fonte, local(achado.index), 'caixa alta com espaçamento de letras na mesma regra')
+      if (apply || declarado)
+        registrar('G22', arquivo, fonte, local(achado.index), 'caixa alta com espaçamento de letras na mesma regra')
     }
   }
 }
@@ -250,7 +267,6 @@ function checarPontoMedio(arquivo: string, fonte: string, limpo: string, local: 
     registrar('G22', arquivo, fonte, local(achado.index), 'ponto médio "·" em texto')
   }
 }
-
 
 const LITERAIS_DE_COR: { padrao: RegExp; mensagem: string }[] = [
   { padrao: /(?<![\w&])#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})(?![\w-])/g, mensagem: 'cor hexadecimal' },

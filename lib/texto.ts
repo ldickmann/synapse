@@ -42,7 +42,8 @@ export function numeroFormatado(numero: string = NUMERO_WHATSAPP): string {
 }
 
 export const SERVICOS_TITULO = 'Serviços'
-export const SERVICOS_APOIO = 'Você me conta do negócio; a rede decide o que entregar. Passe sobre um serviço e o robô liga a rede.'
+export const SERVICOS_APOIO =
+  'Você me conta do negócio; a rede decide o que entregar. Passe sobre um serviço e o robô liga a rede.'
 export const SERVICOS_LINHAS: Readonly<Record<Servico, string>> = {
   site: 'Carrega rápido, funciona no celular e diz o que você faz e como falar com você.',
   sistema: 'Um painel ou sistema feito para o jeito que o seu negócio trabalha.',

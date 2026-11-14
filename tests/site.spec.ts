@@ -12,7 +12,10 @@ async function conferirLinksWhatsApp(page: Page, minimo: number): Promise<void> 
   )
   const waMe = hrefs.filter((href) => href.startsWith('https://wa.me/'))
   expect(waMe.length, 'links https://wa.me/ na página').toBeGreaterThanOrEqual(minimo)
-  expect(hrefs.filter((href) => href !== linkWhatsApp()), 'links de WhatsApp diferentes de linkWhatsApp()').toEqual([])
+  expect(
+    hrefs.filter((href) => href !== linkWhatsApp()),
+    'links de WhatsApp diferentes de linkWhatsApp()',
+  ).toEqual([])
 }
 
 /** Algum elemento do seletor está visível e inteiro dentro da viewport. */
@@ -82,7 +85,10 @@ test.describe('G4 links de WhatsApp', () => {
 
 test.describe('G7 movimento reduzido', () => {
   test.use({ ...CELULAR, reducedMotion: 'reduce' })
-  test('G7: data-motion="reduzido" e duas capturas com 3 s de intervalo quase iguais', async ({ page, context }, testInfo) => {
+  test('G7: data-motion="reduzido" e duas capturas com 3 s de intervalo quase iguais', async ({
+    page,
+    context,
+  }, testInfo) => {
     await page.goto('/')
     await expect(page.locator('[data-motion="reduzido"]').first()).toBeAttached()
     await esperarEntrada(page)
@@ -392,7 +398,11 @@ test.describe('X4 movimento reduzido: página estática e completa (1440)', () =
     const visiveis = await page.evaluate(() =>
       Array.from(document.querySelectorAll('section')).map((secao) => {
         const caixa = secao.getBoundingClientRect()
-        return secao.checkVisibility({ opacityProperty: true, visibilityProperty: true }) && caixa.width > 0 && caixa.height > 0
+        return (
+          secao.checkVisibility({ opacityProperty: true, visibilityProperty: true }) &&
+          caixa.width > 0 &&
+          caixa.height > 0
+        )
       }),
     )
     expect(visiveis.length, 'section na página').toBeGreaterThanOrEqual(3)
@@ -403,7 +413,9 @@ test.describe('X4 movimento reduzido: página estática e completa (1440)', () =
       const secao = secoes.nth(i)
       await secao.scrollIntoViewIfNeeded()
       await expect(secao, `section ${i}`).toBeVisible()
-      const visivel = await secao.evaluate((el) => el.checkVisibility({ opacityProperty: true, visibilityProperty: true }))
+      const visivel = await secao.evaluate((el) =>
+        el.checkVisibility({ opacityProperty: true, visibilityProperty: true }),
+      )
       expect(visivel, `section ${i} sem opacidade 0 nem visibility hidden`).toBe(true)
     }
 
@@ -417,7 +429,9 @@ test.describe('X4 movimento reduzido: página estática e completa (1440)', () =
         const outra = await contexto.newPage()
         await outra.goto('/')
         if (modo === 'normal') await esperarEntrada(outra)
-        expect(reduzido.visivel, `texto de main com movimento reduzido e ${modo}`).toBe((await textoDoMain(outra)).visivel)
+        expect(reduzido.visivel, `texto de main com movimento reduzido e ${modo}`).toBe(
+          (await textoDoMain(outra)).visivel,
+        )
       } finally {
         await contexto.close()
       }

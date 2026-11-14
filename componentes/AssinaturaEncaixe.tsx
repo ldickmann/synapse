@@ -55,7 +55,9 @@ export function AssinaturaEncaixe({ tom = 'claro' }: Props) {
           <path className="ldk-encaixe__p ldk-encaixe__e" d={MONOGRAMA} pathLength={100} />
           <path className="ldk-encaixe__p ldk-encaixe__k" d={MONOGRAMA} pathLength={100} />
         </svg>
-        <span>Desenvolvimento por <b>Lucas E. Dickmann</b></span>
+        <span>
+          Desenvolvimento por <b>Lucas E. Dickmann</b>
+        </span>
         <span className="ldk-encaixe__sr"> (abre em nova aba)</span>
       </LinkAtivo>
     </div>

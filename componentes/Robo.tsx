@@ -48,7 +48,14 @@ export function Robo({ variante, className = '' }: { variante: Variante; classNa
     >
       <g className="sinapse-robo-pernas" fill="currentColor">
         {PERNAS.map(([x, y, w, h], i) => (
-          <rect key={`perna-${i}`} className={`sinapse-robo-perna sinapse-robo-perna-${i === 0 ? 'e' : 'd'}`} x={x} y={y} width={w} height={h} />
+          <rect
+            key={`perna-${i}`}
+            className={`sinapse-robo-perna sinapse-robo-perna-${i === 0 ? 'e' : 'd'}`}
+            x={x}
+            y={y}
+            width={w}
+            height={h}
+          />
         ))}
       </g>
       <g className="sinapse-robo-tronco" fill="currentColor">

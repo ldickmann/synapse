@@ -15,7 +15,15 @@ const ANDAR_MS = 2200
 const BATER_MS = 700
 const ESPERA_MS = 9000
 
-export function Operador({ ativo, chamado, alvo }: { ativo: boolean; chamado: Servico | null; alvo: React.RefObject<HTMLDivElement | null> }) {
+export function Operador({
+  ativo,
+  chamado,
+  alvo,
+}: {
+  ativo: boolean
+  chamado: Servico | null
+  alvo: React.RefObject<HTMLDivElement | null>
+}) {
   const [estado, setEstado] = useState<Estado>('parado')
   const temporizador = useRef(0)
   const ocupado = useRef(false)

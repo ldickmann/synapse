@@ -8,7 +8,6 @@ import { Operador } from './Operador'
 import { Rede } from './Rede'
 import { useProgresso, useRevelar } from './revelar'
 
-
 function Servico({
   id,
   nome,
@@ -97,7 +96,11 @@ export function Servicos({ movimento, robos }: { movimento: boolean; robos: bool
         </div>
         <p ref={frase} className="sinapse-frase">
           {palavras.map((palavra, i) => (
-            <span key={i} className="sinapse-frase-palavra" style={{ '--i': i, '--n': palavras.length } as React.CSSProperties}>
+            <span
+              key={i}
+              className="sinapse-frase-palavra"
+              style={{ '--i': i, '--n': palavras.length } as React.CSSProperties}
+            >
               {palavra}
               {i < palavras.length - 1 ? ' ' : ''}
             </span>

@@ -1,0 +1,4 @@
+# Gerados por ferramenta: o release-please escreve o CHANGELOG e o pnpm escreve o lockfile.
+# O Prettier já ignora o que está no .gitignore.
+CHANGELOG.md
+pnpm-lock.yaml

@@ -13,6 +13,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "formatar": "prettier --write .",
+    "formatar:checar": "prettier --check .",
     "typecheck": "next typegen && tsc --noEmit",
     "verificar:screenshots": "node scripts/screenshots.ts",
     "verificar:lighthouse": "node scripts/lighthouse.mjs",
@@ -36,6 +38,7 @@
     "eslint-config-next": "16.4.6",
     "lighthouse": "13.6.0",
     "postcss": "8.5.32",
+    "prettier": "3.10.1",
     "tailwindcss": "4.3.5",
     "typescript": "6.0.3"
   }

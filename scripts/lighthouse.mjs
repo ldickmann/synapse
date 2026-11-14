@@ -97,9 +97,12 @@ function medir() {
   resultado.lcp = auditoria('largest-contentful-paint')?.numericValue ?? null
   resultado.tbt = auditoria('total-blocking-time')?.numericValue ?? null
   resultado.cls = auditoria('cumulative-layout-shift')?.numericValue ?? null
-  if (resultado.lcp === null || resultado.lcp > LIMITES.lcpMs) resultado.falhas.push(`LCP ${resultado.lcp ?? '?'} ms > ${LIMITES.lcpMs} ms`)
-  if (resultado.tbt === null || resultado.tbt > LIMITES.tbtMs) resultado.falhas.push(`TBT ${resultado.tbt ?? '?'} ms > ${LIMITES.tbtMs} ms`)
-  if (resultado.cls === null || resultado.cls > LIMITES.cls) resultado.falhas.push(`CLS ${resultado.cls ?? '?'} > ${LIMITES.cls}`)
+  if (resultado.lcp === null || resultado.lcp > LIMITES.lcpMs)
+    resultado.falhas.push(`LCP ${resultado.lcp ?? '?'} ms > ${LIMITES.lcpMs} ms`)
+  if (resultado.tbt === null || resultado.tbt > LIMITES.tbtMs)
+    resultado.falhas.push(`TBT ${resultado.tbt ?? '?'} ms > ${LIMITES.tbtMs} ms`)
+  if (resultado.cls === null || resultado.cls > LIMITES.cls)
+    resultado.falhas.push(`CLS ${resultado.cls ?? '?'} > ${LIMITES.cls}`)
 
   const contraste = auditoria('color-contrast')
   if (!contraste) {
@@ -121,7 +124,8 @@ function medir() {
     acharNo(auditoria('largest-contentful-paint-element')?.details) ??
     acharNo(auditoria('lcp-breakdown-insight')?.details)
   resultado.elementoLcp = no ? (no.snippet ?? no.selector ?? '?').slice(0, 60) : 'ausente'
-  if (!ehH1(no)) resultado.falhas.push(`elemento de LCP não é o <h1>: ${no ? `${no.selector} ${no.snippet}` : 'ausente'}`)
+  if (!ehH1(no))
+    resultado.falhas.push(`elemento de LCP não é o <h1>: ${no ? `${no.selector} ${no.snippet}` : 'ausente'}`)
   return resultado
 }
 

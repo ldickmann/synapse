@@ -7,7 +7,12 @@ import { useRevelar } from './revelar'
 import { Robo } from './Robo'
 
 /** "T RA BA LHOS" como o "W O RK" do modelo: pedaços com respiro, o robô dourado em cima do último. */
-const PEDACOS = [TRABALHOS_TITULO.slice(0, 1), TRABALHOS_TITULO.slice(1, 3), TRABALHOS_TITULO.slice(3, 5), TRABALHOS_TITULO.slice(5)]
+const PEDACOS = [
+  TRABALHOS_TITULO.slice(0, 1),
+  TRABALHOS_TITULO.slice(1, 3),
+  TRABALHOS_TITULO.slice(3, 5),
+  TRABALHOS_TITULO.slice(5),
+]
 
 function Cartao({ nome, tipo, imagem, link }: { nome: string; tipo: string; imagem: string | null; link: string }) {
   const { ativo, props } = useAtivo()
