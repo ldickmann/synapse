@@ -1,13 +1,7 @@
 // Critérios do site aplicados a `/` (SPEC antigo, §8.1 e §11), contra `pnpm start`.
 // Uso: pnpm build && pnpm verificar:testes   (um só: pnpm verificar:testes tests/site.spec.ts -g "X2")
-import { mkdirSync } from 'node:fs'
-import path from 'node:path'
 import { expect, test, type BrowserContextOptions, type Page } from '@playwright/test'
 import { linkWhatsApp } from '../lib/contato.ts'
-
-const CAPTURAS = path.resolve(import.meta.dirname, '..', 'verificacao', 'screenshots')
-mkdirSync(CAPTURAS, { recursive: true })
-const captura = (nome: string) => path.join(CAPTURAS, nome)
 
 const CELULAR = {
   viewport: { width: 390, height: 844 },
@@ -258,7 +252,7 @@ test.describe('G10 orçamento de transferência e de JS (390×844)', () => {
 
 test.describe('G12 foco visível (1440)', () => {
   test.use(DESKTOP)
-  test('G12: outline ≥ 3 px em 5 elementos focados com Tab', async ({ page }) => {
+  test('G12: outline ≥ 3 px em 5 elementos focados com Tab', async ({ page }, testInfo) => {
     await page.goto('/')
     await esperarEntrada(page)
     type Foco = { id: number; descricao: string; largura: number; estilo: string }
@@ -279,7 +273,8 @@ test.describe('G12 foco visível (1440)', () => {
       })
       if (foco && !focados.some((f) => f.id === foco.id)) focados.push(foco)
     }
-    await page.screenshot({ path: captura('foco-1440.png') })
+    // Na pasta do teste, em verificacao/test-results/: a foco-1440.png de verificacao/screenshots/ é a do G25.
+    await page.screenshot({ path: testInfo.outputPath('foco.png') })
     expect(focados.length, 'elementos focados com Tab').toBeGreaterThanOrEqual(5)
     for (const foco of focados) {
       expect(foco.largura, `outline-width de ${foco.descricao}`).toBeGreaterThanOrEqual(3)
