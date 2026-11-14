@@ -1,7 +1,8 @@
 // Assinatura de autoria · estilo Encaixe: o traço se divide em d, L e K; as três peças chegam de lados diferentes e se encaixam.
-// Arquivo autocontido: copie para o projeto e use <AssinaturaEncaixe tom="escuro" /> logo abaixo do rodapé.
-// Componente de servidor, sem JS no cliente. Requer React 19: o <style> com href e precedence
-// vai para o <head> e não se repete se a assinatura aparecer mais de uma vez.
+// Paleta e fontes próprias, fora dos tokens do site (exceção declarada em scripts/checar-padroes.ts).
+// Componente de servidor: só o link (LinkAtivo, com useAtivo() para o X2) hidrata. Requer React 19: o <style>
+// com href e precedence vai para o <head> e não se repete se a assinatura aparecer mais de uma vez.
+import { LinkAtivo } from './LinkAtivo'
 
 /** Monograma dLK, igual a MONOGRAMA_PATH em lib/marca.ts. Não editar. */
 const MONOGRAMA = 'M21 7 V45 a9 12 0 0 1 -18 0 a9 12 0 0 1 18 0 V57 H43 V7 V31 L61 8 L43 31 L61 57'
@@ -22,12 +23,9 @@ const CSS = `
 .ldk-encaixe__e{stroke-dasharray:11.25 88.75;stroke-dashoffset:-34.5;--x:0;--y:9px}
 .ldk-encaixe__k{stroke-dasharray:54.25 45.75;stroke-dashoffset:-45.75;--x:9px;--y:0}
 .ldk-encaixe__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-@media (hover:hover){
-  .ldk-encaixe__l:hover .ldk-encaixe__i{animation:ldk-encaixe-inteiro var(--ldk-encaixe-t) linear}
-  .ldk-encaixe__l:hover .ldk-encaixe__p{animation:ldk-encaixe-encaixa var(--ldk-encaixe-t)}
-}
-.ldk-encaixe__l:is(:focus-visible,:active) .ldk-encaixe__i{animation:ldk-encaixe-inteiro var(--ldk-encaixe-t) linear}
-.ldk-encaixe__l:is(:focus-visible,:active) .ldk-encaixe__p{animation:ldk-encaixe-encaixa var(--ldk-encaixe-t)}
+/* data-ativo vem do useAtivo(): hover com mouse e foco por teclado (X2). O :active cobre o toque. */
+.ldk-encaixe__l:is([data-ativo="true"],:active) .ldk-encaixe__i{animation:ldk-encaixe-inteiro var(--ldk-encaixe-t) linear}
+.ldk-encaixe__l:is([data-ativo="true"],:active) .ldk-encaixe__p{animation:ldk-encaixe-encaixa var(--ldk-encaixe-t)}
 @keyframes ldk-encaixe-inteiro{0%,94%{opacity:0}100%{opacity:1}}
 @keyframes ldk-encaixe-encaixa{
   0%{opacity:0;transform:translate(var(--x),var(--y));animation-timing-function:cubic-bezier(.2,.8,.3,1.3)}
@@ -50,7 +48,7 @@ export function AssinaturaEncaixe({ tom = 'claro' }: Props) {
       <style href="ldk-encaixe" precedence="default">
         {CSS}
       </style>
-      <a className="ldk-encaixe__l" href="https://github.com/ldickmann" target="_blank" rel="noopener nofollow">
+      <LinkAtivo className="ldk-encaixe__l" href="https://github.com/ldickmann" target="_blank" rel="noopener nofollow">
         <svg className="ldk-encaixe__m" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
           <path className="ldk-encaixe__i" d={MONOGRAMA} pathLength={100} />
           <path className="ldk-encaixe__p ldk-encaixe__d" d={MONOGRAMA} pathLength={100} />
@@ -59,7 +57,7 @@ export function AssinaturaEncaixe({ tom = 'claro' }: Props) {
         </svg>
         <span>Desenvolvimento por <b>Lucas E. Dickmann</b></span>
         <span className="ldk-encaixe__sr"> (abre em nova aba)</span>
-      </a>
+      </LinkAtivo>
     </div>
   )
 }
