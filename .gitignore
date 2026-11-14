@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.next-verificacao/
+out/
+verificacao/
+test-results/
+playwright-report/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.claude/worktrees/

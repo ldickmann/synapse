@@ -1,0 +1,1735 @@
+/* Sinapse (direção 10): layout, estados e movimento. As cores só por tokens (G26).
+   Modelo: nome gigante, marquee, bloco "quem" com coordenadas e faixa de bits, "S E R V I Ç O S" com
+   letras que se espalham ao rolar, frase gigante, perguntas e "C ON TATO". No lugar dos pássaros,
+   mini IAs em pixel art; no lugar do código de barras, uma faixa de bits lida por um feixe. */
+
+[data-estilo="sinapse"] {
+  --gutter: 20px;
+  --topo: 56px;
+  background: var(--color-sinapse-fundo);
+  color: var(--color-sinapse-texto);
+  font-family: var(--fonte-sinapse-texto), sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-estilo="sinapse"] h1,
+[data-estilo="sinapse"] h2,
+[data-estilo="sinapse"] p,
+[data-estilo="sinapse"] pre {
+  margin: 0;
+}
+
+[data-estilo="sinapse"] :focus-visible {
+  outline: 3px solid var(--color-sinapse-dourado);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  [data-estilo="sinapse"] {
+    --gutter: 40px;
+    --topo: 64px;
+  }
+}
+
+@media (min-width: 1200px) {
+  [data-estilo="sinapse"] {
+    --gutter: 64px;
+  }
+}
+
+/* ---------- Invólucro, fundo em pixels e canvas das sinapses ---------- */
+
+.sinapse-invol {
+  position: relative;
+  min-height: 100svh;
+  overflow-x: clip;
+  /* Quadriculado em CSS: vale sem JavaScript e com movimento reduzido; o canvas cobre quando entra. */
+  background-color: var(--color-sinapse-fundo);
+  /* Sem JavaScript: a nebulosa em faixas, do marinho ao marrom, com a textura em pixels por cima. */
+  background-image:
+    repeating-conic-gradient(var(--color-sinapse-fundo-alto) 0 25%, transparent 0 50%),
+    linear-gradient(
+      180deg,
+      var(--color-sinapse-fundo-baixo),
+      var(--color-sinapse-fundo) 35%,
+      var(--color-sinapse-ceu) 62%,
+      var(--color-sinapse-acento) 70%,
+      var(--color-sinapse-brasa) 80%,
+      var(--color-sinapse-ferrugem) 90%,
+      var(--color-sinapse-marrom)
+    );
+  background-size: 40px 40px, 100% 100vh;
+  background-attachment: scroll, fixed;
+}
+
+.sinapse-fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.sinapse-invol > header,
+.sinapse-invol > main,
+.sinapse-invol > footer,
+.sinapse-invol > .sinapse-assinatura {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Carregamento (só CSS, roda uma vez e some) ---------- */
+
+.sinapse-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: var(--color-sinapse-fundo-baixo);
+  color: var(--color-sinapse-texto);
+  pointer-events: none;
+  animation: sinapse-boot-sair 520ms var(--ease-sinapse-pixel) var(--dur-sinapse-boot) forwards;
+}
+
+.sinapse-boot-centro {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.sinapse-boot .sinapse-robo {
+  width: 48px;
+  color: var(--color-sinapse-acento);
+  animation: sinapse-boot-robo 600ms steps(2) infinite;
+}
+
+.sinapse-boot-barra {
+  display: flex;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-sinapse-texto-suave);
+}
+
+.sinapse-boot-bit {
+  padding: 4px 6px;
+  border: 1px solid var(--color-sinapse-linha);
+  opacity: 0.25;
+  animation: sinapse-boot-bit 160ms steps(1) calc(120ms + var(--i) * 120ms) forwards;
+}
+
+.sinapse-boot-texto {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--color-sinapse-azul);
+}
+
+.sinapse-boot-texto::after {
+  content: "_";
+  animation: sinapse-piscar 700ms steps(1) infinite;
+}
+
+@keyframes sinapse-boot-bit {
+  to {
+    opacity: 1;
+    color: var(--color-sinapse-dourado);
+    border-color: var(--color-sinapse-dourado);
+  }
+}
+
+@keyframes sinapse-boot-robo {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes sinapse-boot-sair {
+  to {
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+  }
+}
+
+@keyframes sinapse-piscar {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Cabeçalho ---------- */
+
+.sinapse-cabecalho {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: var(--topo);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--gutter);
+  background: var(--color-sinapse-fundo-baixo);
+  border-bottom: 2px solid var(--color-sinapse-linha);
+}
+
+.sinapse-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-sinapse-acento);
+  text-decoration: none;
+}
+
+.sinapse-monograma {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.sinapse-marca-nome {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--color-sinapse-texto);
+}
+
+.sinapse-nav {
+  display: none;
+  gap: 28px;
+}
+
+.sinapse-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-sinapse-texto-suave);
+  text-decoration: none;
+  transition: color var(--dur-sinapse-curta) var(--ease-sinapse-pulso);
+}
+
+.sinapse-nav-pixel {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  transform: scale(0);
+  transition: transform var(--dur-sinapse-curta) var(--ease-sinapse-pixel);
+}
+
+.sinapse-nav-link[data-ativo="true"] {
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-nav-link[data-ativo="true"] .sinapse-nav-pixel {
+  transform: scale(1);
+}
+
+@media (min-width: 768px) {
+  .sinapse-nav {
+    display: flex;
+  }
+
+  .sinapse-marca-nome {
+    font-size: 16px;
+  }
+}
+
+/* A mini IA que passeia pela barra: vai e volta entre o nome e a navegação, virando de lado. */
+.sinapse-passeio {
+  position: absolute;
+  left: auto;
+  right: 12px;
+  width: 72px;
+  bottom: 0;
+  height: 28px;
+  pointer-events: none;
+}
+
+.sinapse-passeio .sinapse-robo {
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 22px;
+  color: var(--color-sinapse-dourado);
+  animation: sinapse-passeio 28s steps(140) infinite;
+}
+
+@keyframes sinapse-passeio {
+  0% {
+    transform: translateX(0) scaleX(1);
+  }
+  48% {
+    transform: translateX(calc(100cqw - 22px)) scaleX(1);
+  }
+  50% {
+    transform: translateX(calc(100cqw - 22px)) scaleX(-1);
+  }
+  98% {
+    transform: translateX(0) scaleX(-1);
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+.sinapse-passeio {
+  container-type: inline-size;
+}
+
+@media (min-width: 768px) {
+  .sinapse-passeio {
+    left: 300px;
+    right: 440px;
+    width: auto;
+  }
+}
+
+/* ---------- Robô em pixel art ---------- */
+
+.sinapse-robo {
+  display: block;
+  overflow: visible;
+}
+
+.sinapse-robo-olho,
+.sinapse-robo-boca {
+  fill: var(--color-sinapse-fundo-baixo);
+}
+
+.sinapse-robo-peito {
+  fill: var(--color-sinapse-dourado);
+  animation: sinapse-peito 1.6s steps(1) infinite;
+}
+
+.sinapse-robo-olhos {
+  transform-origin: 50% 32%;
+  animation: sinapse-piscada 4.2s steps(1) infinite;
+}
+
+/* Ciclo de poses, como o pássaro do modelo: quadros segurados por tempos desiguais, sem
+   interpolação (steps). Cabeça, tronco, braço e pernas trocam juntos de pose; cada robô tem a
+   sua duração e o seu atraso, para nenhum dois ficarem em sincronia. As unidades são as células. */
+.sinapse-robo-cabeca,
+.sinapse-robo-tronco,
+.sinapse-robo-braco,
+.sinapse-robo-pernas {
+  animation-duration: var(--poses, 3.4s);
+  animation-delay: var(--poses-atraso, 0s);
+  animation-timing-function: steps(1, end);
+  animation-iteration-count: infinite;
+}
+
+.sinapse-robo-cabeca {
+  animation-name: sinapse-pose-cabeca;
+}
+
+.sinapse-robo-tronco {
+  animation-name: sinapse-pose-tronco;
+}
+
+.sinapse-robo-braco {
+  animation-name: sinapse-pose-braco;
+}
+
+.sinapse-robo-pernas {
+  animation-name: sinapse-pose-pernas;
+}
+
+/* 0 a 22 %: parado. 22 a 34 %: agachado. 34 a 46 %: pulinho. 46 a 58 %: parado.
+   58 a 74 %: olhando para o lado, braço no ar. 74 a 86 %: parado. 86 a 94 %: agachadinho. */
+@keyframes sinapse-pose-cabeca {
+  0%,
+  46%,
+  74%,
+  94% {
+    transform: translate(0, 0);
+  }
+  22% {
+    transform: translate(0, 1px);
+  }
+  34% {
+    transform: translate(0, -3px);
+  }
+  58% {
+    transform: translate(1px, 0);
+  }
+  86% {
+    transform: translate(0, 1px);
+  }
+}
+
+@keyframes sinapse-pose-tronco {
+  0%,
+  46%,
+  58%,
+  74%,
+  94% {
+    transform: translate(0, 0);
+  }
+  22% {
+    transform: translate(0, 1px);
+  }
+  34% {
+    transform: translate(0, -2px);
+  }
+  86% {
+    transform: translate(0, 1px);
+  }
+}
+
+@keyframes sinapse-pose-braco {
+  0%,
+  46%,
+  74%,
+  94% {
+    transform: translate(0, 0);
+  }
+  22% {
+    transform: translate(0, 1px);
+  }
+  34% {
+    transform: translate(1px, -4px);
+  }
+  58% {
+    transform: translate(1px, -3px);
+  }
+  86% {
+    transform: translate(0, 1px);
+  }
+}
+
+@keyframes sinapse-pose-pernas {
+  0%,
+  46%,
+  58%,
+  74%,
+  94% {
+    transform: translate(0, 0);
+  }
+  22%,
+  86% {
+    transform: translate(0, -1px);
+  }
+  34% {
+    transform: translate(0, -2px) scaleX(1.3);
+    transform-origin: 50% 100%;
+  }
+}
+
+.sinapse-robo-passeio {
+  --poses: 2.6s;
+}
+
+.sinapse-robo-pousado {
+  --poses: 3.8s;
+  --poses-atraso: -1.1s;
+}
+
+.sinapse-robo-acenando {
+  --poses: 3.1s;
+  --poses-atraso: -2s;
+}
+
+.sinapse-robo-boot {
+  --poses: 1.4s;
+}
+
+@keyframes sinapse-peito {
+  50% {
+    fill: var(--color-sinapse-azul);
+  }
+}
+
+@keyframes sinapse-piscada {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  94%,
+  98% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* ---------- Hero ---------- */
+
+.sinapse-hero {
+  padding: calc(var(--topo) + 28px) var(--gutter) 56px;
+}
+
+.sinapse-nome {
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: clamp(50px, 12.6vw, 190px);
+  line-height: 0.86;
+  text-transform: uppercase;
+  color: var(--color-sinapse-texto);
+}
+
+.sinapse-nome-linha {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  animation: sinapse-subir 600ms var(--ease-sinapse-pixel) calc(var(--dur-sinapse-boot) + var(--i) * 90ms) both;
+}
+
+@keyframes sinapse-subir {
+  from {
+    opacity: 0;
+    transform: translateY(0.3em);
+  }
+}
+
+/* Decodificação: o texto real some enquanto a camada de 0 e 1 roda por cima, no mesmo lugar. */
+.sinapse-decod {
+  position: relative;
+  display: inline-block;
+}
+
+.sinapse-decod[data-decodificando="true"] .sinapse-decod-real {
+  opacity: 0;
+}
+
+.sinapse-decod-camada {
+  position: absolute;
+  inset: 0;
+  color: var(--color-sinapse-dourado);
+  white-space: nowrap;
+}
+
+/* A mini IA pousada na primeira linha do nome, com o balão "01" que aparece de vez em quando. */
+/* Em pé sobre a última letra da primeira linha: os pés encostam no topo das maiúsculas. */
+.sinapse-pouso {
+  position: absolute;
+  right: 0.04em;
+  top: -0.37em;
+  width: 0.34em;
+  color: var(--color-sinapse-acento);
+}
+
+.sinapse-pouso .sinapse-robo {
+  width: 100%;
+  animation: sinapse-pouso-espiar 9s steps(1) infinite;
+}
+
+.sinapse-hero:hover .sinapse-pouso .sinapse-robo {
+  animation: sinapse-pulo 700ms steps(7) infinite;
+}
+
+.sinapse-balao {
+  position: absolute;
+  left: 100%;
+  top: -0.3em;
+  padding: 0.04em 0.08em;
+  font-family: var(--fonte-sinapse-texto), sans-serif;
+  font-size: 0.16em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  color: var(--color-sinapse-fundo-baixo);
+  background: var(--color-sinapse-dourado);
+  opacity: 0;
+  animation: sinapse-balao 9s steps(1) infinite;
+}
+
+.sinapse-balao::before {
+  content: "oi";
+}
+
+@keyframes sinapse-pouso-espiar {
+  0%,
+  70%,
+  100% {
+    transform: scaleX(1);
+  }
+  72%,
+  86% {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes sinapse-balao {
+  0%,
+  40%,
+  62%,
+  100% {
+    opacity: 0;
+  }
+  42%,
+  60% {
+    opacity: 1;
+  }
+}
+
+@keyframes sinapse-pulo {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5em);
+  }
+}
+
+.sinapse-marquee {
+  margin: 26px calc(-1 * var(--gutter)) 0;
+  overflow: hidden;
+  border-top: 2px solid var(--color-sinapse-linha);
+  border-bottom: 2px solid var(--color-sinapse-linha);
+  background: var(--color-sinapse-fundo-baixo);
+}
+
+.sinapse-marquee-trilho {
+  display: flex;
+  width: max-content;
+  animation: sinapse-marquee 22s linear infinite;
+}
+
+.sinapse-marquee:hover .sinapse-marquee-trilho {
+  animation-play-state: paused;
+}
+
+.sinapse-marquee-copia {
+  display: flex;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-sinapse-texto-suave);
+  white-space: nowrap;
+}
+
+.sinapse-papel {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding-right: 28px;
+}
+
+/* O "×" entre os papéis, numa cor da nebulosa por vez: brasa, dourado, névoa, pêssego, rosa. */
+.sinapse-papel::before {
+  content: "×";
+  font-weight: 700;
+  color: var(--color-sinapse-acento);
+}
+
+.sinapse-papel:nth-child(5n + 2)::before {
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-papel:nth-child(5n + 3)::before {
+  color: var(--color-sinapse-azul);
+}
+
+.sinapse-papel:nth-child(5n + 4)::before {
+  color: var(--color-sinapse-pessego);
+}
+
+.sinapse-papel:nth-child(5n + 5)::before {
+  color: var(--color-sinapse-rosa);
+}
+
+@keyframes sinapse-marquee {
+  to {
+    transform: translateX(-33.3333%);
+  }
+}
+
+/* Painel escuro atrás do texto do hero: a crista de poeira passa embaixo sem roubar a leitura. */
+.sinapse-hero-texto {
+  margin-top: 20px;
+  max-width: 640px;
+  padding: 14px 16px 18px;
+  background: color-mix(in srgb, var(--color-sinapse-fundo-baixo) 84%, transparent);
+  border-left: 4px solid var(--color-sinapse-acento);
+}
+
+@media (min-width: 768px) {
+  .sinapse-hero-texto {
+    margin-top: 32px;
+    padding: 24px 24px 28px;
+  }
+}
+
+.sinapse-hero-texto h1 {
+  font-size: clamp(26px, 3.2vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  max-width: 20ch;
+}
+
+.sinapse-apoio {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 26px;
+  color: var(--color-sinapse-texto-suave);
+  max-width: 54ch;
+}
+
+@media (min-width: 1024px) {
+  .sinapse-hero {
+    padding-bottom: 96px;
+  }
+
+  .sinapse-hero-texto {
+    margin-top: 56px;
+    margin-left: auto;
+    margin-right: 8vw;
+  }
+}
+
+/* ---------- Botão de contato ---------- */
+
+.sinapse-botao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin-top: 24px;
+  padding: 0 28px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-sinapse-fundo-baixo);
+  background: var(--color-sinapse-acento);
+  border-radius: var(--radius-sinapse-botao);
+  box-shadow: 5px 5px 0 var(--color-sinapse-dourado);
+  text-decoration: none;
+  overflow: hidden;
+  transition:
+    transform var(--dur-sinapse-curta) var(--ease-sinapse-pulso),
+    box-shadow var(--dur-sinapse-curta) var(--ease-sinapse-pulso);
+}
+
+.sinapse-botao-bits::before {
+  content: "1101 1011";
+}
+
+.sinapse-botao-bits {
+  position: absolute;
+  right: 10px;
+  bottom: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transition: opacity var(--dur-sinapse-curta) var(--ease-sinapse-pixel);
+}
+
+.sinapse-botao[data-ativo="true"] {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--color-sinapse-dourado);
+}
+
+.sinapse-botao[data-ativo="true"] .sinapse-botao-bits {
+  opacity: 0.8;
+}
+
+.sinapse-botao:active {
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 0 var(--color-sinapse-dourado);
+}
+
+/* No penhasco do contato o botão inverte: dourado da estrela sobre o marrom da poeira. */
+.sinapse-botao-grande {
+  min-height: 64px;
+  padding: 0 36px;
+  font-size: 19px;
+  color: var(--color-sinapse-marrom);
+  background: var(--color-sinapse-dourado);
+  box-shadow: 5px 5px 0 var(--color-sinapse-brasa);
+}
+
+.sinapse-botao-grande[data-ativo="true"] {
+  box-shadow: 3px 3px 0 var(--color-sinapse-brasa);
+}
+
+/* ---------- Seções ---------- */
+
+.sinapse-secao {
+  position: relative;
+  padding: clamp(72px, 9vw, 128px) var(--gutter);
+  border-top: 2px solid var(--color-sinapse-linha);
+  overflow: hidden;
+}
+
+.sinapse-conteudo {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.sinapse-conteudo-estreito {
+  max-width: 760px;
+  margin-left: 0;
+}
+
+.sinapse-h2 {
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Revelar: o que está abaixo da tela espera; entra em degraus, de baixo para cima. */
+.sinapse-secao[data-visto="false"] .sinapse-conteudo > * {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.sinapse-secao[data-visto="true"] .sinapse-conteudo > * {
+  transition:
+    opacity var(--dur-sinapse-media) var(--ease-sinapse-pixel),
+    transform var(--dur-sinapse-media) var(--ease-sinapse-pixel);
+}
+
+.sinapse-secao[data-visto="true"] .sinapse-conteudo > :nth-child(2) {
+  transition-delay: 80ms;
+}
+
+.sinapse-secao[data-visto="true"] .sinapse-conteudo > :nth-child(3) {
+  transition-delay: 160ms;
+}
+
+.sinapse-secao[data-visto="true"] .sinapse-conteudo > :nth-child(4) {
+  transition-delay: 240ms;
+}
+
+/* ---------- Serviços: letras que se espalham, rede neural e frase gigante ---------- */
+
+.sinapse-titulo-gigante {
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: clamp(42px, 10.5vw, 150px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* As letras se espalham conforme a rolagem: a margem de cada uma cresce com --p, de 0 a 0,16 em. */
+.sinapse-letra {
+  display: inline-block;
+  margin-right: calc(var(--p, 1) * 0.16em);
+  transform: translateY(calc((1 - var(--p, 1)) * (0.12em + var(--i) * 0.03em)));
+  opacity: calc(0.35 + var(--p, 1) * 0.65);
+}
+
+.sinapse-servicos-apoio {
+  margin-top: 18px;
+  color: var(--color-sinapse-texto-suave);
+  max-width: 48ch;
+  text-shadow: 0 2px 0 var(--color-sinapse-fundo-baixo);
+}
+
+.sinapse-servicos-grade {
+  display: grid;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+/* A rede em canvas, num painel escuro com moldura de pixels, e o robô azul que opera o painel. */
+.sinapse-rede-moldura {
+  position: relative;
+  max-width: 960px;
+  padding: 10px;
+  background: color-mix(in srgb, var(--color-sinapse-fundo-baixo) 82%, transparent);
+  border: 2px solid var(--color-sinapse-linha);
+  box-shadow: 8px 8px 0 color-mix(in srgb, var(--color-sinapse-ceu) 45%, transparent);
+}
+
+.sinapse-rede {
+  display: block;
+  width: 100%;
+  height: clamp(260px, 26vw, 380px);
+  font-family: var(--fonte-sinapse-texto), sans-serif;
+}
+
+/* O robô operador: caminha pela base do painel (--x de 0 a 1), bate na rede e volta.
+   O deslocamento em degraus (steps) e as pernas alternando dão o passo de pixel. */
+.sinapse-operador {
+  position: absolute;
+  left: 12px;
+  bottom: 8px;
+  width: 36px;
+  --x: 0;
+  transform: translateX(calc(var(--x) * (100cqw - 60px)));
+  transition: transform 2200ms steps(28, end);
+  pointer-events: none;
+}
+
+.sinapse-rede-moldura {
+  container-type: inline-size;
+}
+
+.sinapse-operador[data-estado="andando"],
+.sinapse-operador[data-estado="batendo"] {
+  --x: 0.24;
+}
+
+.sinapse-operador[data-estado="voltando"] .sinapse-robo,
+.sinapse-operador[data-estado="parado"] .sinapse-robo {
+  transform: scaleX(1);
+}
+
+.sinapse-operador[data-estado="voltando"] .sinapse-robo {
+  transform: scaleX(-1);
+}
+
+.sinapse-operador .sinapse-robo {
+  transform-origin: 50% 100%;
+}
+
+/* Andando, o operador não troca de pose: só as pernas alternam e o corpo balança. */
+.sinapse-operador:not([data-estado="parado"]) .sinapse-robo-cabeca,
+.sinapse-operador:not([data-estado="parado"]) .sinapse-robo-tronco,
+.sinapse-operador:not([data-estado="parado"]) .sinapse-robo-pernas,
+.sinapse-operador[data-estado="andando"] .sinapse-robo-braco,
+.sinapse-operador[data-estado="voltando"] .sinapse-robo-braco {
+  animation: none;
+}
+
+.sinapse-operador[data-estado="andando"] .sinapse-robo-perna-e,
+.sinapse-operador[data-estado="voltando"] .sinapse-robo-perna-e {
+  animation: sinapse-passo 320ms steps(2) infinite;
+}
+
+.sinapse-operador[data-estado="andando"] .sinapse-robo-perna-d,
+.sinapse-operador[data-estado="voltando"] .sinapse-robo-perna-d {
+  animation: sinapse-passo 320ms steps(2) 160ms infinite;
+}
+
+.sinapse-operador[data-estado="andando"] .sinapse-robo,
+.sinapse-operador[data-estado="voltando"] .sinapse-robo {
+  animation: sinapse-balanco 320ms steps(2) infinite;
+}
+
+/* A batida: o braço direito sobe e desce; a faísca aparece na ponta. */
+.sinapse-operador[data-estado="batendo"] .sinapse-robo-braco {
+  animation: sinapse-batida 700ms steps(1) 1;
+  transform-origin: 9px 9px;
+}
+
+.sinapse-operador-faisca {
+  position: absolute;
+  right: -12px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-sinapse-dourado);
+  opacity: 0;
+}
+
+.sinapse-operador[data-estado="batendo"] .sinapse-operador-faisca {
+  animation: sinapse-faisca 700ms steps(1) 1;
+}
+
+@keyframes sinapse-passo {
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes sinapse-balanco {
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes sinapse-batida {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translate(1px, -4px);
+  }
+  55% {
+    transform: translate(2px, 0);
+  }
+}
+
+@keyframes sinapse-faisca {
+  0%,
+  45% {
+    opacity: 0;
+  }
+  50%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Robôs de outras cores. */
+.sinapse-robo-azul {
+  color: var(--color-sinapse-azul);
+}
+
+.sinapse-robo-rosa {
+  color: var(--color-sinapse-rosa);
+}
+
+.sinapse-robo-dourado {
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-robo-pessego {
+  color: var(--color-sinapse-pessego);
+}
+
+.sinapse-servicos-lista {
+  display: grid;
+  gap: 2px;
+}
+
+.sinapse-servico[data-servico="site"] {
+  --cor: var(--color-sinapse-azul);
+}
+
+.sinapse-servico[data-servico="sistema"] {
+  --cor: var(--color-sinapse-dourado);
+}
+
+.sinapse-servico[data-servico="manutencao"] {
+  --cor: var(--color-sinapse-pessego);
+}
+
+.sinapse-servico {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 6px 16px;
+  padding: 22px 20px 22px 16px;
+  color: var(--color-sinapse-texto);
+  background: var(--color-sinapse-fundo-baixo);
+  border-left: 4px solid var(--color-sinapse-linha);
+  text-decoration: none;
+  transition:
+    background-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel),
+    border-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel),
+    transform var(--dur-sinapse-curta) var(--ease-sinapse-pulso);
+}
+
+/* O nó de saída do serviço: três células, a dele acesa. */
+.sinapse-servico-no {
+  grid-row: 1 / 3;
+  display: flex;
+  gap: 4px;
+  padding-top: 8px;
+}
+
+.sinapse-servico-no i {
+  width: 8px;
+  height: 8px;
+  background: var(--color-sinapse-linha);
+  transition: background-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel);
+}
+
+.sinapse-servico[data-servico="site"] .sinapse-servico-no i:nth-child(1),
+.sinapse-servico[data-servico="sistema"] .sinapse-servico-no i:nth-child(2),
+.sinapse-servico[data-servico="manutencao"] .sinapse-servico-no i:nth-child(3) {
+  background: var(--cor);
+}
+
+.sinapse-servico-nome {
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sinapse-servico-linha {
+  color: var(--color-sinapse-texto-suave);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.sinapse-servico[data-ativo="true"] {
+  background: var(--color-sinapse-fundo-alto);
+  border-left-color: var(--cor);
+  transform: translateX(6px);
+}
+
+.sinapse-servico[data-ativo="true"] .sinapse-servico-nome {
+  color: var(--cor);
+}
+
+.sinapse-servico[data-ativo="true"] .sinapse-servico-no i {
+  background: var(--color-sinapse-acento);
+}
+
+@media (min-width: 900px) {
+  .sinapse-servicos-lista {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .sinapse-servico {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    padding: 24px 22px 26px;
+    border-left: 0;
+    border-top: 4px solid var(--color-sinapse-linha);
+  }
+
+  .sinapse-servico-no {
+    grid-row: 1;
+    padding-top: 0;
+    margin-bottom: 14px;
+  }
+
+  .sinapse-servico[data-ativo="true"] {
+    border-top-color: var(--cor);
+    transform: translateY(-6px);
+  }
+}
+
+/* Frase gigante: cada palavra entra conforme a rolagem, em degraus. */
+.sinapse-frase {
+  margin-top: clamp(64px, 9vw, 128px);
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: clamp(30px, 5.4vw, 80px);
+  line-height: 0.98;
+  text-transform: uppercase;
+  max-width: 16ch;
+  text-shadow: 4px 4px 0 var(--color-sinapse-fundo-baixo);
+}
+
+.sinapse-frase-palavra {
+  --w: clamp(0, calc(var(--p, 1) * var(--n) * 1.15 - var(--i)), 1);
+  display: inline-block;
+  white-space: pre;
+  opacity: calc(0.12 + var(--w) * 0.88);
+  transform: translateY(calc((1 - var(--w)) * 0.3em));
+  color: var(--color-sinapse-texto);
+}
+
+.sinapse-frase-palavra:nth-child(4n + 2) {
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-frase-palavra:nth-child(4n + 4) {
+  color: var(--color-sinapse-pessego);
+}
+
+/* ---------- Quem faz: trechos de script, monograma, coordenadas, faixa de bits ---------- */
+
+/* "Quem faz" fica num azul mais aberto, o do meio do céu, meio transparente sobre o quadriculado. */
+.sinapse-sobre {
+  background: color-mix(in srgb, var(--color-sinapse-ceu) 22%, transparent);
+}
+
+.sinapse-sobre-grade {
+  display: grid;
+  gap: 40px;
+}
+
+.sinapse-sobre-marca {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  color: var(--color-sinapse-acento);
+}
+
+.sinapse-sobre-marca .sinapse-monograma {
+  width: 64px;
+  height: 64px;
+}
+
+.sinapse-sobre-barra {
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--color-sinapse-texto);
+}
+
+.sinapse-sobre-barra::before {
+  content: "./";
+}
+
+.sinapse-sobre-texto {
+  padding: 22px 24px;
+  background: color-mix(in srgb, var(--color-sinapse-fundo-baixo) 84%, transparent);
+  border-left: 4px solid var(--color-sinapse-azul);
+}
+
+.sinapse-sobre-texto p {
+  margin-top: 16px;
+  max-width: 52ch;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.sinapse-sobre-texto p:first-of-type {
+  color: var(--color-sinapse-texto);
+  font-weight: 500;
+}
+
+.sinapse-sobre-texto p + p {
+  color: var(--color-sinapse-texto-suave);
+}
+
+.sinapse-sobre-dados {
+  display: grid;
+  gap: 18px;
+  align-content: end;
+  padding: 22px 24px;
+  background: color-mix(in srgb, var(--color-sinapse-fundo-baixo) 84%, transparent);
+}
+
+.sinapse-coordenadas {
+  display: grid;
+  gap: 2px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--color-sinapse-azul);
+}
+
+/* Memória RAM: o pente com oito chips, os contatos dourados, o endereço vivo e o robô rosa. */
+.sinapse-ram {
+  position: relative;
+  padding: 36px 0 8px;
+}
+
+.sinapse-ram-pente {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  padding: 10px 10px 16px;
+  background: var(--color-sinapse-fundo-baixo);
+  border: 2px solid var(--color-sinapse-linha);
+}
+
+.sinapse-ram-chip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 3px;
+  background: var(--color-sinapse-fundo-alto);
+}
+
+.sinapse-ram-chip i {
+  display: block;
+  aspect-ratio: 1;
+  background: var(--color-sinapse-linha);
+  animation: sinapse-ram-celula 3.2s steps(1) calc(var(--c) * -0.2s - var(--chip) * 0.4s) infinite;
+}
+
+@keyframes sinapse-ram-celula {
+  0%,
+  100% {
+    background: var(--color-sinapse-linha);
+  }
+  12% {
+    background: var(--color-sinapse-azul);
+  }
+  22% {
+    background: var(--color-sinapse-linha);
+  }
+  55% {
+    background: var(--color-sinapse-rosa);
+  }
+  63% {
+    background: var(--color-sinapse-linha);
+  }
+}
+
+.sinapse-ram-contatos {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -2px;
+  height: 8px;
+  background-image: repeating-linear-gradient(90deg, var(--color-sinapse-dourado) 0 6px, transparent 6px 10px);
+}
+
+.sinapse-ram-endereco {
+  display: block;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-sinapse-azul);
+}
+
+.sinapse-ram-endereco::before {
+  content: "RAM " attr(data-endereco) " " attr(data-modo);
+}
+
+.sinapse-ram-endereco[data-modo="escrita"] {
+  color: var(--color-sinapse-rosa);
+}
+
+.sinapse-ram-robo {
+  position: absolute;
+  right: 14px;
+  top: 2px;
+  width: 30px;
+}
+
+.sinapse-numero {
+  width: fit-content;
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: clamp(24px, 2.8vw, 36px);
+  line-height: 1.1;
+  color: var(--color-sinapse-texto);
+  text-decoration: none;
+  border-bottom: 4px solid var(--color-sinapse-linha);
+  transition: border-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel), color var(--dur-sinapse-curta);
+}
+
+.sinapse-numero[data-ativo="true"] {
+  color: var(--color-sinapse-pessego);
+  border-bottom-color: var(--color-sinapse-acento);
+}
+
+.sinapse-sobre-dados:has(.sinapse-numero[data-ativo="true"]) .sinapse-ram-pente {
+  border-color: var(--color-sinapse-acento);
+}
+
+@media (min-width: 900px) {
+  .sinapse-sobre-grade {
+    grid-template-columns: 120px minmax(0, 1fr) minmax(280px, 420px);
+    gap: 48px;
+  }
+}
+
+/* Trechos de script flutuando atrás do texto, cada um no seu ritmo, com cursor piscando. */
+.sinapse-trechos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sinapse-trecho::before {
+  content: attr(data-texto);
+}
+
+.sinapse-trecho {
+  position: absolute;
+  font-family: var(--fonte-sinapse-texto), sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--color-sinapse-azul);
+  opacity: 0.4;
+  white-space: pre;
+  animation: sinapse-flutuar 11s ease-in-out calc(var(--i) * -3.7s) infinite alternate;
+}
+
+.sinapse-trecho::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: currentColor;
+  animation: sinapse-piscar 900ms steps(1) infinite;
+}
+
+.sinapse-trecho:nth-child(1) {
+  right: 6%;
+  top: 8%;
+}
+
+.sinapse-trecho:nth-child(2) {
+  left: 38%;
+  bottom: 10%;
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-trecho:nth-child(3) {
+  left: 4%;
+  bottom: 18%;
+  color: var(--color-sinapse-rosa);
+}
+
+@keyframes sinapse-flutuar {
+  from {
+    transform: translate3d(0, -10px, 0);
+  }
+  to {
+    transform: translate3d(0, 14px, 0);
+  }
+}
+
+@media (max-width: 899.98px) {
+  .sinapse-trecho:nth-child(2),
+  .sinapse-trecho:nth-child(3) {
+    display: none;
+  }
+}
+
+/* ---------- Trabalhos ---------- */
+
+.sinapse-trabalhos-titulo {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.22em;
+  width: fit-content;
+}
+
+.sinapse-trabalhos-robo {
+  position: absolute;
+  right: -0.5em;
+  top: -0.34em;
+  width: 0.34em;
+}
+
+.sinapse-trabalhos-lista {
+  display: grid;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.sinapse-trabalho {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  color: var(--color-sinapse-texto);
+  text-decoration: none;
+  background: var(--color-sinapse-fundo-baixo);
+  border: 2px solid var(--color-sinapse-linha);
+  padding: 12px;
+  transition:
+    border-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel),
+    transform var(--dur-sinapse-curta) var(--ease-sinapse-pulso),
+    box-shadow var(--dur-sinapse-curta) var(--ease-sinapse-pulso);
+}
+
+.sinapse-trabalho-imagem {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-sinapse-fundo-alto);
+}
+
+.sinapse-trabalho-imagem img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85);
+  transition: filter var(--dur-sinapse-media) var(--ease-sinapse-pulso), transform var(--dur-sinapse-media) var(--ease-sinapse-pulso);
+}
+
+/* A varredura: um feixe dourado passa pela prévia quando o cartão está ativo. */
+.sinapse-trabalho-varredura {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -8%;
+  width: 6%;
+  background: var(--color-sinapse-dourado);
+  opacity: 0;
+  box-shadow: 0 0 24px var(--color-sinapse-dourado);
+}
+
+.sinapse-trabalho[data-ativo="true"] {
+  border-color: var(--color-sinapse-dourado);
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 var(--color-sinapse-brasa);
+}
+
+.sinapse-trabalho[data-ativo="true"] img {
+  filter: saturate(1.1);
+  transform: scale(1.03);
+}
+
+.sinapse-trabalho[data-ativo="true"] .sinapse-trabalho-varredura {
+  animation: sinapse-varredura 900ms var(--ease-sinapse-pulso) forwards;
+}
+
+@keyframes sinapse-varredura {
+  from {
+    left: -8%;
+    opacity: 0.9;
+  }
+  to {
+    left: 104%;
+    opacity: 0;
+  }
+}
+
+.sinapse-trabalho-texto {
+  display: grid;
+  gap: 6px;
+  padding: 0 6px 8px;
+}
+
+.sinapse-trabalho-nome {
+  font-family: var(--fonte-sinapse-display), sans-serif;
+  font-size: clamp(22px, 2.6vw, 34px);
+  line-height: 1.05;
+}
+
+.sinapse-trabalho-tipo {
+  color: var(--color-sinapse-texto-suave);
+}
+
+.sinapse-trabalho-link {
+  margin-top: 8px;
+  font-weight: 700;
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-trabalho-link::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 10px;
+  background: currentColor;
+  vertical-align: middle;
+}
+
+@media (min-width: 768px) {
+  .sinapse-trabalhos-lista {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 560px));
+  }
+}
+
+/* ---------- Perguntas ---------- */
+
+.sinapse-perguntas-lista {
+  margin-top: 32px;
+  display: grid;
+  gap: 2px;
+}
+
+.sinapse-pergunta {
+  background: var(--color-sinapse-fundo-baixo);
+  border-left: 4px solid var(--color-sinapse-linha);
+  transition: border-color var(--dur-sinapse-curta) var(--ease-sinapse-pixel);
+}
+
+.sinapse-pergunta summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 14px 20px 14px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+  color: var(--color-sinapse-texto);
+}
+
+.sinapse-pergunta summary::-webkit-details-marker {
+  display: none;
+}
+
+/* O "+" em pixels: duas barras; aberto, vira "x" sem girar, trocando de forma em degraus. */
+.sinapse-pergunta-mais {
+  position: relative;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+}
+
+.sinapse-pergunta-mais::before,
+.sinapse-pergunta-mais::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--color-sinapse-dourado);
+  transition: transform var(--dur-sinapse-media) var(--ease-sinapse-pixel), background-color var(--dur-sinapse-curta);
+}
+
+.sinapse-pergunta-mais::before {
+  width: 14px;
+  height: 4px;
+}
+
+.sinapse-pergunta-mais::after {
+  width: 4px;
+  height: 14px;
+}
+
+.sinapse-pergunta[open] .sinapse-pergunta-mais::before,
+.sinapse-pergunta[open] .sinapse-pergunta-mais::after {
+  transform: rotate(45deg);
+  background: var(--color-sinapse-acento);
+}
+
+.sinapse-pergunta summary[data-ativo="true"] {
+  color: var(--color-sinapse-dourado);
+}
+
+.sinapse-pergunta:has(summary[data-ativo="true"]),
+.sinapse-pergunta[open] {
+  border-left-color: var(--color-sinapse-acento);
+}
+
+.sinapse-pergunta-corpo {
+  padding: 0 20px 20px 46px;
+  color: var(--color-sinapse-texto-suave);
+  animation: sinapse-abrir var(--dur-sinapse-media) var(--ease-sinapse-pixel);
+}
+
+@keyframes sinapse-abrir {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-6px);
+  }
+}
+
+/* ---------- Contato e rodapé ---------- */
+
+/* O contato é o penhasco da nebulosa: ferrugem iluminada em cima, marrom na base, com a crista em pixels. */
+.sinapse-contato {
+  border-top: 0;
+  background: linear-gradient(180deg, var(--color-sinapse-ferrugem), var(--color-sinapse-marrom));
+  overflow: visible;
+}
+
+.sinapse-contato::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -28px;
+  height: 28px;
+  background-image:
+    repeating-conic-gradient(var(--color-sinapse-brasa) 0 25%, transparent 0 50%),
+    repeating-conic-gradient(var(--color-sinapse-ferrugem) 0 25%, transparent 0 50%);
+  background-size: 56px 56px, 56px 56px;
+  background-position: 0 0, 28px 14px;
+  pointer-events: none;
+}
+
+.sinapse-contato::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 14px;
+  background-image: repeating-conic-gradient(var(--color-sinapse-acento) 0 25%, transparent 0 50%);
+  background-size: 28px 28px;
+  background-position: 14px 0;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.sinapse-contato .sinapse-conteudo {
+  z-index: 1;
+}
+
+.sinapse-contato-titulo {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.22em;
+  letter-spacing: 0;
+  width: fit-content;
+}
+
+.sinapse-pedaco {
+  display: inline-block;
+}
+
+.sinapse-secao[data-visto="true"] .sinapse-pedaco {
+  animation: sinapse-subir 520ms var(--ease-sinapse-pixel) calc(var(--i) * 140ms) both;
+}
+
+.sinapse-aceno {
+  position: absolute;
+  right: -0.5em;
+  top: -0.32em;
+  width: 0.36em;
+  color: var(--color-sinapse-pessego);
+}
+
+.sinapse-aceno .sinapse-robo {
+  transform-origin: 50% 100%;
+  animation: sinapse-acenar 1.8s steps(3) infinite;
+}
+
+@keyframes sinapse-acenar {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+.sinapse-contato-texto {
+  margin-top: 28px;
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.35;
+  max-width: 28ch;
+  color: var(--color-sinapse-pessego);
+}
+
+.sinapse-rodape {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 24px var(--gutter);
+  font-size: 14px;
+  color: var(--color-sinapse-pessego);
+  background: var(--color-sinapse-marrom);
+  border-top: 2px solid var(--color-sinapse-ferrugem);
+}
+
+.sinapse-rodape-bits {
+  letter-spacing: 0.14em;
+  color: var(--color-sinapse-ferrugem);
+}
+
+/* ---------- Movimento reduzido: nada grande roda sozinho, tudo fica visível (X4) ----------
+   Exceção decidida em 2026-10-24: os robôs continuam se mexendo (poses, piscada, peito,
+   passeio na barra, operador, aceno e pulo no hover). São quadros discretos de poucos pixels.
+   O que para: boot, marquee, varredura, digitação dos trechos, chips da RAM, nome e título. */
+
+@media (prefers-reduced-motion: reduce) {
+  .sinapse-boot,
+  .sinapse-balao,
+  .sinapse-marquee-trilho,
+  .sinapse-ram-chip i,
+  .sinapse-trabalho-varredura,
+  .sinapse-trecho,
+  .sinapse-trecho::after,
+  .sinapse-boot-texto::after,
+  .sinapse-nome-linha,
+  .sinapse-pedaco {
+    animation: none !important;
+  }
+
+  .sinapse-boot {
+    display: none;
+  }
+
+  .sinapse-balao {
+    opacity: 1;
+  }
+
+}
+
+.sinapse-invol[data-motion="reduzido"] .sinapse-secao .sinapse-conteudo > * {
+  opacity: 1;
+  transform: none;
+}

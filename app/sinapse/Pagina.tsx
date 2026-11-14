@@ -1,0 +1,62 @@
+'use client'
+
+import { useSyncExternalStore } from 'react'
+import { prefereMovimentoReduzido } from '@/lib/capacidades'
+import { Cabecalho } from './componentes/Cabecalho'
+import { Carregamento } from './componentes/Carregamento'
+import { Contato, Rodape } from './componentes/Contato'
+import { Fundo } from './componentes/Fundo'
+import { AssinaturaEncaixe } from '@/docs/assinatura/codigo/encaixe/AssinaturaEncaixe'
+import { Hero } from './componentes/Hero'
+import { Perguntas } from './componentes/Perguntas'
+import { Servicos } from './componentes/Servicos'
+import { Sobre } from './componentes/Sobre'
+import { Trabalhos } from './componentes/Trabalhos'
+
+const semAssinatura = () => () => undefined
+
+function assinarMovimento(aoMudar: () => void): () => void {
+  const consulta = window.matchMedia('(prefers-reduced-motion: reduce)')
+  consulta.addEventListener('change', aoMudar)
+  return () => consulta.removeEventListener('change', aoMudar)
+}
+
+/**
+ * Sinapse (direção 10). Dono do invólucro: `data-motion` ("normal" ou "reduzido") e `data-pronto`
+ * (true depois da hidratação, quando o canvas das sinapses e os efeitos por JavaScript entram).
+ * O HTML do servidor já tem o texto inteiro e o quadriculado em CSS (X3, X4).
+ */
+export function Pagina() {
+  const pronto = useSyncExternalStore(
+    semAssinatura,
+    () => true,
+    () => false,
+  )
+  const reduzido = useSyncExternalStore(assinarMovimento, prefereMovimentoReduzido, () => false)
+  const movimento = pronto && !reduzido
+
+  return (
+    <div
+      className="sinapse-invol"
+      data-render="css"
+      data-motion={reduzido ? 'reduzido' : 'normal'}
+      data-pronto={pronto ? 'true' : 'false'}
+    >
+      <Carregamento />
+      <Fundo ativo={movimento} />
+      <Cabecalho />
+      <main>
+        <Hero movimento={movimento} />
+        <Servicos movimento={movimento} robos={pronto} />
+        <Trabalhos movimento={movimento} />
+        <Sobre movimento={movimento} />
+        <Perguntas movimento={movimento} />
+        <Contato movimento={movimento} />
+      </main>
+      <Rodape />
+      <div className="sinapse-assinatura">
+        <AssinaturaEncaixe tom="escuro" />
+      </div>
+    </div>
+  )
+}
