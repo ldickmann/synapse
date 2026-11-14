@@ -19,24 +19,30 @@ const CELULAR = {
 const CELULAR_375 = { ...CELULAR, viewport: { width: 375, height: 667 } }
 const DESKTOP = { viewport: { width: 1440, height: 900 } }
 
-// A entrada da página acaba por volta de 2,6 s depois da navegação: o boot dura 1,3 s e o nome do hero
-// decodifica de 1,5 s até 1,5 s + 2 × 180 ms + 720 ms (componentes/Hero.tsx).
+// A entrada acaba por volta de 2,6 s depois da hidratação: o Decodificar conta o atraso a partir do efeito que roda
+// com `data-pronto`, e o nome do hero decodifica de 1,5 s até 1,5 s + 2 × 180 ms + 720 ms (componentes/Hero.tsx).
+// O boot, só em CSS, conta da carga do HTML e termina antes; o getAnimations() cobre o que ainda estiver rodando.
 const ENTRADA_MS = 3000
 
 /**
- * Espera a página assentar: hidratação (`data-pronto`), fim da entrada, nenhuma palavra decodificando e
- * nenhuma animação finita rodando. As infinitas (robôs, marquee) não contam.
+ * Espera a página assentar: hidratação (`data-pronto`), ENTRADA_MS contados dela, nenhuma palavra decodificando
+ * e nenhuma animação finita rodando. As infinitas (robôs, marquee) não contam.
  */
 async function esperarEntrada(page: Page): Promise<void> {
   await page.locator('[data-pronto="true"]').waitFor({ state: 'attached' })
+  // Contado de quando o teste vê `data-pronto`, que nunca é antes da hidratação.
+  const fim = (await page.evaluate(() => performance.now())) + ENTRADA_MS
   await page.waitForFunction(
-    (entrada) =>
-      performance.now() >= entrada &&
+    (limite) =>
+      performance.now() >= limite &&
       document.querySelector('[data-decodificando="true"]') === null &&
       document
         .getAnimations()
-        .every((animacao) => animacao.playState !== 'running' || animacao.effect?.getComputedTiming().iterations === Infinity),
-    ENTRADA_MS,
+        .every(
+          (animacao) =>
+            animacao.playState !== 'running' || animacao.effect?.getComputedTiming().iterations === Infinity,
+        ),
+    fim,
     { timeout: 20_000 },
   )
 }
