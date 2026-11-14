@@ -57,11 +57,11 @@ function tabela(linhas) {
     .join('\n')
 }
 
-const resultados = []
-for (const pagina of ['/']) {
+/** Roda o Lighthouse em `/` e lê do relatório as notas, as medidas e o que falhou. */
+function medir() {
   // Exatamente o comando do SPEC §6, passo 3 (com a base em PORTA).
   const argumentos = [
-    `${BASE}${pagina}`,
+    `${BASE}/`,
     '--form-factor=mobile',
     '--screenEmulation.mobile',
     '--throttling-method=simulate',
@@ -76,11 +76,10 @@ for (const pagina of ['/']) {
   const inicio = Date.now()
   const execucao = spawnSync(process.execPath, [CLI, ...argumentos], { cwd: RAIZ, stdio: 'inherit' })
   const arquivo = path.join(RAIZ, 'verificacao', 'lighthouse.report.json')
-  const resultado = { pagina, notas: {}, lcp: null, tbt: null, cls: null, contraste: '-', elementoLcp: '-', falhas: [] }
-  resultados.push(resultado)
+  const resultado = { notas: {}, lcp: null, tbt: null, cls: null, contraste: '-', elementoLcp: '-', falhas: [] }
   if (!existsSync(arquivo) || statSync(arquivo).mtimeMs < inicio - 1000) {
     resultado.falhas.push(`relatório não gerado (lighthouse saiu com ${execucao.status ?? execucao.error?.message})`)
-    continue
+    return resultado
   }
   if (execucao.status !== 0) {
     // No Windows o Chrome às vezes falha ao apagar a pasta temporária depois de gravar o relatório.
@@ -123,29 +122,30 @@ for (const pagina of ['/']) {
     acharNo(auditoria('lcp-breakdown-insight')?.details)
   resultado.elementoLcp = no ? (no.snippet ?? no.selector ?? '?').slice(0, 60) : 'ausente'
   if (!ehH1(no)) resultado.falhas.push(`elemento de LCP não é o <h1>: ${no ? `${no.selector} ${no.snippet}` : 'ausente'}`)
+  return resultado
 }
 
+const resultado = medir()
 const ms = (valor) => (valor === null ? '-' : `${Math.round(valor)} ms`)
 console.log(
   `\n${tabela([
-    ['Página', 'Perf', 'A11y', 'Boas pr.', 'SEO', 'LCP', 'TBT', 'CLS', 'Contraste', 'Elemento de LCP', 'Resultado'],
-    ...resultados.map((r) => [
-      r.pagina,
-      r.notas.performance ?? '-',
-      r.notas.accessibility ?? '-',
-      r.notas['best-practices'] ?? '-',
-      r.notas.seo ?? '-',
-      ms(r.lcp),
-      ms(r.tbt),
-      r.cls === null ? '-' : r.cls.toFixed(3),
-      r.contraste,
-      r.elementoLcp,
-      r.falhas.length === 0 ? 'aprovado' : 'FALHOU',
-    ]),
+    ['Perf', 'A11y', 'Boas pr.', 'SEO', 'LCP', 'TBT', 'CLS', 'Contraste', 'Elemento de LCP', 'Resultado'],
+    [
+      resultado.notas.performance ?? '-',
+      resultado.notas.accessibility ?? '-',
+      resultado.notas['best-practices'] ?? '-',
+      resultado.notas.seo ?? '-',
+      ms(resultado.lcp),
+      ms(resultado.tbt),
+      resultado.cls === null ? '-' : resultado.cls.toFixed(3),
+      resultado.contraste,
+      resultado.elementoLcp,
+      resultado.falhas.length === 0 ? 'aprovado' : 'FALHOU',
+    ],
   ])}`,
 )
-for (const r of resultados.filter((r) => r.falhas.length > 0)) {
-  console.log(`\n${r.pagina}:`)
-  for (const falha of r.falhas) console.log(`  - ${falha}`)
+if (resultado.falhas.length > 0) {
+  console.log('\nFalhas:')
+  for (const falha of resultado.falhas) console.log(`  - ${falha}`)
+  process.exitCode = 1
 }
-if (resultados.some((r) => r.falhas.length > 0)) process.exitCode = 1
