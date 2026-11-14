@@ -1,7 +1,7 @@
 name: release-please
 
 # Mantém o PR de versão em develop e, no merge dele, cria a tag e a release
-# (docs/decisoes/0001-repositorio-proprio.md, decisão 3).
+# (docs/decisoes/0001-licenca-branches-e-versoes.md, decisão 3).
 on:
   push:
     branches: [develop]

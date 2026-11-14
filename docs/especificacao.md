@@ -2,8 +2,6 @@
 
 O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os critérios de aceite com a verificação de cada um e a direção visual. Quando uma regra muda, este arquivo e o teste que a prova mudam no mesmo PR.
 
-Origem: reescrita do `SPEC.md` de `ldickmann/frontend-design-prototypes@c993d7f`, só com o que vale para o site. Lá, a página era a rota `/sinapse`, ao lado da Mesa; aqui, ela é `/`. Os códigos dos critérios (G4, X1 etc.) continuam os mesmos, porque nomeiam os testes.
-
 ## 1. Objetivo, públicos e ação principal
 
 **Objetivo.** Ser o site profissional e o portfólio do Lucas e fazer quem chega querer conversar com ele.
@@ -124,7 +122,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 
 A assinatura de autoria (`componentes/AssinaturaEncaixe.tsx`) é autocontida, com paleta e fontes próprias, e fica fora das fontes do G22 e do G26 por exceção declarada em `scripts/checar-padroes.ts`, impressa a cada execução.
 
-Saíram com a Mesa e com o WebGL os critérios que não se aplicam a uma página só, sem 3D: G2 (índice das rotas), G3 (coberto pelo X1), G5 e G6 (versão sem WebGL), G9 e G24 (FPS da cena 3D), G16 e G17 (dica inativa e botão fixo, da Mesa), G18 e G20 (comparação entre rotas). O G13 (imagem de prévia de 1200×630) volta com `app/opengraph-image.tsx`, que está no backlog.
+Os códigos que faltam na lista não são usados: G2 (índice das rotas), G3 (coberto pelo X1), G5 e G6 (versão sem WebGL), G9 e G24 (FPS da cena 3D), G16 e G17 (dica inativa e botão fixo) e G18 e G20 (comparação entre rotas). O G13 (imagem de prévia de 1200×630) volta com `app/opengraph-image.tsx`, que está no backlog.
 
 ## 6. Dados pendentes
 
@@ -142,7 +140,7 @@ Dado pendente é `null` em `lib/`, e o texto que depende dele não é renderizad
 
 ## 7. Direção visual: Sinapse
 
-Criada em 2026-10-10 como uma das explorações de UI do repositório antigo e escolhida para ser o site, que ganhou este repositório (`docs/decisoes/0001-repositorio-proprio.md`). O foco é layout, design, UI e UX, com micro-interações no centro.
+Criada em 2026-10-10. O foco é layout, design, UI e UX, com micro-interações no centro.
 
 **Modelo.** [meesverberne.com](https://meesverberne.com/): nome gigante, marquee, bloco "sobre" com coordenadas e telefone, título de trabalhos com letras espalhadas ("W O RK") e contato em pedaços ("C ON NECT"). No lugar dos pássaros do modelo entram mini IAs em pixel art, trechos de script, binários e redes neurais.
 

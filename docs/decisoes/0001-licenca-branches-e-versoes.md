@@ -1,23 +1,15 @@
-# 0001. Repositório próprio, com `develop` e release-please em `develop`
+# 0001. Licença, branches e versões
 
 - Data: 2026-11-14
 - Situação: aceita
 
 ## Contexto
 
-O site nasceu como a rota `/sinapse` de `ldickmann/frontend-design-prototypes`, um laboratório de direções de UI. Lá, ele dividia o repositório com a Mesa (`/mesa`), um índice "Duas versões" em `/`, um `SPEC.md` escrito para duas rotas, testes e scripts que comparavam as rotas e mediam FPS de cenas 3D, e uma configuração do Claude Code feita para o laboratório.
+Este repositório guarda a Sinapse, o site profissional e o portfólio do Lucas: uma página estática publicada pela Vercel, com o código público no GitHub. O site precisa de uma regra para o uso do código, de um caminho de cada mudança até a produção e de versões com CHANGELOG.
 
-A Sinapse foi escolhida para virar o site profissional e o portfólio do Lucas. Dali em diante, ela precisa de deploy, versões e regras só dela.
+## Decisão 1: sem licença
 
-## Decisão 1: separar o site num repositório próprio
-
-O site vai para `ldickmann/synapse`, público, com a página em `/` e sem nada da Mesa.
-
-- **Histórico do zero.** O primeiro commit importa só os arquivos versionados de `origin/develop` do laboratório e cita o SHA de origem (`c993d7f`). O histórico antigo, misturado com a Mesa e com seis rotas que já tinham saído, continua consultável lá.
-- **Sem licença.** O código fica aberto para leitura, com todos os direitos reservados, como diz o README.
-- **Regras reescritas.** O `SPEC.md` vira `docs/especificacao.md`, só com o que vale para o site. A configuração do Claude Code é escrita do zero, sem copiar a do laboratório.
-
-**Por quê.** No laboratório, cada mudança no site passava pelo que só servia à comparação: dependências de 3D que o site não usa, testes divididos por rota, critérios entre rotas e scripts de FPS e de comparação de estilos. As regras e a configuração do Claude Code falavam de duas páginas. Com repositório próprio, o site ganha CI, versões, CHANGELOG e deploy sem esse peso.
+O código fica aberto para leitura, sem licença de uso, cópia ou redistribuição: todos os direitos reservados, como diz o README.
 
 ## Decisão 2: manter `develop` ao lado de `main`
 

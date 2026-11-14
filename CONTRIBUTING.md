@@ -1,6 +1,6 @@
 # Como contribuir
 
-Vale para qualquer mudança, feita à mão ou por uma sessão do Claude Code. O porquê de cada escolha está em [docs/decisoes/0001-repositorio-proprio.md](docs/decisoes/0001-repositorio-proprio.md); as regras do site, em [docs/especificacao.md](docs/especificacao.md).
+Vale para qualquer mudança, feita à mão ou por uma sessão do Claude Code. O porquê de cada escolha está em [docs/decisoes/0001-licenca-branches-e-versoes.md](docs/decisoes/0001-licenca-branches-e-versoes.md); as regras do site, em [docs/especificacao.md](docs/especificacao.md).
 
 ## Branches
 
