@@ -1,4 +1,4 @@
-// G8, G11 e G23 (SPEC §6 passo 3 e §8.1): Lighthouse mobile em `/`, contra `pnpm build && pnpm start`.
+// G8, G11 e G23 (docs/especificacao.md §4 e §5): Lighthouse mobile em `/`, contra `pnpm build && pnpm start`.
 // Uso: node scripts/lighthouse.mjs   (env opcional: PORTA=3000)
 // Relatórios em verificacao/lighthouse.report.{json,html}; sai com 1 se algum limite falhar.
 import { spawnSync } from 'node:child_process'
@@ -59,7 +59,7 @@ function tabela(linhas) {
 
 /** Roda o Lighthouse em `/` e lê do relatório as notas, as medidas e o que falhou. */
 function medir() {
-  // Exatamente o comando do SPEC §6, passo 3 (com a base em PORTA).
+  // O comando de docs/especificacao.md §4, passo 2 (com a base em PORTA).
   const argumentos = [
     `${BASE}/`,
     '--form-factor=mobile',

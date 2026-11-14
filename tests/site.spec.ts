@@ -1,4 +1,4 @@
-// Critérios do site aplicados a `/` (SPEC antigo, §8.1 e §11), contra `pnpm start`.
+// Critérios de aceite de `/` (docs/especificacao.md §5), contra `pnpm start`.
 // Uso: pnpm build && pnpm verificar:testes   (um só: pnpm verificar:testes tests/site.spec.ts -g "X2")
 import { expect, test, type BrowserContextOptions, type Page } from '@playwright/test'
 import { linkWhatsApp } from '../lib/contato.ts'
@@ -289,7 +289,7 @@ test('G19: html[lang="pt-BR"]', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR')
 })
 
-// Checagens da exploração de UI (SPEC §11): X1 a X4.
+// Checagens da página (docs/especificacao.md §5): X1 a X4.
 
 for (const [tela, opcoes] of [
   ['375×667', CELULAR_375],

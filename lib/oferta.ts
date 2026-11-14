@@ -1,4 +1,4 @@
-// Fatos da oferta (SPEC §1). O tom fica nos textos da página, em lib/texto.ts.
+// Fatos da oferta (docs/especificacao.md §1). O tom fica nos textos da página, em lib/texto.ts.
 
 export type Servico = 'site' | 'sistema' | 'manutencao'
 
@@ -16,7 +16,7 @@ export const REGIAO = {
 export const ATENDIMENTO = 'Direto, sem intermediário: quem conversa é quem constrói'
 export const REUNIAO_PRESENCIAL = true
 
-// PENDENTES (SPEC §9). Enquanto forem null, a frase correspondente não é renderizada.
+// PENDENTES (docs/especificacao.md §6). Enquanto forem null, a frase correspondente não é renderizada.
 export const ANOS_EXPERIENCIA: number | null = null
 export const FORMACAO: string | null = null
 
@@ -30,7 +30,7 @@ export function linhasCondicionais(): string[] {
 
 export type Pergunta = { pergunta: string; resposta: string }
 
-// As duas últimas aguardam confirmação do Lucas (SPEC §9).
+// As duas últimas aguardam confirmação do Lucas (docs/especificacao.md §6).
 export const PERGUNTAS: readonly Pergunta[] = [
   {
     pergunta: 'Não entendo de tecnologia. Tem problema?',

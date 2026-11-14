@@ -7,7 +7,7 @@ export type Trabalho = {
   link: string | null
 }
 
-// Trabalhos reais entram aqui conforme o Lucas libera (SPEC §9); os dois últimos ainda são reservados.
+// Trabalhos reais entram aqui conforme o Lucas libera (docs/especificacao.md §6); os dois últimos ainda são reservados.
 export const TRABALHOS: Trabalho[] = [
   {
     id: 'maos-de-tesoura',
