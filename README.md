@@ -30,8 +30,8 @@ Localmente, nenhuma variável de ambiente é obrigatória. O `.env.example` expl
 app/          layout, página, globals.css, tokens.css (única fonte de cor) e pagina.css
 componentes/  as seções e os efeitos da página
 lib/          fatos e textos, sem visual: marca, contato, oferta, trabalhos, metadados e texto.ts
-public/       favicon e imagens dos trabalhos
-scripts/      checagem de padrões, capturas e Lighthouse
+public/       favicon, imagens dos trabalhos e _headers (cabeçalhos do Cloudflare Pages)
+scripts/      servidor do pnpm start, checagem de padrões, capturas e Lighthouse
 tests/        testes de aceite do Playwright (site.spec.ts)
 docs/         especificação e decisões
 ```
@@ -42,8 +42,8 @@ docs/         especificação e decisões
 | ---------------------------- | --------------------------------------------------------------------------------- |
 | `pnpm dev`                   | servidor de desenvolvimento                                                       |
 | `pnpm dev:rede`              | o mesmo, aberto para a rede local                                                 |
-| `pnpm build`                 | build de produção                                                                 |
-| `pnpm start`                 | serve o build (porta 3000)                                                        |
+| `pnpm build`                 | build de produção, exportado para `out/`                                          |
+| `pnpm start`                 | serve `out/` como o Cloudflare Pages (porta 3000)                                 |
 | `pnpm lint`                  | ESLint                                                                            |
 | `pnpm formatar`              | formata tudo com o Prettier                                                       |
 | `pnpm formatar:checar`       | confere a formatação, sem mudar arquivos                                          |
@@ -80,13 +80,13 @@ A pasta `verificacao/` fica fora do git.
 
 ## Publicação
 
-O site é publicado pela Vercel, pela integração com o GitHub, sem deploy manual:
+O site é publicado pelo Cloudflare Pages, pela integração com o GitHub, sem deploy manual:
 
-- `main` é a produção;
-- `develop` tem um preview com endereço fixo;
+- `main` é a produção, em `https://dlk-systems.pages.dev`;
+- `develop` tem um preview com endereço fixo, em `https://develop.dlk-systems.pages.dev`;
 - cada PR ganha um preview próprio.
 
-Os metadados (`og:url`, `canonical`) usam o endereço que a Vercel informa em cada ambiente (`lib/metadados.ts`). `NEXT_PUBLIC_SITE_URL` só é preciso para um domínio próprio.
+Os metadados (`og:url`, `canonical`) usam, na produção, o `NEXT_PUBLIC_SITE_URL`, definido nas variáveis de produção do Pages, e, nos previews, o `CF_PAGES_URL`, o endereço de cada implantação (`lib/metadados.ts`). Os cabeçalhos de hospedagem ficam em `public/_headers`. O porquê está em [docs/decisoes/0002-hospedagem-no-cloudflare-pages.md](docs/decisoes/0002-hospedagem-no-cloudflare-pages.md).
 
 O caminho de uma mudança até a produção (branch, PR, versão com o release-please e PR de `develop` para `main`) está em [CONTRIBUTING.md](CONTRIBUTING.md).
 

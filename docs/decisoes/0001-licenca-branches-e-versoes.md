@@ -2,10 +2,11 @@
 
 - Data: 2026-11-14
 - Situação: aceita
+- Atualizada pela [0002](0002-hospedagem-no-cloudflare-pages.md): a hospedagem passou da Vercel para o Cloudflare Pages.
 
 ## Contexto
 
-Este repositório guarda a Sinapse, o site profissional e o portfólio do Lucas: uma página estática publicada pela Vercel, com o código público no GitHub. O site precisa de uma regra para o uso do código, de um caminho de cada mudança até a produção e de versões com CHANGELOG.
+Este repositório guarda a Sinapse, o site profissional e o portfólio do Lucas: uma página estática publicada pelo Cloudflare Pages, com o código público no GitHub. O site precisa de uma regra para o uso do código, de um caminho de cada mudança até a produção e de versões com CHANGELOG.
 
 ## Decisão 1: sem licença
 
@@ -17,11 +18,11 @@ O fluxo é o GitHub Flow com uma branch de integração:
 
 - cada mudança nasce numa branch curta `<tipo>/<assunto>` a partir de `develop` e volta por PR com squash, com o título do PR como mensagem;
 - a produção é um PR de `develop` para `main`, com merge commit;
-- `develop` é a branch padrão do GitHub; `main` é a branch de produção da Vercel.
+- `develop` é a branch padrão do GitHub; `main` é a branch de produção da hospedagem.
 
 **Por quê.**
 
-- `develop` tem um preview com endereço fixo na Vercel, que mostra o estado integrado e pode ser compartilhado antes de ir para produção. Os PRs continuam com preview próprio.
+- `develop` tem um preview com endereço fixo (`develop.dlk-systems.pages.dev`), que mostra o estado integrado e pode ser compartilhado antes de ir para produção. Os PRs continuam com preview próprio.
 - O Lucas escolhe quando publicar, juntando várias mudanças numa versão. Isso pesa enquanto o site está em `0.x` e o endereço novo ainda não é o oficial.
 - O squash deixa `develop` linear, com um commit por PR, e o título do PR (no padrão de commits) é o que o release-please lê.
 - O merge commit de `develop` para `main` leva os mesmos commits, com os mesmos SHAs. Uma tag criada em `develop` fica no histórico de `main`, e as duas branches não divergem. Com squash nesse passo, `main` ganharia commits que `develop` não tem, e cada publicação pediria um merge de volta.

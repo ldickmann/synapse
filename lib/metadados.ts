@@ -1,18 +1,17 @@
 import type { Metadata } from 'next'
 import { NOME_COMPLETO } from './marca'
 
-// Endereço público do site, para og:url, og:image e canonical absolutos.
-// Ordem: NEXT_PUBLIC_SITE_URL (sobrescrita, ex.: domínio próprio) → variáveis de
-// sistema da Vercel (vêm sem protocolo; produção usa o endereço fixo do projeto e
-// o preview usa o da branch) → servidor local.
+// Endereço público do site, para og:url, og:image e canonical absolutos. Entra no HTML no build.
+// Ordem: NEXT_PUBLIC_SITE_URL (a produção no Cloudflare Pages, ou um domínio próprio) → CF_PAGES_URL (o endereço
+// desta implantação, nos builds de preview do Pages) → servidor local.
 function enderecoDoSite(): string {
   const fixo = process.env.NEXT_PUBLIC_SITE_URL
   if (fixo) return fixo
-  const vercel =
-    process.env.VERCEL_ENV === 'production'
-      ? process.env.VERCEL_PROJECT_PRODUCTION_URL
-      : process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL
-  return vercel ? `https://${vercel}` : 'http://localhost:3000'
+  // main é a produção (CONTRIBUTING.md). Sem o endereço fixo, o canonical apontaria para esta implantação.
+  if (process.env.CF_PAGES_BRANCH === 'main') {
+    throw new Error('Falta NEXT_PUBLIC_SITE_URL nas variáveis de produção do Cloudflare Pages.')
+  }
+  return process.env.CF_PAGES_URL || 'http://localhost:3000'
 }
 
 export const metadataBase = new URL(enderecoDoSite())

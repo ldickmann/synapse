@@ -4,7 +4,7 @@ Vale para qualquer mudança, feita à mão ou por uma sessão do Claude Code. O 
 
 ## Branches
 
-- `develop`: integração. É a branch padrão do GitHub e tem preview com endereço fixo na Vercel.
+- `develop`: integração. É a branch padrão do GitHub e tem preview com endereço fixo no Cloudflare Pages (`develop.dlk-systems.pages.dev`).
 - `main`: produção. Só recebe PRs de `develop`.
 - Cada mudança nasce numa branch curta a partir de `develop`, com o nome `<tipo>/<assunto>`: o tipo é o mesmo do commit, e o assunto vai em português, em minúsculas, sem acento e com hífens. Exemplos: `feat/secao-perfil`, `fix/foco-do-cabecalho`, `build/versionamento`.
 - Ninguém faz commit direto em `develop` ou `main`: as duas exigem PR.

@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test'
 
-// Os testes rodam contra o build de produção: pnpm build && pnpm verificar:testes
+// Os testes rodam contra a exportação (out/), servida por pnpm start: pnpm build && pnpm verificar:testes
 const PORTA = Number(process.env.PORTA ?? 3000)
 
 export default defineConfig({

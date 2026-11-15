@@ -48,8 +48,14 @@
       "PowerShell(gh pr merge *)",
       "Bash(gh release *)",
       "PowerShell(gh release *)",
-      "Bash(vercel *)",
-      "PowerShell(vercel *)"
+      "Bash(wrangler *)",
+      "PowerShell(wrangler *)",
+      "Bash(npx wrangler *)",
+      "PowerShell(npx wrangler *)",
+      "Bash(pnpm dlx wrangler *)",
+      "PowerShell(pnpm dlx wrangler *)",
+      "Bash(pnpx wrangler *)",
+      "PowerShell(pnpx wrangler *)"
     ]
   },
   "hooks": {

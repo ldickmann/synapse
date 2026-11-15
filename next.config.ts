@@ -2,6 +2,9 @@ import type { NextConfig } from 'next'
 import bundleAnalyzer from '@next/bundle-analyzer'
 
 const config: NextConfig = {
+  // Exportação estática: o next build gera out/, a pasta que o Cloudflare Pages publica e que o pnpm start
+  // (scripts/servir.ts) serve nos testes. Nada que precise de servidor (docs/decisoes/0002).
+  output: 'export',
   turbopack: { root: process.cwd() },
   outputFileTracingRoot: process.cwd(),
   poweredByHeader: false,

@@ -1,0 +1,5 @@
+# Cabeçalhos do Cloudflare Pages (docs/decisoes/0002). O build copia este arquivo para out/; o Pages o lê e não o
+# serve. Localmente, o scripts/servir.ts lê o mesmo out/_headers.
+# Os arquivos de /_next/static têm hash no nome e não mudam, como no next start.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

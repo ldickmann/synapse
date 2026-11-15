@@ -52,7 +52,7 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 
 ## 3. Stack
 
-- Next.js com App Router, React e TypeScript. A página é estática (`○` no `next build`).
+- Next.js com App Router, React e TypeScript. A página é estática (`○` no `next build`), exportada para `out/` (`output: 'export'`), a pasta que o Cloudflare Pages publica. Nada que precise de servidor.
 - CSS próprio em `app/pagina.css`, com os tokens em `app/tokens.css`. O Tailwind 4 entra só pelo preflight do `app/globals.css`; tirá-lo está no backlog.
 - Fontes por `next/font/google`, servidas pelo próprio site.
 - Animação com CSS, SVG e canvas 2D, sem biblioteca. Nada de WebGL.
@@ -77,7 +77,7 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 
 **Como medir.**
 
-1. `pnpm build && pnpm start` (porta 3000, ou a da variável `PORTA` nos scripts).
+1. `pnpm build && pnpm start` (porta 3000, ou a da variável `PORTA` nos scripts). O `pnpm start` serve `out/` (`scripts/servir.ts`), com gzip e os cabeçalhos de `public/_headers`.
 2. `pnpm verificar:lighthouse`: `scripts/lighthouse.mjs` roda `lighthouse http://localhost:3000/ --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --throttling.cpuSlowdownMultiplier=4 --only-categories=performance,accessibility,best-practices,seo --output=json --output=html --output-path=verificacao/lighthouse --chrome-flags=--headless`, imprime a tabela de notas e sai com 1 se algum limite falhar. Se o Lighthouse não rodar na máquina, a nota vem do PageSpeed Insights no endereço publicado.
 3. `pnpm verificar:testes`: o G10 soma o que a página baixa em 390×844.
 4. `pnpm analisar`: relatório do bundle analyzer em `.next/analyze/`, para achar o que pesa.
@@ -99,6 +99,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 - **G14.** Nenhuma requisição a `fonts.googleapis.com` ou `fonts.gstatic.com`.
 - **G15.** `mouse.wheel(0, 600)` altera `window.scrollY`; nenhum listener de `wheel` ou `touchmove` chama `preventDefault`; o `body` não tem `overflow: hidden`.
 - **G19.** `html[lang="pt-BR"]`. Que todo o texto visível está em português se confere nas capturas.
+- **G27.** Um script de `/_next/static` sai com `Cache-Control: public, max-age=31536000, immutable`, de `public/_headers`, e uma rota que não existe (`/nao-existe`) responde 404 com o `404.html` da exportação. Sem o `404.html`, o Cloudflare Pages trataria o site como SPA e serviria `/` em qualquer caminho; o `pnpm start` (`scripts/servir.ts`) faz o mesmo.
 - **X1.** Em 375×667 e 390×844 não há rolagem horizontal, e monograma, h1 e botão de WhatsApp aparecem sem rolar.
 - **X2.** Todo elemento com efeito (`data-efeito`) chega ao mesmo estado (`data-ativo="true"`) por hover e por foco, em 1440.
 - **X3.** Paridade de texto (§2), comparando o modo normal, o movimento reduzido e a página sem JavaScript, e todo texto decorativo `aria-hidden` também existe fora dele.
@@ -126,15 +127,15 @@ Os códigos que faltam na lista não são usados: G2 (índice das rotas), G3 (co
 
 ## 6. Dados pendentes
 
-| Dado                                                 | Onde entra                                  | Até lá                                                                    |
-| ---------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
-| Número definitivo do WhatsApp (55 + DDD + número)    | `lib/contato.ts` (`NUMERO_WHATSAPP`)        | o número atual; o link é montado igual                                    |
-| Anos de experiência                                  | `lib/oferta.ts` (`ANOS_EXPERIENCIA`)        | `null`; a frase não aparece                                               |
-| Formação ou certificação                             | `lib/oferta.ts` (`FORMACAO`)                | `null`; a frase não aparece                                               |
-| Confirmação das duas últimas respostas das perguntas | `lib/oferta.ts` (`PERGUNTAS`)               | entram como estão escritas; saem se o Lucas não confirmar                 |
-| Trabalhos (imagem 4:3, nome, tipo e link)            | `lib/trabalhos.ts` e `public/trabalhos/`    | um real (Mãos de Tesoura) e dois reservados, que não aparecem             |
-| Título definitivo da página                          | `lib/metadados.ts`                          | título provisório com o nome completo                                     |
-| Domínio próprio                                      | `NEXT_PUBLIC_SITE_URL` (ver `.env.example`) | o endereço da Vercel, lido das variáveis de sistema em `lib/metadados.ts` |
+| Dado                                                 | Onde entra                                  | Até lá                                                                                                                                                                   |
+| ---------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Número definitivo do WhatsApp (55 + DDD + número)    | `lib/contato.ts` (`NUMERO_WHATSAPP`)        | o número atual; o link é montado igual                                                                                                                                   |
+| Anos de experiência                                  | `lib/oferta.ts` (`ANOS_EXPERIENCIA`)        | `null`; a frase não aparece                                                                                                                                              |
+| Formação ou certificação                             | `lib/oferta.ts` (`FORMACAO`)                | `null`; a frase não aparece                                                                                                                                              |
+| Confirmação das duas últimas respostas das perguntas | `lib/oferta.ts` (`PERGUNTAS`)               | entram como estão escritas; saem se o Lucas não confirmar                                                                                                                |
+| Trabalhos (imagem 4:3, nome, tipo e link)            | `lib/trabalhos.ts` e `public/trabalhos/`    | um real (Mãos de Tesoura) e dois reservados, que não aparecem                                                                                                            |
+| Título definitivo da página                          | `lib/metadados.ts`                          | título provisório com o nome completo                                                                                                                                    |
+| Domínio próprio                                      | `NEXT_PUBLIC_SITE_URL` (ver `.env.example`) | o endereço `https://dlk-systems.pages.dev`, em `NEXT_PUBLIC_SITE_URL` nas variáveis de produção do Cloudflare Pages; nos previews, o `CF_PAGES_URL` (`lib/metadados.ts`) |
 
 Dado pendente é `null` em `lib/`, e o texto que depende dele não é renderizado (`linhasCondicionais()` em `lib/oferta.ts`). Nada é inventado para preencher o espaço.
 
