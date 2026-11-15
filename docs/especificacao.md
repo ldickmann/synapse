@@ -52,7 +52,7 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 
 ## 3. Stack
 
-- Next.js com App Router, React e TypeScript. A página é estática (`○` no `next build`).
+- Next.js com App Router, React e TypeScript. A página é estática (`○` no `next build`), exportada para `out/` (`output: 'export'`), a pasta que o Cloudflare Pages publica. Nada que precise de servidor.
 - CSS próprio em `app/pagina.css`, com os tokens em `app/tokens.css`. O Tailwind 4 entra só pelo preflight do `app/globals.css`; tirá-lo está no backlog.
 - Fontes por `next/font/google`, servidas pelo próprio site.
 - Animação com CSS, SVG e canvas 2D, sem biblioteca. Nada de WebGL.
@@ -77,7 +77,7 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 
 **Como medir.**
 
-1. `pnpm build && pnpm start` (porta 3000, ou a da variável `PORTA` nos scripts).
+1. `pnpm build && pnpm start` (porta 3000, ou a da variável `PORTA` nos scripts). O `pnpm start` serve `out/` (`scripts/servir.ts`), com gzip e os cabeçalhos de `public/_headers`.
 2. `pnpm verificar:lighthouse`: `scripts/lighthouse.mjs` roda `lighthouse http://localhost:3000/ --form-factor=mobile --screenEmulation.mobile --throttling-method=simulate --throttling.cpuSlowdownMultiplier=4 --only-categories=performance,accessibility,best-practices,seo --output=json --output=html --output-path=verificacao/lighthouse --chrome-flags=--headless`, imprime a tabela de notas e sai com 1 se algum limite falhar. Se o Lighthouse não rodar na máquina, a nota vem do PageSpeed Insights no endereço publicado.
 3. `pnpm verificar:testes`: o G10 soma o que a página baixa em 390×844.
 4. `pnpm analisar`: relatório do bundle analyzer em `.next/analyze/`, para achar o que pesa.

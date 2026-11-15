@@ -30,8 +30,8 @@ Localmente, nenhuma variável de ambiente é obrigatória. O `.env.example` expl
 app/          layout, página, globals.css, tokens.css (única fonte de cor) e pagina.css
 componentes/  as seções e os efeitos da página
 lib/          fatos e textos, sem visual: marca, contato, oferta, trabalhos, metadados e texto.ts
-public/       favicon e imagens dos trabalhos
-scripts/      checagem de padrões, capturas e Lighthouse
+public/       favicon, imagens dos trabalhos e _headers (cabeçalhos do Cloudflare Pages)
+scripts/      servidor do pnpm start, checagem de padrões, capturas e Lighthouse
 tests/        testes de aceite do Playwright (site.spec.ts)
 docs/         especificação e decisões
 ```
@@ -42,8 +42,8 @@ docs/         especificação e decisões
 | ---------------------------- | --------------------------------------------------------------------------------- |
 | `pnpm dev`                   | servidor de desenvolvimento                                                       |
 | `pnpm dev:rede`              | o mesmo, aberto para a rede local                                                 |
-| `pnpm build`                 | build de produção                                                                 |
-| `pnpm start`                 | serve o build (porta 3000)                                                        |
+| `pnpm build`                 | build de produção, exportado para `out/`                                          |
+| `pnpm start`                 | serve `out/` como o Cloudflare Pages (porta 3000)                                 |
 | `pnpm lint`                  | ESLint                                                                            |
 | `pnpm formatar`              | formata tudo com o Prettier                                                       |
 | `pnpm formatar:checar`       | confere a formatação, sem mudar arquivos                                          |
