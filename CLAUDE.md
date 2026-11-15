@@ -32,7 +32,7 @@ pnpm verificar:testes tests/site.spec.ts -g "X2"   # um teste só, pelo código 
 - Cada tarefa numa branch `<tipo>/<assunto>` a partir de `develop`, nunca em `develop` ou `main`.
 - Commits em Conventional Commits, com o tipo em inglês e a descrição em português (`fix(contato): corrige o foco do botão grande`). Tipos, escopos e quebras estão em `CONTRIBUTING.md`; o commitlint barra o que fugir do padrão.
 - A tarefa termina nos commits, com a árvore limpa e um aviso ao Lucas: lista de commits, comandos de push, título e descrição sugeridos para o PR no formato de `.github/pull_request_template.md`. O `/fechar-fase` monta esse aviso.
-- Push, PR, merge e release são do Lucas. O `.claude/settings.json` nega `git push`, `gh pr create`, `gh pr merge`, `gh release` e `vercel`.
+- Push, PR, merge e release são do Lucas. O `.claude/settings.json` nega `git push`, `gh pr create`, `gh pr merge`, `gh release` e `wrangler`.
 - O release-please escreve o `CHANGELOG.md`, o `.release-please-manifest.json` e o `version` do `package.json`; o `pnpm-lock.yaml` só muda pelo pnpm.
 
 ## Hooks deste repositório

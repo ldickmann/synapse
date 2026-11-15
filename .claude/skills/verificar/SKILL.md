@@ -28,7 +28,7 @@ Rode na ordem, um por vez, e guarde de cada um o resultado e a evidência (a lin
 2. `pnpm formatar:checar`
 3. `pnpm typecheck`
 4. `pnpm verificar:padroes`
-5. `pnpm build`: confira que a rota `/` sai estática (`○`).
+5. `pnpm build`: confira que a rota `/` sai estática (`○`) e que `out/index.html` e `out/404.html` existem.
 6. `pnpm verificar:testes`. Antes, veja se a porta 3000 está ocupada (`node -e "fetch('http://localhost:3000').then(()=>console.log('ocupada'),()=>console.log('livre'))"`). Ocupada, o Playwright reaproveitaria aquele servidor; rode pela ferramenta Bash com `PORTA=3100 pnpm verificar:testes`, e o Playwright sobe sozinho o `pnpm start --port 3100`.
 
 ## 2. Diff
@@ -45,7 +45,7 @@ Cada achado vai com `arquivo:linha`, o que mudou e se a especificação mudou no
 
 ## 3. Interface
 
-Esta etapa roda se o diff toca `app/` ou `componentes/`. O servidor e os scripts recebem a porta de jeitos diferentes: o `next start` só lê `--port` (ou `PORT`), como no `playwright.config.ts`, e `scripts/screenshots.ts` e `scripts/lighthouse.mjs` leem `PORTA`. Os dois levam a 3100, para as capturas não fotografarem um `pnpm dev` na 3000. Os comandos com `PORTA=3100` na frente vão pela ferramenta Bash: uma regra de permissão não casa um comando com variável na frente, então esta skill libera a forma inteira, e com outra porta cada comando pede aprovação.
+Esta etapa roda se o diff toca `app/` ou `componentes/`. O servidor e os scripts recebem a porta de jeitos diferentes: o `pnpm start` (`scripts/servir.ts`) só lê `--port` (ou `PORT`), como no `playwright.config.ts`, e `scripts/screenshots.ts` e `scripts/lighthouse.mjs` leem `PORTA`. Os dois levam a 3100, para as capturas não fotografarem um `pnpm dev` na 3000. Os comandos com `PORTA=3100` na frente vão pela ferramenta Bash: uma regra de permissão não casa um comando com variável na frente, então esta skill libera a forma inteira, e com outra porta cada comando pede aprovação.
 
 1. Confira que a 3100 está livre: `node -e "fetch('http://localhost:3100').then(()=>console.log('ocupada'),()=>console.log('livre'))"`. Ocupada, não encerre o que está nela: troque o número em todos os comandos abaixo.
 2. Suba o build em segundo plano (ferramenta Bash com `run_in_background`): `pnpm start --port 3100`.
@@ -53,7 +53,7 @@ Esta etapa roda se o diff toca `app/` ou `componentes/`. O servidor e os scripts
 4. Rode as capturas na mesma porta: `PORTA=3100 pnpm verificar:screenshots`.
 5. Abra cada imagem de `verificacao/screenshots/` com a ferramenta Read e descreva em uma linha o que se vê, apontando o que mudou de forma inesperada.
 6. Tente `PORTA=3100 pnpm verificar:lighthouse`. Se não rodar na máquina, diga isso e que a nota vem do PageSpeed Insights no endereço publicado.
-7. Pare a tarefa do servidor. No Windows isso encerra o shell, mas o `next start` continua escutando na porta; encerre-o pelo PowerShell com `Get-NetTCPConnection -LocalPort 3100 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }` e confira com o comando do passo 1 que a 3100 ficou livre.
+7. Pare a tarefa do servidor. No Windows isso encerra o shell, mas o servidor continua escutando na porta; encerre-o pelo PowerShell com `Get-NetTCPConnection -LocalPort 3100 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }` e confira com o comando do passo 1 que a 3100 ficou livre.
 
 ## 4. Relatório
 
