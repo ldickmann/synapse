@@ -289,6 +289,25 @@ test('G19: html[lang="pt-BR"]', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR')
 })
 
+test.describe('G27 cabeçalhos e 404 da exportação', () => {
+  test('G27: script de /_next/static com cache imutável e rota inexistente com 404', async ({ request }) => {
+    const pagina = await request.get('/')
+    expect(pagina.status(), 'status de /').toBe(200)
+    const script = (await pagina.text()).match(/<script\b[^>]*\ssrc="(\/_next\/static\/[^"]+\.js)"/i)?.[1]
+    expect(script, 'script de /_next/static no HTML de /').toBeDefined()
+    const estatico = await request.get(script!)
+    expect(estatico.status(), `status de ${script}`).toBe(200)
+    // Vem do public/_headers; sem ele, o Pages manda o padrão, max-age=0.
+    expect(estatico.headers()['cache-control'], `Cache-Control de ${script}`).toBe(
+      'public, max-age=31536000, immutable',
+    )
+    // Sem o 404.html, o Pages (e o scripts/servir.ts) serve / com 200 em qualquer caminho.
+    const inexistente = await request.get('/nao-existe')
+    expect(inexistente.status(), 'status de /nao-existe').toBe(404)
+    expect(inexistente.headers()['content-type'], 'Content-Type de /nao-existe').toContain('text/html')
+  })
+})
+
 // Checagens da página (docs/especificacao.md §5): X1 a X4.
 
 for (const [tela, opcoes] of [

@@ -99,6 +99,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 - **G14.** Nenhuma requisição a `fonts.googleapis.com` ou `fonts.gstatic.com`.
 - **G15.** `mouse.wheel(0, 600)` altera `window.scrollY`; nenhum listener de `wheel` ou `touchmove` chama `preventDefault`; o `body` não tem `overflow: hidden`.
 - **G19.** `html[lang="pt-BR"]`. Que todo o texto visível está em português se confere nas capturas.
+- **G27.** Um script de `/_next/static` sai com `Cache-Control: public, max-age=31536000, immutable`, de `public/_headers`, e uma rota que não existe (`/nao-existe`) responde 404 com o `404.html` da exportação. Sem o `404.html`, o Cloudflare Pages trataria o site como SPA e serviria `/` em qualquer caminho; o `pnpm start` (`scripts/servir.ts`) faz o mesmo.
 - **X1.** Em 375×667 e 390×844 não há rolagem horizontal, e monograma, h1 e botão de WhatsApp aparecem sem rolar.
 - **X2.** Todo elemento com efeito (`data-efeito`) chega ao mesmo estado (`data-ativo="true"`) por hover e por foco, em 1440.
 - **X3.** Paridade de texto (§2), comparando o modo normal, o movimento reduzido e a página sem JavaScript, e todo texto decorativo `aria-hidden` também existe fora dele.
