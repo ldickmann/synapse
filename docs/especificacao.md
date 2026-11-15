@@ -127,15 +127,15 @@ Os códigos que faltam na lista não são usados: G2 (índice das rotas), G3 (co
 
 ## 6. Dados pendentes
 
-| Dado                                                 | Onde entra                                  | Até lá                                                                    |
-| ---------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
-| Número definitivo do WhatsApp (55 + DDD + número)    | `lib/contato.ts` (`NUMERO_WHATSAPP`)        | o número atual; o link é montado igual                                    |
-| Anos de experiência                                  | `lib/oferta.ts` (`ANOS_EXPERIENCIA`)        | `null`; a frase não aparece                                               |
-| Formação ou certificação                             | `lib/oferta.ts` (`FORMACAO`)                | `null`; a frase não aparece                                               |
-| Confirmação das duas últimas respostas das perguntas | `lib/oferta.ts` (`PERGUNTAS`)               | entram como estão escritas; saem se o Lucas não confirmar                 |
-| Trabalhos (imagem 4:3, nome, tipo e link)            | `lib/trabalhos.ts` e `public/trabalhos/`    | um real (Mãos de Tesoura) e dois reservados, que não aparecem             |
-| Título definitivo da página                          | `lib/metadados.ts`                          | título provisório com o nome completo                                     |
-| Domínio próprio                                      | `NEXT_PUBLIC_SITE_URL` (ver `.env.example`) | o endereço da Vercel, lido das variáveis de sistema em `lib/metadados.ts` |
+| Dado                                                 | Onde entra                                  | Até lá                                                                                                                                                                   |
+| ---------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Número definitivo do WhatsApp (55 + DDD + número)    | `lib/contato.ts` (`NUMERO_WHATSAPP`)        | o número atual; o link é montado igual                                                                                                                                   |
+| Anos de experiência                                  | `lib/oferta.ts` (`ANOS_EXPERIENCIA`)        | `null`; a frase não aparece                                                                                                                                              |
+| Formação ou certificação                             | `lib/oferta.ts` (`FORMACAO`)                | `null`; a frase não aparece                                                                                                                                              |
+| Confirmação das duas últimas respostas das perguntas | `lib/oferta.ts` (`PERGUNTAS`)               | entram como estão escritas; saem se o Lucas não confirmar                                                                                                                |
+| Trabalhos (imagem 4:3, nome, tipo e link)            | `lib/trabalhos.ts` e `public/trabalhos/`    | um real (Mãos de Tesoura) e dois reservados, que não aparecem                                                                                                            |
+| Título definitivo da página                          | `lib/metadados.ts`                          | título provisório com o nome completo                                                                                                                                    |
+| Domínio próprio                                      | `NEXT_PUBLIC_SITE_URL` (ver `.env.example`) | o endereço `https://dlk-systems.pages.dev`, em `NEXT_PUBLIC_SITE_URL` nas variáveis de produção do Cloudflare Pages; nos previews, o `CF_PAGES_URL` (`lib/metadados.ts`) |
 
 Dado pendente é `null` em `lib/`, e o texto que depende dele não é renderizado (`linhasCondicionais()` em `lib/oferta.ts`). Nada é inventado para preencher o espaço.
 
