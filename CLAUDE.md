@@ -25,6 +25,7 @@ pnpm verificar:testes tests/site.spec.ts -g "X2"   # um teste só, pelo código 
 - Com movimento reduzido, a página fica estática e completa (X4). Os robôs são a exceção decidida: continuam se mexendo, e por isso o G7 os mascara.
 - Fatos só em `lib/`, sem visual: dado pendente é `null`, e a frase que depende dele não aparece (`linhasCondicionais()` em `lib/oferta.ts`). Nada é inventado para preencher.
 - Regra que muda leva `docs/especificacao.md` e o teste que a prova no mesmo commit.
+- O site é uma exportação estática (`output: 'export'`, em `out/`): nada que precise de servidor (rotas de API, middleware, server actions, `headers()`, `redirects()` ou `rewrites()` no `next.config.ts`, `next/image` com o loader padrão). Cabeçalho de hospedagem vai em `public/_headers`.
 
 ## Fluxo
 
@@ -44,5 +45,6 @@ pnpm verificar:testes tests/site.spec.ts -g "X2"   # um teste só, pelo código 
 - Windows: o `shell-emulator` do pnpm (`.npmrc` e `pnpm-workspace.yaml`) faz scripts com variável na linha, como o `analisar`, funcionarem. Num comando do PowerShell, a variável vai antes: `$env:PORTA = '3100'; pnpm verificar:testes`.
 - O Playwright reaproveita o servidor que estiver na porta (`reuseExistingServer`). Com `pnpm dev` na 3000, os testes rodam contra o servidor de desenvolvimento; use outra `PORTA`.
 - Os scripts `.ts` de `scripts/` rodam direto no Node (`node scripts/checar-padroes.ts`), que só remove os tipos: nada de `enum`, `namespace` ou outra sintaxe que o `erasableSyntaxOnly` recusa.
-- Deploy só pelo push: a Vercel publica pela integração com o GitHub (`main` em produção, `develop` com preview fixo). Não há deploy pela linha de comando.
+- O `pnpm start` é o `scripts/servir.ts`, não o `next start`: serve `out/` com gzip, o `_headers` e o `404.html`. O brotli e os redirects de `.html` do Pages só se conferem no preview.
+- Deploy só pelo push: o Cloudflare Pages publica pela integração com o GitHub (`main` em produção, `develop` em `develop.dlk-systems.pages.dev`, um preview por PR). Não há deploy pela linha de comando.
 - O Lighthouse local costuma falhar nesta máquina. Nesse caso, a nota vem do PageSpeed Insights no endereço publicado.

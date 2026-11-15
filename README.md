@@ -80,13 +80,13 @@ A pasta `verificacao/` fica fora do git.
 
 ## Publicação
 
-O site é publicado pela Vercel, pela integração com o GitHub, sem deploy manual:
+O site é publicado pelo Cloudflare Pages, pela integração com o GitHub, sem deploy manual:
 
-- `main` é a produção;
-- `develop` tem um preview com endereço fixo;
+- `main` é a produção, em `https://dlk-systems.pages.dev`;
+- `develop` tem um preview com endereço fixo, em `https://develop.dlk-systems.pages.dev`;
 - cada PR ganha um preview próprio.
 
-Os metadados (`og:url`, `canonical`) usam o endereço que a Vercel informa em cada ambiente (`lib/metadados.ts`). `NEXT_PUBLIC_SITE_URL` só é preciso para um domínio próprio.
+Os metadados (`og:url`, `canonical`) usam, na produção, o `NEXT_PUBLIC_SITE_URL`, definido nas variáveis de produção do Pages, e, nos previews, o `CF_PAGES_URL`, o endereço de cada implantação (`lib/metadados.ts`). Os cabeçalhos de hospedagem ficam em `public/_headers`. O porquê está em [docs/decisoes/0002-hospedagem-no-cloudflare-pages.md](docs/decisoes/0002-hospedagem-no-cloudflare-pages.md).
 
 O caminho de uma mudança até a produção (branch, PR, versão com o release-please e PR de `develop` para `main`) está em [CONTRIBUTING.md](CONTRIBUTING.md).
 

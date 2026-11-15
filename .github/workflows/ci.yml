@@ -31,7 +31,7 @@ jobs:
       # Versão do pnpm pelo packageManager do package.json.
       - uses: pnpm/action-setup@v6
 
-      # Versão do Node pelo .nvmrc, a mesma do engines e da Vercel.
+      # Versão do Node pelo .nvmrc, a mesma do engines e do build do Cloudflare Pages, que também lê o .nvmrc.
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
