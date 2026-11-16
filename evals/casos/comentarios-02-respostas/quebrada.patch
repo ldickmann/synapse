@@ -1,0 +1,58 @@
+From b7c2ece9cefd9c6976214db2b0d98d10e93ab1ea Mon Sep 17 00:00:00 2001
+From: Synapse Evals <evals@synapse.invalid>
+Date: Mon, 16 Nov 2026 12:00:00 -0300
+Subject: [PATCH] =?UTF-8?q?docs(conteudo):=20confirma=20as=20duas=20=C3=BA?=
+ =?UTF-8?q?ltimas=20respostas=20das=20perguntas?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ docs/especificacao.md | 17 ++++++++---------
+ lib/oferta.ts         |  2 +-
+ 2 files changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/docs/especificacao.md b/docs/especificacao.md
+index 3655109..a887d56 100644
+--- a/docs/especificacao.md
++++ b/docs/especificacao.md
+@@ -127,15 +127,14 @@ Os códigos que faltam na lista não são usados: G2 (índice das rotas), G3 (co
+ 
+ ## 6. Dados pendentes
+ 
+-| Dado                                                 | Onde entra                                  | Até lá                                                                                                                                                                   |
+-| ---------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+-| Número definitivo do WhatsApp (55 + DDD + número)    | `lib/contato.ts` (`NUMERO_WHATSAPP`)        | o número atual; o link é montado igual                                                                                                                                   |
+-| Anos de experiência                                  | `lib/oferta.ts` (`ANOS_EXPERIENCIA`)        | `null`; a frase não aparece                                                                                                                                              |
+-| Formação ou certificação                             | `lib/oferta.ts` (`FORMACAO`)                | `null`; a frase não aparece                                                                                                                                              |
+-| Confirmação das duas últimas respostas das perguntas | `lib/oferta.ts` (`PERGUNTAS`)               | entram como estão escritas; saem se o Lucas não confirmar                                                                                                                |
+-| Trabalhos (imagem 4:3, nome, tipo e link)            | `lib/trabalhos.ts` e `public/trabalhos/`    | um real (Mãos de Tesoura) e dois reservados, que não aparecem                                                                                                            |
+-| Título definitivo da página                          | `lib/metadados.ts`                          | título provisório com o nome completo                                                                                                                                    |
+-| Domínio próprio                                      | `NEXT_PUBLIC_SITE_URL` (ver `.env.example`) | o endereço `https://dlk-systems.pages.dev`, em `NEXT_PUBLIC_SITE_URL` nas variáveis de produção do Cloudflare Pages; nos previews, o `CF_PAGES_URL` (`lib/metadados.ts`) |
++| Dado                                              | Onde entra                                  | Até lá                                                                                                                                                                   |
++| ------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
++| Número definitivo do WhatsApp (55 + DDD + número) | `lib/contato.ts` (`NUMERO_WHATSAPP`)        | o número atual; o link é montado igual                                                                                                                                   |
++| Anos de experiência                               | `lib/oferta.ts` (`ANOS_EXPERIENCIA`)        | `null`; a frase não aparece                                                                                                                                              |
++| Formação ou certificação                          | `lib/oferta.ts` (`FORMACAO`)                | `null`; a frase não aparece                                                                                                                                              |
++| Trabalhos (imagem 4:3, nome, tipo e link)         | `lib/trabalhos.ts` e `public/trabalhos/`    | um real (Mãos de Tesoura) e dois reservados, que não aparecem                                                                                                            |
++| Título definitivo da página                       | `lib/metadados.ts`                          | título provisório com o nome completo                                                                                                                                    |
++| Domínio próprio                                   | `NEXT_PUBLIC_SITE_URL` (ver `.env.example`) | o endereço `https://dlk-systems.pages.dev`, em `NEXT_PUBLIC_SITE_URL` nas variáveis de produção do Cloudflare Pages; nos previews, o `CF_PAGES_URL` (`lib/metadados.ts`) |
+ 
+ Dado pendente é `null` em `lib/`, e o texto que depende dele não é renderizado (`linhasCondicionais()` em `lib/oferta.ts`). Nada é inventado para preencher o espaço.
+ 
+diff --git a/lib/oferta.ts b/lib/oferta.ts
+index af23058..4f77d4e 100644
+--- a/lib/oferta.ts
++++ b/lib/oferta.ts
+@@ -30,7 +30,7 @@ export function linhasCondicionais(): string[] {
+ 
+ export type Pergunta = { pergunta: string; resposta: string }
+ 
+-// As duas últimas aguardam confirmação do Lucas (docs/especificacao.md §6).
++// As duas últimas foram confirmadas pelo Lucas (docs/especificacao.md §6).
+ export const PERGUNTAS: readonly Pergunta[] = [
+   {
+     pergunta: 'Não entendo de tecnologia. Tem problema?',
+-- 
+2.56.0.windows.4
+

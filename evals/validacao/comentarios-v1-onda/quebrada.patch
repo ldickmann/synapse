@@ -1,0 +1,29 @@
+From d16b47a29dbd524aafa254ab2ef4013eb8a61b55 Mon Sep 17 00:00:00 2001
+From: Synapse Evals <evals@synapse.invalid>
+Date: Mon, 16 Nov 2026 12:00:00 -0300
+Subject: [PATCH] =?UTF-8?q?fix(rede):=20para=20a=20onda=20na=20=C3=BAltima?=
+ =?UTF-8?q?=20camada?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ componentes/Rede.tsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/componentes/Rede.tsx b/componentes/Rede.tsx
+index b3cd7e9..a849abd 100644
+--- a/componentes/Rede.tsx
++++ b/componentes/Rede.tsx
+@@ -201,7 +201,7 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo
+       const p = posicoes()
+       const fase = Math.min(1, (agora - inicioOnda) / DURACAO_ONDA_MS)
+       // A frente da onda em x, da primeira camada até depois da última.
+-      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x + 0.08)
++      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x)
+       const nomeFonte = `${fonte}`
+ 
+       // Grade de entrada: o glifo lido, em pixels; os pixels acesos piscam quando a onda começa.
+-- 
+2.56.0.windows.4
+

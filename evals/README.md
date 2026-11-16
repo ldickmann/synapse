@@ -42,7 +42,7 @@ Um comentário diz a verdade sobre o código que vem logo abaixo dele.
 
 O trecho é o código que um comentário acompanha, e é o que os juízes recebem junto com ele.
 
-- **Comentário sozinho na linha:** o nó logo abaixo e as instruções seguintes do mesmo bloco, até a primeira linha em branco, o próximo comentário sozinho na linha ou o fim do bloco. Em `componentes/Fundo.tsx:104`, o trecho de "Estrelas: raras, mais no alto; as grandes ganham quatro picos." vai da linha 105 à 116 e inclui o `if` que decide onde há estrela.
+- **Comentário sozinho na linha:** o nó logo abaixo e as instruções seguintes do mesmo bloco, até a primeira linha em branco, o próximo comentário sozinho na linha ou o fim do bloco. Em `componentes/Fundo.tsx:104`, o trecho de "Estrelas: raras, mais no alto; as grandes ganham quatro picos." vai da linha 105 à 116 e inclui o `if` que decide onde há estrela. O nó logo abaixo entra inteiro; uma instrução seguinte que tem dentro um comentário sozinho na linha entra só até a linha antes dele, porque o resto é desse outro comentário: o trecho de "Céu: marinho no alto…" (linha 93) vai da 94 à 98 e não cobre as estrelas.
 - **Comentário no fim de uma linha:** aquela instrução. No CSS, o comentário na linha de uma declaração é dela.
 - **`{/* */}`:** o elemento JSX seguinte.
 - **Cabeçalho**, o comentário que vem antes da primeira declaração do arquivo que não é import nem diretiva: o arquivo inteiro.
