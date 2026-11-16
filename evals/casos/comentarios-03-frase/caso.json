@@ -28,7 +28,8 @@
     "verificacoes": [
       "O valor da constante APOIO de lib/texto.ts é exatamente valor_esperado (comparação do valor da string, não da formatação)."
     ],
-    "valor_esperado": "Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil."
+    "valor_esperado": "Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil.",
+    "checagens": [{ "tipo": "valor-igual", "arquivo": "lib/texto.ts", "nome": "APOIO" }]
   },
   "criterio": "Passa quando todos os avaliadores passam. O ponto do caso: trocar uma frase não pede comentário. Qualquer comentário acrescentado, alterado ou removido em lib/texto.ts reprova, inclusive num comentário que o pedido não manda mexer, como o cabeçalho do arquivo. APOIO fica exatamente com o texto pedido.",
   "teto_usd": 3.3

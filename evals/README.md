@@ -4,13 +4,16 @@ Estas evals medem o Claude Code trabalhando no Synapse com o harness deste repos
 
 Cada tentativa roda com `claude -p` num clone limpo do commit base (a tag `v1.0.0`), com o modelo, o esforço e o modo das sessões do Lucas e sem plugins, skills ou servidores MCP pessoais. São 3 tentativas por caso, com teto de US$ 3,30 cada.
 
-Hoje esta pasta tem a especificação da primeira suíte: os casos, os critérios e as rubricas do juiz. Ainda não existem o `suite.json` (commit base, modelo, esforço, modo, tentativas, tetos e portas), o `runner/`, os `avaliadores/` e os `experimentos/`.
-
-| Caminho           | O que tem                                                                                                                  |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `casos/<id>/`     | conjunto de ajuste: os casos que orientam as mudanças no harness                                                           |
-| `validacao/<id>/` | conjunto de validação: confere se a melhora vale fora dos casos de ajuste. A sessão que ajusta o harness não lê esta pasta |
-| `rubricas/`       | o texto que o juiz recebe, um arquivo por avaliador                                                                        |
+| Caminho                   | O que tem                                                                                                                  |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `suite.json`              | commit base, versão do Claude Code, modelo, esforço, modo, juiz, tentativas, tetos, portas e a régua das checagens         |
+| `casos/<id>/`             | conjunto de ajuste: os casos que orientam as mudanças no harness                                                           |
+| `validacao/<id>/`         | conjunto de validação: confere se a melhora vale fora dos casos de ajuste. A sessão que ajusta o harness não lê esta pasta |
+| `rubricas/`               | o texto que o juiz recebe, um arquivo por avaliador                                                                        |
+| `runner/`                 | o runner (`rodar.ts`), o workspace, o agente, o juiz, o relatório, o comparador e a rotulagem                              |
+| `avaliadores/`            | um arquivo por avaliador; `comentarios.ts` acha os comentários, o trecho e a classe de cada um                             |
+| `experimentos/`           | uma pasta por rodada, com o `INDICE.md` da sequência de experimentos                                                       |
+| `validacao/experimentos/` | o detalhe dos casos de validação de cada rodada, fora do que a sessão de ajuste lê                                         |
 
 ## Primeiro comportamento: comentários fiéis ao código
 
@@ -100,22 +103,24 @@ Código sempre que a checagem é determinística; juiz só no que exige julgamen
 
 `pedido.md` tem só o texto do pedido, sem título, como o Lucas escreveria, e vai como está para o `claude -p`. Precisa ser completo: no `-p` não há quem responda pergunta.
 
-| Campo de `caso.json`  | O que é                                                                                                                     |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `id`                  | o nome da pasta                                                                                                             |
-| `comportamento`       | `comentarios`                                                                                                               |
-| `conjunto`            | `ajuste` (em `casos/`) ou `validacao` (em `validacao/`)                                                                     |
-| `tipo`                | `deve` (o comportamento tem de aparecer), `nao-deve` (a regra não pode virar exagero) ou `regressao` (algo que já funciona) |
-| `origem`              | a evidência: trecho de código, commit, PR, sessão ou o caso de que este é variação, com o commit do base                    |
-| `arquivos_esperados`  | o que a tentativa tem de tocar                                                                                              |
-| `arquivos_permitidos` | o que ela pode tocar                                                                                                        |
-| `avaliadores`         | os que decidem: a tentativa passa quando todos passam                                                                       |
-| `comentario_vigiado`  | nos casos `deve`: arquivo, linha e texto do comentário que o pedido torna falso, e as regras a mais do caso                 |
-| `pedido_cumprido`     | `codigo`, com as verificações, ou `juiz`, com o critério que o juiz recebe                                                  |
-| `criterio`            | o critério de passa ou falha em palavras                                                                                    |
-| `teto_usd`            | o teto de custo de uma tentativa                                                                                            |
+| Campo de `caso.json`  | O que é                                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                  | o nome da pasta                                                                                                                |
+| `comportamento`       | `comentarios`                                                                                                                  |
+| `conjunto`            | `ajuste` (em `casos/`) ou `validacao` (em `validacao/`)                                                                        |
+| `tipo`                | `deve` (o comportamento tem de aparecer), `nao-deve` (a regra não pode virar exagero) ou `regressao` (algo que já funciona)    |
+| `origem`              | a evidência: trecho de código, commit, PR, sessão ou o caso de que este é variação, com o commit do base                       |
+| `arquivos_esperados`  | o que a tentativa tem de tocar                                                                                                 |
+| `arquivos_permitidos` | o que ela pode tocar                                                                                                           |
+| `avaliadores`         | os que decidem: a tentativa passa quando todos passam                                                                          |
+| `comentario_vigiado`  | nos casos `deve`: arquivo, linha e texto do comentário que o pedido torna falso, e as regras a mais do caso                    |
+| `pedido_cumprido`     | `codigo`, com as `verificacoes` em palavras e as `checagens` que o avaliador roda, ou `juiz`, com o critério que o juiz recebe |
+| `criterio`            | o critério de passa ou falha em palavras                                                                                       |
+| `teto_usd`            | o teto de custo de uma tentativa                                                                                               |
 
-Antes da linha de base, cada caso ganha `referencia.patch` (passa em todos os avaliadores), `quebrada.patch` (viola o comportamento e reprova) e, se precisar de outro estado inicial, `preparo.patch`.
+As `checagens` de `pedido_cumprido` são a forma de máquina das `verificacoes`, uma por tipo: `valor-igual` (o valor de uma constante de primeiro nível é `valor_esperado`), `valor-igual-ao-base` (o valor ficou como no base), `linha-da-tabela-ausente` (a tabela de uma seção da especificação não tem mais a linha) e `removida-no-mesmo-commit` (o commit que tira a linha também muda `junto_com`). O avaliador compara o valor das constantes, não a formatação.
+
+Antes da linha de base, cada caso ganha `referencia.patch` (passa em todos os avaliadores), `quebrada.patch` (viola o comportamento e reprova) e, se precisar de outro estado inicial, `preparo.patch`. Os três vêm do `git format-patch`, com a mensagem do commit: na rodada sem modelo, o runner cria a branch `<tipo>/<id do caso>` e aplica o patch com `git am`.
 
 ### Conjuntos
 
@@ -129,16 +134,57 @@ A validação tem dois casos, um `deve` e um `nao-deve`, e um deles é variaçã
 
 A divisão foi fixada antes de qualquer tentativa e não muda depois de ver resultado: escolher para o ajuste os casos que falharam fabricaria melhora por regressão à média.
 
+## Como rodar
+
+Só no Windows, uma tentativa por vez. Antes:
+
+- `pnpm install` feito, com o Chromium do Playwright, e o Claude Code na versão de `suite.json` (`claude --version`).
+- A tag do base na cópia local: `git fetch origin --tags`.
+- O token das evals: `claude setup-token`, guardado na variável de ambiente do usuário `SYNAPSE_EVALS_OAUTH_TOKEN`, nunca no repositório. O runner o passa ao agente e ao juiz como `CLAUDE_CODE_OAUTH_TOKEN`; as sessões normais não o veem.
+- Nenhuma porta de 3000 a 3010 nem de 3100 a 3110 ocupada, nem a 3290, do avaliador: com o `pnpm dev` aberto, o Playwright testaria o servidor errado.
+
+```sh
+node evals/runner/rodar.ts --sem-modelo --sem-juiz          # avaliadores sem agente nem juiz: referência, quebrada e nula
+node evals/runner/rodar.ts --sem-modelo                     # o mesmo, com o juiz nos itens de comentário
+node evals/runner/rodar.ts --sonda                          # uma tentativa com Haiku, para conferir o isolamento
+node evals/runner/rodar.ts --nome linha-de-base             # os 5 casos × 3 tentativas
+node evals/runner/rodar.ts --nome <nome> --conjunto ajuste --harness <patch> --hipotese "…"
+node evals/runner/rodar.ts --retomar <AAAA-MM-DD-nome>      # continua uma rodada que parou
+node evals/runner/relatorio.ts evals/experimentos/<pasta>   # gera o relatorio.md de novo
+node evals/runner/comparar.ts <em uso> <candidato>          # caso a caso, contra o harness em uso
+node evals/runner/rotular.ts exportar <rodada> --quebradas <sem modelo>
+node evals/runner/rotular.ts medir <rodada>
+```
+
+Outras opções da rodada: `--casos a,b`, `--tentativas N`, `--teto USD`, `--orcamento USD` e `--manter`, que guarda os workspaces.
+
+Numa tentativa, o runner:
+
+1. confere a tag do base, a versão do Claude Code, as portas, o token e anota `HEAD` e `git status` da cópia de trabalho do Lucas;
+2. clona a tag com `--no-local --single-branch` em `C:\ev\<id>\synapse`, cria `develop`, faz o commit do harness (mensagem, autor e data fixos, vazio na linha de base), troca o `origin` por uma cópia `--bare` do próprio clone, apaga reflog e objetos soltos (`git fsck` vazio) e roda `pnpm install`;
+3. roda `claude -p` com o pedido, o modelo, o esforço e o modo de `suite.json`, `--permission-prompts none`, `--strict-mcp-config`, `--max-budget-usd` e a transcrição em stream-json, num Job Object do Windows e com o ambiente montado por lista branca (`CLAUDE_CONFIG_DIR`, `TEMP` e um gitconfig sem credencial próprios da tentativa, `GH_CONFIG_DIR` vazio);
+4. confere no `system/init` a versão, o modelo, o modo, a skill `verificar` e nenhum plugin ou servidor MCP; se não confere, a rodada para;
+5. depois do primeiro `result`, espera 60 s; porta ainda em escuta com dono da tentativa é `servidor_esquecido`, com dono de fora para a rodada; então encerra o job;
+6. roda os avaliadores do caso e os informativos, grava `resultados.json` e o diff e apaga o workspace;
+7. confere que a cópia de trabalho do Lucas não mudou.
+
+A rodada também para no limite do plano ou num erro da API (a tentativa fica "não rodou"), quando a próxima tentativa passaria do orçamento da rodada e quando o build não baixa as fontes do Google três vezes seguidas. `--retomar` roda só o que falta, e uma avaliação que não terminou é refeita no workspace guardado.
+
 ## Como ler um relatório
 
 Cada experimento fica em `experimentos/<AAAA-MM-DD>-<nome>/`:
 
 - `harness.patch`: a única mudança do experimento, só em `CLAUDE.md` e `.claude/**` (vazio na linha de base);
 - `experimento.json`: commit base, SHA do patch, versões do Claude Code e do modelo, esforço, modo, tentativas, tetos, data e hipótese;
-- `resultados.json`: por caso e tentativa, cada avaliador com passa ou falha e a evidência, o custo, os turnos, a duração, o motivo do fim e o caminho da transcrição;
-- `relatorio.md`: gerado pelo runner.
+- `resultados.json`: por caso e tentativa, cada avaliador com passa ou falha e a evidência, o custo, os turnos, a duração, o motivo do fim, a última mensagem do agente e o caminho da transcrição;
+- `diffs/`: o diff de cada tentativa, do início ao estado final, porque o workspace é apagado;
+- `relatorio.md`: gerado pelo runner;
+- `anotacoes.json`: a causa provável de cada falha, escrita depois de ler a transcrição (`{ "<id da tentativa>": "<causa>" }`); o relatório a inclui quando é gerado de novo;
+- `rotulos.md` e `concordancia.md`: a amostra que o Lucas rotula e a concordância do juiz com os rótulos.
 
-`experimentos/INDICE.md` tem uma linha por experimento: data, hipótese, mudança, resultado e decisão. As transcrições ficam fora do git, em `%LOCALAPPDATA%\synapse-evals\`, e o relatório aponta para elas.
+Dos casos de validação, a pasta do experimento só guarda os números. O resto (`resultados.json`, `diffs/`, `relatorio.md`, `rotulos.md` e as divergências do juiz) fica em `validacao/experimentos/<AAAA-MM-DD>-<nome>/`, que a sessão de ajuste não lê.
+
+`experimentos/INDICE.md` tem uma linha por experimento: data, hipótese, mudança, resultado e decisão. As transcrições ficam fora do git, em `%LOCALAPPDATA%\synapse-evals\transcricoes\`, e o relatório aponta para elas; o log de cada rodada fica em `%LOCALAPPDATA%\synapse-evals\logs\`.
 
 No relatório:
 

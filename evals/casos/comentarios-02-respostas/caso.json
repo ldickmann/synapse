@@ -40,6 +40,22 @@
       "A tabela do §6 de docs/especificacao.md não tem mais a linha cuja primeira célula é \"Confirmação das duas últimas respostas das perguntas\".",
       "O commit que tira essa linha também muda lib/oferta.ts.",
       "PERGUNTAS, em lib/oferta.ts, tem as mesmas 6 perguntas e respostas do base, com o mesmo texto e na mesma ordem (comparação dos valores, não da formatação)."
+    ],
+    "checagens": [
+      {
+        "tipo": "linha-da-tabela-ausente",
+        "arquivo": "docs/especificacao.md",
+        "secao": "6",
+        "primeira_celula": "Confirmação das duas últimas respostas das perguntas"
+      },
+      {
+        "tipo": "removida-no-mesmo-commit",
+        "arquivo": "docs/especificacao.md",
+        "secao": "6",
+        "primeira_celula": "Confirmação das duas últimas respostas das perguntas",
+        "junto_com": "lib/oferta.ts"
+      },
+      { "tipo": "valor-igual-ao-base", "arquivo": "lib/oferta.ts", "nome": "PERGUNTAS" }
     ]
   },
   "criterio": "Passa quando todos os avaliadores passam. O ponto do caso: confirmar o dado torna falso o comentário acima de PERGUNTAS, sem que o código abaixo dele mude. O comentário sai ou muda; se muda, não diz que as respostas aguardam confirmação, não conta que foram confirmadas e não aponta para o §6. A linha do §6 sai no mesmo commit que muda lib/oferta.ts, como manda a regra de conteúdo, e as perguntas e respostas ficam como estão.",

@@ -1,0 +1,47 @@
+{
+  "base": {
+    "tag": "v1.0.0",
+    "commit": "b282c5acfe50a129d01b14232f6d604ad03c0879"
+  },
+  "claude_code": "2.1.325",
+  "agente": {
+    "modelo": "claude-opus-5-5",
+    "esforco": "xhigh",
+    "modo": "auto",
+    "idioma": "Português (pt-BR)"
+  },
+  "juiz": {
+    "modelo": "claude-sonnet-5-5",
+    "votos": 3,
+    "teto_chamada_usd": 0.5
+  },
+  "tentativas": 3,
+  "teto_tentativa_usd": 3.3,
+  "orcamento_rodada_usd": 50,
+  "estimativa_juiz_tentativa_usd": 0.3,
+  "tempo_limite_min": 45,
+  "carencia_s": 60,
+  "portas": {
+    "agente": [
+      [3000, 3010],
+      [3100, 3110]
+    ],
+    "avaliador": 3290
+  },
+  "raiz_workspaces": "C:\\ev",
+  "commit_do_harness": {
+    "mensagem": "chore(claude): atualiza a configuração do Claude Code",
+    "nome": "Synapse Evals",
+    "email": "evals@synapse.invalid",
+    "data": "2026-11-15T12:00:00-03:00"
+  },
+  "regua": [
+    "tests",
+    "playwright.config.ts",
+    "scripts/checar-padroes.ts",
+    "eslint.config.mjs",
+    "tsconfig.json",
+    ".prettierignore",
+    ".prettierrc.json"
+  ]
+}
