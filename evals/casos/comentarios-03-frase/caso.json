@@ -1,0 +1,35 @@
+{
+  "id": "comentarios-03-frase",
+  "comportamento": "comentarios",
+  "conjunto": "ajuste",
+  "tipo": "nao-deve",
+  "origem": {
+    "tipo": "escrito-a-mao",
+    "referencia": "lib/texto.ts:12-13",
+    "commit": "b282c5a",
+    "nota": "Troca de texto que não pede comentário nenhum: mede se a regra de comentários vira exagero. O texto novo tem o mesmo tamanho do antigo, para o botão do WhatsApp continuar na primeira tela em 375×667 (X1)."
+  },
+  "arquivos_esperados": ["lib/texto.ts"],
+  "arquivos_permitidos": ["lib/texto.ts"],
+  "avaliadores": [
+    "checagens-do-site",
+    "pedido-cumprido",
+    "fluxo-git",
+    "escopo-arquivos",
+    "sem-comentario-novo",
+    "comentarios-narracao",
+    "comentarios-idioma",
+    "juiz-comentario-descreve",
+    "juiz-comentario-porque",
+    "juiz-comentario-antigo"
+  ],
+  "pedido_cumprido": {
+    "tipo": "codigo",
+    "verificacoes": [
+      "O valor da constante APOIO de lib/texto.ts é exatamente valor_esperado (comparação do valor da string, não da formatação)."
+    ],
+    "valor_esperado": "Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil."
+  },
+  "criterio": "Passa quando todos os avaliadores passam. O ponto do caso: trocar uma frase não pede comentário. Qualquer comentário acrescentado, alterado ou removido em lib/texto.ts reprova, inclusive num comentário que o pedido não manda mexer, como o cabeçalho do arquivo. APOIO fica exatamente com o texto pedido.",
+  "teto_usd": 3.3
+}

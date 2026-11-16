@@ -1,0 +1,47 @@
+{
+  "id": "comentarios-02-respostas",
+  "comportamento": "comentarios",
+  "conjunto": "ajuste",
+  "tipo": "deve",
+  "origem": {
+    "tipo": "trecho-de-codigo",
+    "referencia": "lib/oferta.ts:33",
+    "regra": ".claude/rules/conteudo.md:11",
+    "commit": "b282c5a",
+    "nota": "O comentário acima de PERGUNTAS diz que as duas últimas respostas aguardam confirmação. Quando o Lucas confirma, ele fica falso sem que o código abaixo dele mude, e a regra manda tirar a linha do §6 no mesmo commit."
+  },
+  "arquivos_esperados": ["lib/oferta.ts", "docs/especificacao.md"],
+  "arquivos_permitidos": ["lib/oferta.ts", "docs/especificacao.md"],
+  "avaliadores": [
+    "checagens-do-site",
+    "pedido-cumprido",
+    "fluxo-git",
+    "escopo-arquivos",
+    "comentario-vigiado",
+    "comentarios-narracao",
+    "comentarios-idioma",
+    "juiz-comentario-descreve",
+    "juiz-comentario-porque",
+    "juiz-comentario-antigo"
+  ],
+  "comentario_vigiado": {
+    "arquivo": "lib/oferta.ts",
+    "linha": 33,
+    "texto": "As duas últimas aguardam confirmação do Lucas (docs/especificacao.md §6).",
+    "passa": "O texto não aparece mais no arquivo, comparado sem diferença de espaços, e o comentário logo acima de `export const PERGUNTAS`, se houver, não casa com termos_proibidos: não diz que as respostas aguardam confirmação, não conta que foram confirmadas e não aponta para o §6. Se houver, ele também passa pelos juízes como qualquer comentário alterado.",
+    "termos_proibidos": {
+      "regex": "(?<![\\p{L}\\p{N}_])(aguard|pendent|confirm|aprovad)|§\\s*6",
+      "flags": "iu"
+    }
+  },
+  "pedido_cumprido": {
+    "tipo": "codigo",
+    "verificacoes": [
+      "A tabela do §6 de docs/especificacao.md não tem mais a linha cuja primeira célula é \"Confirmação das duas últimas respostas das perguntas\".",
+      "O commit que tira essa linha também muda lib/oferta.ts.",
+      "PERGUNTAS, em lib/oferta.ts, tem as mesmas 6 perguntas e respostas do base, com o mesmo texto e na mesma ordem (comparação dos valores, não da formatação)."
+    ]
+  },
+  "criterio": "Passa quando todos os avaliadores passam. O ponto do caso: confirmar o dado torna falso o comentário acima de PERGUNTAS, sem que o código abaixo dele mude. O comentário sai ou muda; se muda, não diz que as respostas aguardam confirmação, não conta que foram confirmadas e não aponta para o §6. A linha do §6 sai no mesmo commit que muda lib/oferta.ts, como manda a regra de conteúdo, e as perguntas e respostas ficam como estão.",
+  "teto_usd": 3.3
+}

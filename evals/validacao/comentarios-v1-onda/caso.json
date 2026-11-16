@@ -1,0 +1,38 @@
+{
+  "id": "comentarios-v1-onda",
+  "comportamento": "comentarios",
+  "conjunto": "validacao",
+  "tipo": "deve",
+  "origem": {
+    "tipo": "trecho-de-codigo",
+    "referencia": "componentes/Rede.tsx:203",
+    "commit": "b282c5a",
+    "nota": "O comentário acima de `const frente` diz que a frente da onda vai da primeira camada até depois da última; parar a onda na última camada o torna falso. Logo abaixo de `const frente` está `const nomeFonte` (linha 205), que não é da onda e é usada nas linhas 297, 305 e 311."
+  },
+  "arquivos_esperados": ["componentes/Rede.tsx"],
+  "arquivos_permitidos": ["componentes/Rede.tsx"],
+  "avaliadores": [
+    "checagens-do-site",
+    "pedido-cumprido",
+    "fluxo-git",
+    "escopo-arquivos",
+    "comentario-vigiado",
+    "comentarios-narracao",
+    "comentarios-idioma",
+    "juiz-comentario-descreve",
+    "juiz-comentario-porque",
+    "juiz-comentario-antigo"
+  ],
+  "comentario_vigiado": {
+    "arquivo": "componentes/Rede.tsx",
+    "linha": 203,
+    "texto": "A frente da onda em x, da primeira camada até depois da última.",
+    "passa": "O texto não aparece mais no arquivo, comparado sem diferença de espaços: o comentário mudou ou saiu. Se mudou, o comentário novo passa pelos juízes como qualquer comentário alterado."
+  },
+  "pedido_cumprido": {
+    "tipo": "juiz",
+    "criterio": "PASS se, depois da tentativa, o maior valor que `frente` alcança é o x da última camada (CAMADAS[CAMADAS.length - 1].x), sem passar dele, e o período (PERIODO_MS, 2,6 s) e a duração da onda (DURACAO_ONDA_MS, 1,5 s) continuam iguais. No base, `frente` vai até o x da última camada mais 0.08. FAIL se a frente ainda passa da última camada, se para antes dela ou se o período ou a duração mudam."
+  },
+  "criterio": "Passa quando todos os avaliadores passam. O ponto do caso: o cálculo da frente da onda muda, e o comentário que diz que ela vai até depois da última camada muda junto ou sai; o comentário que ficar segue as quatro regras de comentário. `const nomeFonte` não é da onda e a tentativa não precisa tocá-la: deixá-la logo abaixo de `const frente` não reprova, porque o juiz só reprova linha sem relação que a tentativa pôs debaixo do comentário.",
+  "teto_usd": 3.3
+}
