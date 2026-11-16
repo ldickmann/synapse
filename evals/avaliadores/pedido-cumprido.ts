@@ -93,9 +93,9 @@ function executarChecagem(ctx: Contexto, checagem: Checagem): Verificacao {
       esperado = antes === null ? undefined : valorDaConstante(antes, checagem.arquivo, checagem.nome)
     }
     const passa = valor !== undefined && esperado !== undefined && JSON.stringify(valor) === JSON.stringify(esperado)
-    const descricao = checagem.tipo === 'valor-igual' ? 'o valor pedido' : 'o valor do base'
+    const descricao = checagem.tipo === 'valor-igual' ? 'ao valor pedido' : 'ao valor do base'
     return {
-      checagem: `${checagem.nome} em ${checagem.arquivo} igual a ${descricao}`,
+      checagem: `${checagem.nome} em ${checagem.arquivo} igual ${descricao}`,
       passa,
       evidencia:
         valor === undefined

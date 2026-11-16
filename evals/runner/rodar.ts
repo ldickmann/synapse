@@ -346,8 +346,13 @@ async function rodarVariante(
     e.exp.conferencias_do_base = { ...(e.exp.conferencias_do_base ?? {}), [avaliador.nome]: r }
   }
   const patch = variante === 'nula' ? null : lerPatch(caso.pasta, `${variante}.patch`)
-  if (variante !== 'nula' && !patch) throw new Parada(`${caso.id} não tem ${variante}.patch`)
-  aplicarVariante(ws, caso.id, patch)
+  try {
+    if (variante !== 'nula' && !patch) throw new Parada(`${caso.id} não tem ${variante}.patch`)
+    aplicarVariante(ws, caso.id, patch)
+  } catch (erro) {
+    apagarWorkspace(ws)
+    throw erro
+  }
   const registro: Registro = {
     id,
     caso: caso.id,
@@ -403,7 +408,7 @@ async function principal(): Promise<void> {
     exp.parada = null
   } else {
     const modo: Modo = opcoes.has('sem-modelo') ? 'sem-modelo' : opcoes.has('sonda') ? 'sonda' : 'rodada'
-    const nome = modo === 'rodada' ? opcoes.get('nome') : modo
+    const nome = opcoes.get('nome') ?? (modo === 'rodada' ? undefined : modo)
     if (typeof nome !== 'string' || !/^[a-z0-9-]+$/.test(nome))
       throw new Parada('Dê um --nome em minúsculas e hífens (como linha-de-base).')
     const casos =
@@ -530,9 +535,10 @@ async function principal(): Promise<void> {
       }
     }
   } catch (erro) {
+    // Um erro inesperado também fica no relatório, e depois sai pelo processo com o rastro.
+    exp.parada = erro instanceof Error ? erro.message : String(erro)
+    log(`PARADA: ${exp.parada}`)
     if (!(erro instanceof Parada) && !(erro instanceof JuizNaoRodou)) throw erro
-    exp.parada = erro.message
-    log(`PARADA: ${erro.message}`)
   } finally {
     exp.fim = agora()
     await salvar(estado)

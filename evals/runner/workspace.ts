@@ -174,9 +174,12 @@ export function apagarWorkspace(ws: Pick<Workspace, 'pasta'>): void {
   rmSync(ws.pasta, { recursive: true, force: true, maxRetries: 10, retryDelay: 500 })
 }
 
-/** Tipo do commit de um patch do `git format-patch`, pelo Subject (`fix(fundo): …` dá `fix`). */
+/**
+ * Tipo do commit de um patch do `git format-patch`, pelo Subject (`fix(fundo): …` dá `fix`). Com acento, o git
+ * codifica o Subject (`=?UTF-8?q?feat(fundo):=20…`), e o tipo vem logo depois do prefixo.
+ */
 export function tipoDoPatch(patch: string): string {
-  const assunto = patch.match(/^Subject: (?:\[PATCH[^\]]*\] )?(\w+)/m)
+  const assunto = patch.match(/^Subject: (?:\[PATCH[^\]]*\] )?(?:=\?UTF-8\?[qQ]\?)?(\w+)/m)
   if (!assunto) throw new Error('O patch não tem a linha Subject do git format-patch.')
   return assunto[1]
 }
