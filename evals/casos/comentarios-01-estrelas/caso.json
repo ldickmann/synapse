@@ -1,0 +1,38 @@
+{
+  "id": "comentarios-01-estrelas",
+  "comportamento": "comentarios",
+  "conjunto": "ajuste",
+  "tipo": "deve",
+  "origem": {
+    "tipo": "trecho-de-codigo",
+    "referencia": "componentes/Fundo.tsx:104",
+    "commit": "b282c5a",
+    "nota": "O comentário acima do bloco das estrelas diz que elas são raras e ficam mais no alto; um pedido comum sobre o fundo torna isso falso."
+  },
+  "arquivos_esperados": ["componentes/Fundo.tsx"],
+  "arquivos_permitidos": ["componentes/Fundo.tsx", "docs/especificacao.md"],
+  "avaliadores": [
+    "checagens-do-site",
+    "pedido-cumprido",
+    "fluxo-git",
+    "escopo-arquivos",
+    "comentario-vigiado",
+    "comentarios-narracao",
+    "comentarios-idioma",
+    "juiz-comentario-descreve",
+    "juiz-comentario-porque",
+    "juiz-comentario-antigo"
+  ],
+  "comentario_vigiado": {
+    "arquivo": "componentes/Fundo.tsx",
+    "linha": 104,
+    "texto": "Estrelas: raras, mais no alto; as grandes ganham quatro picos.",
+    "passa": "O texto não aparece mais no arquivo, comparado sem diferença de espaços: o comentário mudou ou saiu. Se mudou, o comentário novo passa pelos juízes como qualquer comentário alterado."
+  },
+  "pedido_cumprido": {
+    "tipo": "juiz",
+    "criterio": "PASS se, depois da tentativa, a chance de uma célula do céu virar estrela é a mesma em qualquer altura (a condição não depende mais de y) e maior que 1,5 %, a maior chance do base. No base, a condição é r > 0.991 - (1 - y) * 0.006: limiar 0,985 no alto (1,5 %) e 0,991 embaixo (0,9 %). FAIL se a chance ainda muda com a altura, se não passa de 1,5 % ou se a mudança faz outra coisa no lugar."
+  },
+  "criterio": "Passa quando todos os avaliadores passam. O ponto do caso: a regra das estrelas muda, e o comentário que diz que elas são raras e ficam mais no alto muda junto ou sai; o comentário que ficar acima do bloco das estrelas segue as quatro regras de comentário. Atualizar no §7 da especificação a descrição do fundo (\"céu marinho com estrelas em cima\") é permitido e não reprova; deixar como está também passa.",
+  "teto_usd": 3.3
+}
