@@ -7,7 +7,7 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import type { ResultadoDoAvaliador } from '../avaliadores/contexto.ts'
 import { escreverFormatado, lerJson, RAIZ } from './comum.ts'
-import type { Experimento, Registro, Resultados } from './registro.ts'
+import { textoDosLimites, type Experimento, type Registro, type Resultados } from './registro.ts'
 
 type Anotacoes = Record<string, string>
 
@@ -116,7 +116,7 @@ function detalheDaTentativa(r: Registro, anotacoes: Anotacoes): string {
   if (r.agente) {
     const a = r.agente
     linhas.push(
-      `- Agente: ${a.fim}, ${usd(a.custoUsd)}, ${a.turnos ?? '?'} turnos, ${a.duracaoS} s${a.saiuSozinho ? '' : ', encerrado depois da carência'}. Transcrição: \`${a.transcricao}\``,
+      `- Agente: ${a.fim}, ${usd(a.custoUsd)}, ${a.turnos ?? '?'} turnos, ${a.duracaoS} s${a.saiuSozinho ? '' : ', encerrado depois da carência'}${textoDosLimites(a.limites)}. Transcrição: \`${a.transcricao}\``,
     )
     if (a.modelos.principal.length)
       linhas.push(

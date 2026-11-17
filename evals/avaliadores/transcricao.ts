@@ -37,6 +37,26 @@ function normalizar(texto: string): string {
 const EDICAO = new Set(['Edit', 'Write', 'MultiEdit', 'NotebookEdit'])
 const CHECAGEM = /pnpm\s+(?:run\s+)?(?:lint|typecheck|build|formatar|verificar:)/
 
+// Edição pelo shell, como a sonda com Haiku fez (`sed -i`): troca no lugar, redirecionamento para arquivo, os
+// cmdlets que escrevem, git que muda a árvore e formatador com --write. Testa o comando sem heredoc nem texto entre
+// aspas, para a mensagem de um commit não contar.
+const EDICAO_NO_SHELL =
+  /\bsed\s+(?:-\w+\s+)*-\w*i|\bperl\s+-\w*i|(?:^|[^<>&\d-])>{1,2}\s*(?!&|\/dev\/null|\$null\b|nul\b)[\w.~/\\:$-]|\b(?:set-content|add-content|out-file)\b|\btee\s|\bgit\s+(?:apply|am|checkout\s+--|restore|mv|rm)\b|\bprettier\b[^|;&]*--write|\beslint\b[^|;&]*--fix/i
+
+/** O comando de shell muda arquivo? Um comando que roda uma checagem do site conta como checagem. */
+export function editaPeloShell(comando: string): boolean {
+  if (CHECAGEM.test(comando)) return false
+  const semTexto = comando
+    .replace(/<<-?\s*(['"]?)(\w+)\1[\s\S]*?\n\s*\2\s*(?:\n|$)/g, ' ')
+    .replace(/"(?:[^"\\]|\\.)*"|'[^']*'/g, ' ')
+  return EDICAO_NO_SHELL.test(semTexto)
+}
+
+function edita(uso: Uso): boolean {
+  if (EDICAO.has(uso.nome)) return true
+  return (uso.nome === 'Bash' || uso.nome === 'PowerShell') && editaPeloShell(String(uso.entrada.command ?? ''))
+}
+
 export const transcricao: Avaliador = {
   nome: 'transcricao',
   informativo: true,
@@ -50,7 +70,7 @@ export const transcricao: Avaliador = {
       .filter((u) => u.nome === 'Skill')
       .map((u) => String(u.entrada.skill ?? u.entrada.command ?? '?'))
 
-    const ultimaEdicao = usos.findLastIndex((u) => EDICAO.has(u.nome))
+    const ultimaEdicao = usos.findLastIndex(edita)
     const depois = usos.slice(ultimaEdicao + 1)
     const verificou =
       ultimaEdicao === -1
@@ -104,7 +124,8 @@ export const transcricao: Avaliador = {
       }
     }
 
-    const esperado = ctx.suite.agente.modelo
+    // O modelo pedido, que o system/init mostra (o da suíte, ou o Haiku na sonda).
+    const esperado = agente.init?.modelo ?? ctx.suite.agente.modelo
     const trocou = agente.modelos.principal.filter((m) => m !== esperado)
     const marcas = [
       ...(contaminacao.size ? [`contaminada: ${[...contaminacao].join('; ')}`] : []),

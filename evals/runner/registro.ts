@@ -2,7 +2,7 @@
 // leem. Fica fora do rodar.ts porque ele roda a rodada ao ser importado.
 import path from 'node:path'
 import type { ConferenciaDoBase, ResultadoDoAvaliador } from '../avaliadores/contexto.ts'
-import type { ResultadoDoAgente } from './agente.ts'
+import type { Limites, ResultadoDoAgente } from './agente.ts'
 import { EVALS, lerJson, type Caso, type Conjunto, type Suite, type TipoDeCaso } from './comum.ts'
 import { existsSync } from 'node:fs'
 
@@ -63,6 +63,13 @@ export type Resultados = { tentativas: Registro[] }
 
 export const PASTA_EXPERIMENTOS = path.join(EVALS, 'experimentos')
 export const PASTA_EXPERIMENTOS_VALIDACAO = path.join(EVALS, 'validacao', 'experimentos')
+
+/** As barras do `/usage` no começo da tentativa, para o log e o relatório (`, limite de 5 h em 32 %, …`). */
+export function textoDosLimites(limites: Limites | null | undefined): string {
+  if (!limites) return ''
+  const pct = (v: number | null) => (v === null ? '?' : `${Math.round(v * 100)} %`)
+  return `, no começo: limite de 5 h em ${pct(limites.cincoHoras)}, semanal em ${pct(limites.seteDias)}, uso extra ${limites.usoExtra ?? '?'}`
+}
 
 /** A pasta de um experimento por nome (`2026-11-16-linha-de-base`) ou caminho, e a da validação dele. */
 export function pastasDoExperimento(nomeOuCaminho: string): { dirExp: string; dirVal: string } {

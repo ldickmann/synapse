@@ -34,6 +34,14 @@ export type Init = {
   problemas: string[]
 }
 
+/** Uso do plano no começo da tentativa, pelo evento `rate_limit_event`: as barras do `/usage`, de 0 a 1. */
+export type Limites = {
+  cincoHoras: number | null
+  seteDias: number | null
+  /** `overageStatus`: com uso extra recusado, passar do limite não gera cobrança. */
+  usoExtra: string | null
+}
+
 export type ResultadoDoAgente = {
   status: StatusDoAgente
   /** O `subtype` do evento `result`, ou o motivo de não haver um. */
@@ -42,6 +50,7 @@ export type ResultadoDoAgente = {
   turnos: number | null
   duracaoS: number
   init: Init | null
+  limites: Limites | null
   modelos: { principal: string[]; subagentes: string[] }
   servidorEsquecido: Escuta[]
   portasDeFora: Escuta[]
@@ -100,6 +109,15 @@ function texto(valor: unknown): string | null {
   return typeof valor === 'string' ? valor : null
 }
 
+/** Plugins que vêm dentro do Claude Code (`path` "builtin"): carregam em qualquer sessão e não são do Lucas. */
+function embutido(plugin: unknown): boolean {
+  const p = plugin as { path?: unknown; source?: unknown } | null
+  return p?.path === 'builtin' || (typeof p?.source === 'string' && p.source.endsWith('@builtin'))
+}
+
+/** Aviso do Claude Code quando a pasta não foi aceita como confiável: as permissões do projeto ficam de fora. */
+const SEM_CONFIANCA = /has not been trusted|Ignoring \d+ permissions/i
+
 /**
  * O que o evento `system/init` diz da sessão, com a lista do que não bate com a suíte. Se o harness não carregou
  * (sem a skill `verificar`), a rodada para: a documentação avisa que o `--bare` vai virar o padrão do `-p`.
@@ -107,6 +125,7 @@ function texto(valor: unknown): string | null {
 export function conferirInit(
   evento: Evento,
   opcoes: Pick<OpcoesDoAgente, 'suite' | 'modelo' | 'esforco' | 'skillsEsperadas'>,
+  stderr = '',
 ): Init {
   const init: Init = {
     versao: texto(evento.claude_code_version),
@@ -132,9 +151,27 @@ export function conferirInit(
     const comandos = textos(evento.slash_commands)
     if (!init.skills.includes(skill) && !comandos.includes(skill)) p.push(`a skill ${skill} não carregou`)
   }
-  if (init.plugins.length) p.push(`plugins carregados: ${init.plugins.join(', ')}`)
+  const deFora = Array.isArray(evento.plugins) ? textos(evento.plugins.filter((plugin) => !embutido(plugin))) : []
+  if (deFora.length) p.push(`plugins carregados: ${deFora.join(', ')}`)
   if (init.mcp.length) p.push(`servidores MCP carregados: ${init.mcp.join(', ')}`)
+  // "none" é sessão sem chave de API, pelo token da assinatura; qualquer outro valor é uma chave.
+  if (init.origemDaChave !== 'none') p.push(`apiKeySource ${init.origemDaChave ?? '?'}, esperado none`)
+  const aviso = stderr.split(/\r?\n/).find((linha) => SEM_CONFIANCA.test(linha))
+  if (aviso) p.push(`workspace sem confiança: ${aviso.slice(0, 200)}`)
   return init
+}
+
+/** As barras do `/usage` no evento `rate_limit_event` mais recente da transcrição. */
+export function lerLimites(eventos: Evento[]): Limites | null {
+  const evento = eventos.findLast((e) => e.type === 'rate_limit_event')
+  const info = evento?.rate_limit_info as
+    { overageStatus?: unknown; unifiedWindows?: Record<string, { utilization?: unknown } | undefined> } | undefined
+  if (!info) return null
+  const uso = (janela: string): number | null => {
+    const valor = info.unifiedWindows?.[janela]?.utilization
+    return typeof valor === 'number' ? valor : null
+  }
+  return { cincoHoras: uso('five_hour'), seteDias: uso('seven_day'), usoExtra: texto(info.overageStatus) }
 }
 
 /**
@@ -187,6 +224,9 @@ const NAO_RODOU =
 export async function rodarAgente(opcoes: OpcoesDoAgente): Promise<ResultadoDoAgente> {
   const { suite, ws, log } = opcoes
   writeFileSync(path.join(ws.cfg, 'settings.json'), `${JSON.stringify({ language: suite.agente.idioma }, null, 2)}\n`)
+  // A cópia do Lucas é confiável para o Claude Code; sem isso, as permissões de .claude/settings.json ficam de fora.
+  const confianca = { projects: { [ws.repo.replaceAll('\\', '/')]: { hasTrustDialogAccepted: true } } }
+  writeFileSync(path.join(ws.cfg, '.claude.json'), `${JSON.stringify(confianca, null, 2)}\n`)
   mkdirSync(path.dirname(opcoes.transcricao), { recursive: true })
   const args = ['-p', opcoes.pedido, '--model', opcoes.modelo]
   if (opcoes.esforco) args.push('--effort', opcoes.esforco)
@@ -275,7 +315,7 @@ export async function rodarAgente(opcoes: OpcoesDoAgente): Promise<ResultadoDoAg
   const ultimo = results.at(-1)
   const custoUsd = results.reduce((maior, e) => Math.max(maior, Number(e.total_cost_usd ?? 0)), 0)
   const evInit = eventos.find((e) => e.type === 'system' && e.subtype === 'init')
-  const init = evInit ? conferirInit(evInit, opcoes) : null
+  const init = evInit ? conferirInit(evInit, opcoes, stderr) : null
   const principal = new Set<string>()
   const subagentes = new Set<string>()
   for (const e of eventos) {
@@ -306,6 +346,7 @@ export async function rodarAgente(opcoes: OpcoesDoAgente): Promise<ResultadoDoAg
     turnos: typeof ultimo?.num_turns === 'number' ? ultimo.num_turns : null,
     duracaoS,
     init,
+    limites: lerLimites(eventos),
     modelos: { principal: [...principal], subagentes: [...subagentes] },
     servidorEsquecido,
     portasDeFora,

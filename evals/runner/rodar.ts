@@ -46,6 +46,7 @@ import {
   pastasDoExperimento,
   PASTA_EXPERIMENTOS,
   statusPelosAvaliadores,
+  textoDosLimites,
   type Experimento,
   type Modo,
   type Registro,
@@ -235,7 +236,7 @@ async function rodarTentativa(e: Estado, caso: Caso, n: number): Promise<void> {
   })
   const resumo = resumirAgente(agente, transcricao)
   e.log(
-    `${id}: agente ${agente.status} (${agente.fim}), US$ ${agente.custoUsd.toFixed(2)}, ${agente.turnos ?? '?'} turnos, ${agente.duracaoS} s`,
+    `${id}: agente ${agente.status} (${agente.fim}), US$ ${agente.custoUsd.toFixed(2)}, ${agente.turnos ?? '?'} turnos, ${agente.duracaoS} s${textoDosLimites(agente.limites)}`,
   )
   const registro: Registro = {
     id,
