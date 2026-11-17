@@ -1,0 +1,13 @@
+diff --git a/componentes/Rede.tsx b/componentes/Rede.tsx
+index b3cd7e9..a849abd 100644
+--- a/componentes/Rede.tsx
++++ b/componentes/Rede.tsx
+@@ -201,7 +201,7 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo
+       const p = posicoes()
+       const fase = Math.min(1, (agora - inicioOnda) / DURACAO_ONDA_MS)
+       // A frente da onda em x, da primeira camada até depois da última.
+-      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x + 0.08)
++      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x)
+       const nomeFonte = `${fonte}`
+ 
+       // Grade de entrada: o glifo lido, em pixels; os pixels acesos piscam quando a onda começa.

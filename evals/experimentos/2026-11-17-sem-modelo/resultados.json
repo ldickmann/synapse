@@ -1,0 +1,1970 @@
+{
+  "tentativas": [
+    {
+      "id": "comentarios-01-estrelas@referencia",
+      "caso": "comentarios-01-estrelas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": null,
+      "variante": "referencia",
+      "status": "passa",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch feat/comentarios-01-estrelas, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "feat/comentarios-01-estrelas"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "9b8f20a feat(fundo): espalha as estrelas pelo céu inteiro"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: componentes/Fundo.tsx",
+          "detalhes": {
+            "tocados": ["componentes/Fundo.tsx"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "passa",
+          "resumo": "o comentário vigiado mudou ou saiu",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 104,
+              "ingles": 0,
+              "portugues": 3
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "componentes/Fundo.tsx:104 PASS (PASS, PASS, PASS): O limiar `r > 0.975` é constante, sem dependência da linha, então a chance é a mesma em qualquer altura. Isso dá 2,5 % das células, se `ruido` for uniforme em [0,1). Quando `grande`, os dois `fillRect` de 3 células formam uma cruz com quatro picos.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nEstrelas espalhadas pelo céu inteiro: a mesma chance em qualquer altura, 2,5 % das células.\nAs grandes ganham quatro picos.\n</comentario>\n<trecho>\n106             const r = ruido(c, l, 3)\n107 +           if (r > 0.975) {\n108               const grande = r > 0.9985\n109               b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n110               b.fillRect(c * t, l * t, t, t)\n111               if (grande) {\n112                 b.globalAlpha = 0.3\n113                 b.fillRect((c - 1) * t, l * t, t * 3, t)\n114                 b.fillRect(c * t, (l - 1) * t, t, t * 3)\n115                 b.globalAlpha = 1\n116               }\n117             }\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "O limiar `r > 0.975` é constante, sem dependência da linha, então a chance é a mesma em qualquer altura. Isso dá 2,5 % das células, se `ruido` for uniforme em [0,1). Quando `grande`, os dois `fillRect` de 3 células formam uma cruz com quatro picos."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "O limite `r > 0.975` é fixo e não depende de `l`, então a chance é igual em qualquer altura. Isso dá 2,5 % das células, supondo `ruido` uniforme. As estrelas `grande` desenham duas barras (horizontal e vertical) que formam quatro picos."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição `r > 0.975` não depende da linha `l`, então a chance é a mesma em qualquer altura. Se `ruido` for uniforme em [0,1), isso dá 2,5 % das células. Quando `grande` é verdadeiro, os dois fillRect (3 de largura e 3 de altura) formam quatro picos."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "O limiar `r > 0.975` é constante, sem dependência da linha, então a chance é a mesma em qualquer altura. Isso dá 2,5 % das células, se `ruido` for uniforme em [0,1). Quando `grande`, os dois `fillRect` de 3 células formam uma cruz com quatro picos."
+            }
+          ]
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "componentes/Fundo.tsx:104 PASS (PASS, PASS, PASS): Explica que a distribuição é uniforme na altura e traduz o limiar 0.975 em 2,5 % das células; também resume que as grandes ganham quatro picos (cruz), o que não se lê de relance no código.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nEstrelas espalhadas pelo céu inteiro: a mesma chance em qualquer altura, 2,5 % das células.\nAs grandes ganham quatro picos.\n</comentario>\n<trecho>\n106             const r = ruido(c, l, 3)\n107 +           if (r > 0.975) {\n108               const grande = r > 0.9985\n109               b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n110               b.fillRect(c * t, l * t, t, t)\n111               if (grande) {\n112                 b.globalAlpha = 0.3\n113                 b.fillRect((c - 1) * t, l * t, t * 3, t)\n114                 b.fillRect(c * t, (l - 1) * t, t, t * 3)\n115                 b.globalAlpha = 1\n116               }\n117             }\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica que a distribuição é uniforme na altura e traduz o limiar 0.975 em 2,5 % das células; também resume que as grandes ganham quatro picos (cruz), o que não se lê de relance no código."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica que a distribuição é uniforme em toda a altura e traduz o limiar 0.975 em 2,5 % das células, além de resumir que as grandes ganham picos. Isso não se lê direto do código."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica a intenção (distribuição uniforme, sem dependência da altura) e traduz o limiar 0.975 em 2,5 % das células, além de dizer que as grandes têm quatro picos. Isso não se lê direto no código."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Explica que a distribuição é uniforme na altura e traduz o limiar 0.975 em 2,5 % das células; também resume que as grandes ganham quatro picos (cruz), o que não se lê de relance no código."
+            }
+          ]
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "juiz: PASS (PASS, PASS, PASS): A condição virou r > 0.975, sem depender de y: chance uniforme de 2,5 %, acima do máximo de 1,5 % do base. O restante da lógica das estrelas ficou igual.",
+          "itens": [
+            {
+              "id": "p1",
+              "conteudo": "<pedido>\nDeixe as estrelas do fundo mais frequentes e espalhadas pelo céu inteiro, não só no alto.\n</pedido>\n<criterio>\nPASS se, depois da tentativa, a chance de uma célula do céu virar estrela é a mesma em qualquer altura (a condição não depende mais de y) e maior que 1,5 %, a maior chance do base. No base, a condição é r > 0.991 - (1 - y) * 0.006: limiar 0,985 no alto (1,5 %) e 0,991 embaixo (0,9 %). FAIL se a chance ainda muda com a altura, se não passa de 1,5 % ou se a mudança faz outra coisa no lugar.\n</criterio>\n<diff>\ndiff --git a/componentes/Fundo.tsx b/componentes/Fundo.tsx\nindex c91560f..060f9af 100644\n--- a/componentes/Fundo.tsx\n+++ b/componentes/Fundo.tsx\n@@ -89,33 +89,34 @@ export function Fundo({ ativo }: { ativo: boolean }) {\n       if (!b) return\n       const t = CELULA * dpr\n       for (let l = 0; l < linhas; l++) {\n         const y = l / Math.max(1, linhas - 1)\n         // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.\n         const ceu =\n           y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)\n         b.fillStyle = ceu\n         b.fillRect(0, l * t, base!.width, t)\n         for (let c = 0; c < colunas; c++) {\n           // Textura do céu: blocos um tom mais claros, irregulares.\n           if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n             b.fillStyle = misturar(ceu, cores.alto, 0.5)\n             b.fillRect(c * t, l * t, t, t)\n           }\n-          // Estrelas: raras, mais no alto; as grandes ganham quatro picos.\n+          // Estrelas espalhadas pelo céu inteiro: a mesma chance em qualquer altura, 2,5 % das células.\n+          // As grandes ganham quatro picos.\n           const r = ruido(c, l, 3)\n-          if (r > 0.991 - (1 - y) * 0.006) {\n+          if (r > 0.975) {\n             const grande = r > 0.9985\n             b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n             b.fillRect(c * t, l * t, t, t)\n             if (grande) {\n               b.globalAlpha = 0.3\n               b.fillRect((c - 1) * t, l * t, t * 3, t)\n               b.fillRect(c * t, (l - 1) * t, t, t * 3)\n               b.globalAlpha = 1\n             }\n           }\n           // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n           const borda = 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n           if (y > borda) {\n             const prof = (y - borda) / Math.max(0.05, 1 - borda)\n             const n = suave(c, l, 5, 7)\n</diff>",
+              "rubrica": "pedido-cumprido",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição virou r > 0.975, sem depender de y: chance uniforme de 2,5 %, acima do máximo de 1,5 % do base. O restante da lógica das estrelas ficou igual."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição passou a r > 0.975, sem depender de y: chance uniforme de 2,5 %, acima do máximo de 1,5 % do base. O resto do bloco (cores, estrelas grandes) permanece igual."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição virou r > 0.975, sem depender de y: chance de 2,5% em qualquer altura, maior que 1,5%. O resto do bloco (cores, estrelas grandes) permanece igual."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "A condição virou r > 0.975, sem depender de y: chance uniforme de 2,5 %, acima do máximo de 1,5 % do base. O restante da lógica das estrelas ficou igual."
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (38.9s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 22,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 8,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 40,
+                "evidencia": "13 passed (38.9s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0.10329819999999999,
+        "chamadas": 9
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "0146fbdd92085e161b317270bb96ce382a71ce5e",
+      "diff": "diffs/comentarios-01-estrelas-referencia.diff",
+      "quando": "2026-11-17T14:23:46.478Z"
+    },
+    {
+      "id": "comentarios-01-estrelas@quebrada",
+      "caso": "comentarios-01-estrelas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": null,
+      "variante": "quebrada",
+      "status": "falha",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch feat/comentarios-01-estrelas, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "feat/comentarios-01-estrelas"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "6d1fa06 feat(fundo): espalha as estrelas pelo céu inteiro"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: componentes/Fundo.tsx",
+          "detalhes": {
+            "tocados": ["componentes/Fundo.tsx"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "falha",
+          "resumo": "\"Estrelas: raras, mais no alto; as grandes ganham quatro picos.\" continua no arquivo",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "falha",
+          "resumo": "componentes/Fundo.tsx:104 (o trecho de um comentário mantido mudou) FAIL (FAIL, FAIL, FAIL): O limiar passou de ~0.991 (menos (1-y)*0.006, mais estrelas no alto) para fixo 0.975: deixou de depender de y, então não são mais mais frequentes no alto, e ficaram bem menos raras (2,5% das células). As de quatro picos seguem iguais.",
+          "itens": [
+            {
+              "id": "a1",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nEstrelas: raras, mais no alto; as grandes ganham quatro picos.\n</comentario>\n<antes>\n105             const r = ruido(c, l, 3)\n106             if (r > 0.991 - (1 - y) * 0.006) {\n107               const grande = r > 0.9985\n108               b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n109               b.fillRect(c * t, l * t, t, t)\n110               if (grande) {\n111                 b.globalAlpha = 0.3\n112                 b.fillRect((c - 1) * t, l * t, t * 3, t)\n113                 b.fillRect(c * t, (l - 1) * t, t, t * 3)\n114                 b.globalAlpha = 1\n115               }\n116             }\n</antes>\n<depois>\n105             const r = ruido(c, l, 3)\n106 +           if (r > 0.975) {\n107               const grande = r > 0.9985\n108               b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n109               b.fillRect(c * t, l * t, t, t)\n110               if (grande) {\n111                 b.globalAlpha = 0.3\n112                 b.fillRect((c - 1) * t, l * t, t * 3, t)\n113                 b.fillRect(c * t, (l - 1) * t, t, t * 3)\n114                 b.globalAlpha = 1\n115               }\n116             }\n</depois>",
+              "rubrica": "juiz-comentario-antigo",
+              "votos": [
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O limiar passou de ~0.991 (menos (1-y)*0.006, mais estrelas no alto) para fixo 0.975: deixou de depender de y, então não são mais mais frequentes no alto, e ficaram bem menos raras (2,5% das células). As de quatro picos seguem iguais."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O limiar passou de ~0,991 (com termo que aumenta no alto, y) para 0,975 fixo: estrelas ficam bem mais comuns (2,5% vs ~0,9%) e deixam de ser mais frequentes no alto. 'Raras, mais no alto' deixou de valer; quatro picos nas grandes segue."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O limiar passou de ~0.991 (menos (1-y)*0.006, mais estrelas no alto) para fixo 0.975: deixou de depender de y, então não são mais \"mais no alto\", e ficaram bem mais frequentes (2,5%), não \"raras\". Quatro picos continua valendo."
+                }
+              ],
+              "veredito": "FAIL",
+              "justificativa": "O limiar passou de ~0.991 (menos (1-y)*0.006, mais estrelas no alto) para fixo 0.975: deixou de depender de y, então não são mais mais frequentes no alto, e ficaram bem menos raras (2,5% das células). As de quatro picos seguem iguais."
+            }
+          ]
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "juiz: PASS (PASS, PASS, PASS): A condição virou `r > 0.975`, sem y, então a chance é 2,5% em qualquer altura. Isso é maior que 1,5%. O resto do bloco (estrela grande, cores) não mudou.",
+          "itens": [
+            {
+              "id": "p1",
+              "conteudo": "<pedido>\nDeixe as estrelas do fundo mais frequentes e espalhadas pelo céu inteiro, não só no alto.\n</pedido>\n<criterio>\nPASS se, depois da tentativa, a chance de uma célula do céu virar estrela é a mesma em qualquer altura (a condição não depende mais de y) e maior que 1,5 %, a maior chance do base. No base, a condição é r > 0.991 - (1 - y) * 0.006: limiar 0,985 no alto (1,5 %) e 0,991 embaixo (0,9 %). FAIL se a chance ainda muda com a altura, se não passa de 1,5 % ou se a mudança faz outra coisa no lugar.\n</criterio>\n<diff>\ndiff --git a/componentes/Fundo.tsx b/componentes/Fundo.tsx\nindex c91560f..bfd350d 100644\n--- a/componentes/Fundo.tsx\n+++ b/componentes/Fundo.tsx\n@@ -91,31 +91,31 @@ export function Fundo({ ativo }: { ativo: boolean }) {\n       for (let l = 0; l < linhas; l++) {\n         const y = l / Math.max(1, linhas - 1)\n         // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.\n         const ceu =\n           y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)\n         b.fillStyle = ceu\n         b.fillRect(0, l * t, base!.width, t)\n         for (let c = 0; c < colunas; c++) {\n           // Textura do céu: blocos um tom mais claros, irregulares.\n           if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n             b.fillStyle = misturar(ceu, cores.alto, 0.5)\n             b.fillRect(c * t, l * t, t, t)\n           }\n           // Estrelas: raras, mais no alto; as grandes ganham quatro picos.\n           const r = ruido(c, l, 3)\n-          if (r > 0.991 - (1 - y) * 0.006) {\n+          if (r > 0.975) {\n             const grande = r > 0.9985\n             b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n             b.fillRect(c * t, l * t, t, t)\n             if (grande) {\n               b.globalAlpha = 0.3\n               b.fillRect((c - 1) * t, l * t, t * 3, t)\n               b.fillRect(c * t, (l - 1) * t, t, t * 3)\n               b.globalAlpha = 1\n             }\n           }\n           // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n           const borda = 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n           if (y > borda) {\n             const prof = (y - borda) / Math.max(0.05, 1 - borda)\n             const n = suave(c, l, 5, 7)\n</diff>",
+              "rubrica": "pedido-cumprido",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição virou `r > 0.975`, sem y, então a chance é 2,5% em qualquer altura. Isso é maior que 1,5%. O resto do bloco (estrela grande, cores) não mudou."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição virou `r > 0.975`, sem y: chance de 2,5% em qualquer altura, acima de 1,5%. O resto do bloco (estrela grande, cores) ficou igual."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição virou `r > 0.975`, sem y. A chance fica em 2,5% em qualquer altura, acima dos 1,5% do máximo do base. Só o limiar mudou; cores e estrelas grandes seguem iguais."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "A condição virou `r > 0.975`, sem y, então a chance é 2,5% em qualquer altura. Isso é maior que 1,5%. O resto do bloco (estrela grande, cores) não mudou."
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (35.4s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 22,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 36,
+                "evidencia": "13 passed (35.4s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0.0607167,
+        "chamadas": 6
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "301fcfca76f23de2ea8aaf001e3a110a90b6512b",
+      "diff": "diffs/comentarios-01-estrelas-quebrada.diff",
+      "quando": "2026-11-17T14:26:33.214Z"
+    },
+    {
+      "id": "comentarios-01-estrelas@nula",
+      "caso": "comentarios-01-estrelas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": null,
+      "variante": "nula",
+      "status": "falha",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "falha",
+          "resumo": "branch <tipo>/<assunto>: develop; pelo menos um commit: nenhum",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": false,
+              "evidencia": "develop"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": false,
+              "evidencia": "nenhum"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "falha",
+          "resumo": "esperados sem mudança: componentes/Fundo.tsx",
+          "detalhes": {
+            "tocados": [],
+            "fora": [],
+            "faltam": ["componentes/Fundo.tsx"]
+          }
+        },
+        "comentario-vigiado": {
+          "status": "falha",
+          "resumo": "\"Estrelas: raras, mais no alto; as grandes ganham quatro picos.\" continua no arquivo",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "falha",
+          "resumo": "nenhuma mudança nos arquivos esperados"
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.5s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 28,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 5,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 38,
+                "evidencia": "13 passed (37.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4f921c27699c8f4704b5c27e4dcf10fb0eb8ad98",
+      "diff": "diffs/comentarios-01-estrelas-nula.diff",
+      "quando": "2026-11-17T14:29:28.127Z"
+    },
+    {
+      "id": "comentarios-02-respostas@referencia",
+      "caso": "comentarios-02-respostas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": null,
+      "variante": "referencia",
+      "status": "passa",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch docs/comentarios-02-respostas, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "docs/comentarios-02-respostas"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "79350bc docs(conteudo): confirma as duas últimas respostas das perguntas"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: docs/especificacao.md, lib/oferta.ts",
+          "detalhes": {
+            "tocados": ["docs/especificacao.md", "lib/oferta.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "passa",
+          "resumo": "o comentário vigiado mudou ou saiu",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "3 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "a tabela do §6 de docs/especificacao.md sem a linha \"Confirmação das duas últimas respostas das perguntas\"",
+              "passa": true,
+              "evidencia": "a linha saiu"
+            },
+            {
+              "checagem": "o commit que tira a linha do §6 também muda lib/oferta.ts",
+              "passa": true,
+              "evidencia": "79350bc docs(conteudo): confirma as duas últimas respostas das perguntas: muda lib/oferta.ts (docs/especificacao.md, lib/oferta.ts)"
+            },
+            {
+              "checagem": "PERGUNTAS em lib/oferta.ts igual ao valor do base",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (38.1s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 26,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 5,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (38.1s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "feb63845606efc1fae2c49071f708c6efe957dca",
+      "diff": "diffs/comentarios-02-respostas-referencia.diff",
+      "quando": "2026-11-17T14:32:12.773Z"
+    },
+    {
+      "id": "comentarios-02-respostas@quebrada",
+      "caso": "comentarios-02-respostas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": null,
+      "variante": "quebrada",
+      "status": "falha",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch docs/comentarios-02-respostas, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "docs/comentarios-02-respostas"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "4d77220 docs(conteudo): confirma as duas últimas respostas das perguntas"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: docs/especificacao.md, lib/oferta.ts",
+          "detalhes": {
+            "tocados": ["docs/especificacao.md", "lib/oferta.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "falha",
+          "resumo": "o comentário acima de PERGUNTAS tem \"confirm\": // As duas últimas foram confirmadas pelo Lucas (docs/especificacao.md §6).",
+          "detalhes": {
+            "comentarioAcima": ["// As duas últimas foram confirmadas pelo Lucas (docs/especificacao.md §6)."]
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "lib/oferta.ts",
+              "linha": 33,
+              "ingles": 0,
+              "portugues": 1
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "falha",
+          "resumo": "lib/oferta.ts:33 FAIL (FAIL, FAIL, FAIL): O comentário fala de confirmação pelo Lucas e de uma especificação externa (histórico/processo), não descreve o código. Além disso, o trecho é uma lista de seis perguntas; nada indica quais são \"as duas últimas\" confirmadas.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>lib/oferta.ts</arquivo>\n<comentario>\nAs duas últimas foram confirmadas pelo Lucas (docs/especificacao.md §6).\n</comentario>\n<trecho>\n34   export const PERGUNTAS: readonly Pergunta[] = [\n35     {\n36       pergunta: 'Não entendo de tecnologia. Tem problema?',\n37       resposta:\n38         'Não. Você me conta do seu negócio e eu cuido da parte técnica. A gente conversa em português claro, sem termos difíceis.',\n39     },\n40     {\n41       pergunta: 'Quanto custa?',\n42       resposta: 'Depende do que o seu negócio precisa. Me chama no WhatsApp, eu entendo o caso e te passo um orçamento.',\n43     },\n44     {\n45       pergunta: 'Você atende fora de Navegantes?',\n46       resposta: 'Sim. Em Navegantes e região eu vou até você. Para outras cidades, atendo à distância.',\n47     },\n48     {\n49       pergunta: 'O site funciona bem no celular?',\n50       resposta: 'Sim. Eu faço pensando no celular primeiro, porque é onde a maioria dos clientes abre.',\n51     },\n52     {\n53       pergunta: 'Preciso ter domínio e hospedagem antes?',\n54       resposta: 'Não precisa ter antes. Eu oriento o que contratar e deixo tudo configurado.',\n55     },\n56     {\n57       pergunta: 'Posso mudar textos e fotos depois?',\n58       resposta: 'Sim. No começo definimos o que você vai precisar alterar sozinho e eu preparo o site para isso.',\n59     },\n60   ]\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O comentário fala de confirmação pelo Lucas e de uma especificação externa (histórico/processo), não descreve o código. Além disso, o trecho é uma lista de seis perguntas; nada indica quais são \"as duas últimas\" confirmadas."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O comentário fala de confirmação pelo Lucas e de uma referência a documento (histórico/processo), não descreve o código. Além disso, nada no trecho indica quais seriam \"as duas últimas\" confirmadas; é metadado da tarefa."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O comentário trata de confirmação pelo Lucas e de uma especificação externa (histórico/processo), não descreve o código. Além disso, o trecho é uma lista de perguntas sem nada que indique \"as duas últimas\" confirmadas."
+                }
+              ],
+              "veredito": "FAIL",
+              "justificativa": "O comentário fala de confirmação pelo Lucas e de uma especificação externa (histórico/processo), não descreve o código. Além disso, o trecho é uma lista de seis perguntas; nada indica quais são \"as duas últimas\" confirmadas."
+            }
+          ]
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "lib/oferta.ts:33 PASS (PASS, PASS, PASS): Traz informação que o código não mostra: a procedência das duas últimas respostas (confirmadas pelo Lucas) e a referência à especificação §6.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>lib/oferta.ts</arquivo>\n<comentario>\nAs duas últimas foram confirmadas pelo Lucas (docs/especificacao.md §6).\n</comentario>\n<trecho>\n34   export const PERGUNTAS: readonly Pergunta[] = [\n35     {\n36       pergunta: 'Não entendo de tecnologia. Tem problema?',\n37       resposta:\n38         'Não. Você me conta do seu negócio e eu cuido da parte técnica. A gente conversa em português claro, sem termos difíceis.',\n39     },\n40     {\n41       pergunta: 'Quanto custa?',\n42       resposta: 'Depende do que o seu negócio precisa. Me chama no WhatsApp, eu entendo o caso e te passo um orçamento.',\n43     },\n44     {\n45       pergunta: 'Você atende fora de Navegantes?',\n46       resposta: 'Sim. Em Navegantes e região eu vou até você. Para outras cidades, atendo à distância.',\n47     },\n48     {\n49       pergunta: 'O site funciona bem no celular?',\n50       resposta: 'Sim. Eu faço pensando no celular primeiro, porque é onde a maioria dos clientes abre.',\n51     },\n52     {\n53       pergunta: 'Preciso ter domínio e hospedagem antes?',\n54       resposta: 'Não precisa ter antes. Eu oriento o que contratar e deixo tudo configurado.',\n55     },\n56     {\n57       pergunta: 'Posso mudar textos e fotos depois?',\n58       resposta: 'Sim. No começo definimos o que você vai precisar alterar sozinho e eu preparo o site para isso.',\n59     },\n60   ]\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Traz informação que o código não mostra: a procedência das duas últimas respostas (confirmadas pelo Lucas) e a referência à especificação §6."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Traz informação externa ao código: quem confirmou (Lucas) e a fonte (especificacao.md §6) das duas últimas respostas. Não se deduz do array."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Acrescenta proveniência que o código não mostra: as duas últimas respostas foram confirmadas pelo Lucas, com referência à especificação §6."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Traz informação que o código não mostra: a procedência das duas últimas respostas (confirmadas pelo Lucas) e a referência à especificação §6."
+            }
+          ]
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "3 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "a tabela do §6 de docs/especificacao.md sem a linha \"Confirmação das duas últimas respostas das perguntas\"",
+              "passa": true,
+              "evidencia": "a linha saiu"
+            },
+            {
+              "checagem": "o commit que tira a linha do §6 também muda lib/oferta.ts",
+              "passa": true,
+              "evidencia": "4d77220 docs(conteudo): confirma as duas últimas respostas das perguntas: muda lib/oferta.ts (docs/especificacao.md, lib/oferta.ts)"
+            },
+            {
+              "checagem": "PERGUNTAS em lib/oferta.ts igual ao valor do base",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.8s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 29,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (37.8s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0.03568259999999998,
+        "chamadas": 6
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "8260da4bbb60afe7352c026ba23d56e00c72aed4",
+      "diff": "diffs/comentarios-02-respostas-quebrada.diff",
+      "quando": "2026-11-17T14:35:01.441Z"
+    },
+    {
+      "id": "comentarios-02-respostas@nula",
+      "caso": "comentarios-02-respostas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": null,
+      "variante": "nula",
+      "status": "falha",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "falha",
+          "resumo": "branch <tipo>/<assunto>: develop; pelo menos um commit: nenhum",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": false,
+              "evidencia": "develop"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": false,
+              "evidencia": "nenhum"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "falha",
+          "resumo": "esperados sem mudança: lib/oferta.ts, docs/especificacao.md",
+          "detalhes": {
+            "tocados": [],
+            "fora": [],
+            "faltam": ["lib/oferta.ts", "docs/especificacao.md"]
+          }
+        },
+        "comentario-vigiado": {
+          "status": "falha",
+          "resumo": "\"As duas últimas aguardam confirmação do Lucas (docs/especificacao.md §6).\" continua no arquivo; o comentário acima de PERGUNTAS tem \"aguard\": // As duas últimas aguardam confirmação do Lucas (docs/especificacao.md §6).",
+          "detalhes": {
+            "comentarioAcima": ["// As duas últimas aguardam confirmação do Lucas (docs/especificacao.md §6)."]
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "falha",
+          "resumo": "a tabela do §6 de docs/especificacao.md sem a linha \"Confirmação das duas últimas respostas das perguntas\": a linha continua lá; o commit que tira a linha do §6 também muda lib/oferta.ts: nenhum commit da tentativa tira a linha",
+          "detalhes": [
+            {
+              "checagem": "a tabela do §6 de docs/especificacao.md sem a linha \"Confirmação das duas últimas respostas das perguntas\"",
+              "passa": false,
+              "evidencia": "a linha continua lá"
+            },
+            {
+              "checagem": "o commit que tira a linha do §6 também muda lib/oferta.ts",
+              "passa": false,
+              "evidencia": "nenhum commit da tentativa tira a linha"
+            },
+            {
+              "checagem": "PERGUNTAS em lib/oferta.ts igual ao valor do base",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.5s)) (mesmo estado avaliado antes nesta rodada)",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 28,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 5,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 38,
+                "evidencia": "13 passed (37.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4f921c27699c8f4704b5c27e4dcf10fb0eb8ad98",
+      "diff": "diffs/comentarios-02-respostas-nula.diff",
+      "quando": "2026-11-17T14:37:49.542Z"
+    },
+    {
+      "id": "comentarios-03-frase@referencia",
+      "caso": "comentarios-03-frase",
+      "conjunto": "ajuste",
+      "tipo": "nao-deve",
+      "n": null,
+      "variante": "referencia",
+      "status": "passa",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/comentarios-03-frase, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/comentarios-03-frase"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "8beacd8 fix(hero): troca a primeira frase do texto de apoio"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: lib/texto.ts",
+          "detalhes": {
+            "tocados": ["lib/texto.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "passa",
+          "resumo": "nenhum comentário acrescentado, alterado ou removido",
+          "detalhes": []
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "1 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.4s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 21,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 38,
+                "evidencia": "13 passed (37.4s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4c4235b169c0ce8b41113aea02090298d9d07b04",
+      "diff": "diffs/comentarios-03-frase-referencia.diff",
+      "quando": "2026-11-17T14:38:36.209Z"
+    },
+    {
+      "id": "comentarios-03-frase@quebrada",
+      "caso": "comentarios-03-frase",
+      "conjunto": "ajuste",
+      "tipo": "nao-deve",
+      "n": null,
+      "variante": "quebrada",
+      "status": "falha",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/comentarios-03-frase, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/comentarios-03-frase"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "1dccd58 fix(hero): troca a primeira frase do texto de apoio"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: lib/texto.ts",
+          "detalhes": {
+            "tocados": ["lib/texto.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "falha",
+          "resumo": "lib/texto.ts: acrescentou \"Apoio do hero, agora com a frase nova.\"",
+          "detalhes": [
+            {
+              "arquivo": "lib/texto.ts",
+              "acrescentados": ["Apoio do hero, agora com a frase nova."],
+              "removidos": []
+            }
+          ]
+        },
+        "comentarios-narracao": {
+          "status": "falha",
+          "resumo": "narra a tarefa: lib/texto.ts:12 \"agora\"",
+          "detalhes": [
+            {
+              "arquivo": "lib/texto.ts",
+              "linha": 12,
+              "palavra": "agora",
+              "comentario": "Apoio do hero, agora com a frase nova."
+            }
+          ]
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "lib/texto.ts",
+              "linha": 12,
+              "ingles": 0,
+              "portugues": 1
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "1 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.7s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 22,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (37.7s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "38c367a25b77d212ae4ce407bfac4beb05ac3eb2",
+      "diff": "diffs/comentarios-03-frase-quebrada.diff",
+      "quando": "2026-11-17T14:41:09.467Z"
+    },
+    {
+      "id": "comentarios-03-frase@nula",
+      "caso": "comentarios-03-frase",
+      "conjunto": "ajuste",
+      "tipo": "nao-deve",
+      "n": null,
+      "variante": "nula",
+      "status": "falha",
+      "confere": "sim",
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem agente (variante sem modelo)"
+        },
+        "fluxo-git": {
+          "status": "falha",
+          "resumo": "branch <tipo>/<assunto>: develop; pelo menos um commit: nenhum",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": false,
+              "evidencia": "develop"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": false,
+              "evidencia": "nenhum"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "falha",
+          "resumo": "esperados sem mudança: lib/texto.ts",
+          "detalhes": {
+            "tocados": [],
+            "fora": [],
+            "faltam": ["lib/texto.ts"]
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "passa",
+          "resumo": "nenhum comentário acrescentado, alterado ou removido",
+          "detalhes": []
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "falha",
+          "resumo": "APOIO em lib/texto.ts igual ao valor pedido: diferente: \"Site, sistema sob medida ou manutenção do que já existe. Atendo em Navegantes e região, e à distância em todo o Brasil.\"",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": false,
+              "evidencia": "diferente: \"Site, sistema sob medida ou manutenção do que já existe. Atendo em Navegantes e região, e à distância em todo o Brasil.\""
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.5s)) (mesmo estado avaliado antes nesta rodada)",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 28,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 5,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 38,
+                "evidencia": "13 passed (37.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": null,
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4f921c27699c8f4704b5c27e4dcf10fb0eb8ad98",
+      "diff": "diffs/comentarios-03-frase-nula.diff",
+      "quando": "2026-11-17T14:43:40.525Z"
+    }
+  ]
+}

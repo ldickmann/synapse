@@ -1,0 +1,16 @@
+diff --git a/componentes/Rede.tsx b/componentes/Rede.tsx
+index b3cd7e9..ac2f7c7 100644
+--- a/componentes/Rede.tsx
++++ b/componentes/Rede.tsx
+@@ -200,8 +200,9 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo
+       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
+       const p = posicoes()
+       const fase = Math.min(1, (agora - inicioOnda) / DURACAO_ONDA_MS)
+-      // A frente da onda em x, da primeira camada até depois da última.
+-      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x + 0.08)
++      // A frente da onda em x, da primeira camada até a última, onde para. A interpolação
++      // dá exatamente o x da saída com a fase em 1, para que `chegou` seja verdadeiro no fim.
++      const frente = (1 - fase) * CAMADAS[0].x + fase * CAMADAS[CAMADAS.length - 1].x
+       const nomeFonte = `${fonte}`
+ 
+       // Grade de entrada: o glifo lido, em pixels; os pixels acesos piscam quando a onda começa.

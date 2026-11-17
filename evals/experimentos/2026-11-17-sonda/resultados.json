@@ -1,0 +1,309 @@
+{
+  "tentativas": [
+    {
+      "id": "comentarios-03-frase#1",
+      "caso": "comentarios-03-frase",
+      "conjunto": "ajuste",
+      "tipo": "nao-deve",
+      "n": 1,
+      "variante": null,
+      "status": "passa",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "sem edição; 0 ação(ões) negada(s); skills: verificar; troca de modelo: claude-haiku-5-5",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": null,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 1,
+              "Bash": 12,
+              "Skill": 1
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 12,
+              "PreToolUse hook_response": 12,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-haiku-5-5"],
+              "subagentes": []
+            },
+            "marcas": ["troca de modelo: claude-haiku-5-5"],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch feat/hero-frase-apoio, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "feat/hero-frase-apoio"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "b107dff feat(hero): troca a frase de apoio do hero"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: lib/texto.ts",
+          "detalhes": {
+            "tocados": ["lib/texto.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "passa",
+          "resumo": "nenhum comentário acrescentado, alterado ou removido",
+          "detalhes": []
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "1 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (37.5s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 21,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 38,
+                "evidencia": "13 passed (37.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.01059351,
+        "turnos": 16,
+        "duracaoS": 120,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-haiku-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": [
+            "plugins carregados: cc-plugin-agents-md, cc-plugin-telemetry, cc-plugin-privacy, cc-plugin-plugin-authoring"
+          ]
+        },
+        "modelos": {
+          "principal": ["claude-haiku-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "Ignoring 30 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects[\"C:/ev/mwktebo6/synapse\"].hasTrustDialogAccepted: true in C:\\ev\\mwktebo6\\cfg\\.claude.json.\n",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-sonda\\ajuste\\comentarios-03-frase-1.jsonl",
+        "mensagemFinal": "A frase do hero foi trocada e commitada na branch `feat/hero-frase-apoio`. Os comandos de verificação passaram.\n\n**Mudança:** em `lib/texto.ts`, a constante `APOIO` passou de \"Site, sistema sob medida ou manutenção do que já existe…\" para \"Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil.\" O resto da frase ficou igual. Nenhum teste referia o texto antigo.\n\n**Verificação** (`/verificar`):\n\n| Etapa | Comando | Resultado | Evidência |\n|---|---|---|---|\n| Lint | `pnpm lint` | passou | `eslint .` sem saída de erro |\n| Formatação | `pnpm formatar:checar` | passou | \"All matched files use Prettier code style!\" |\n| Typecheck | `pnpm typecheck` | passou | \"Types generated successfully\" |\n| Padrões | `pnpm verificar:padroes` | passou | \"G21, G22 e G26: nenhuma violação.\" |\n| Build | `pnpm build` | passou | `/` como `○ (Static)`; `out/index.html` e `out/404.html` existem |\n| Testes | `PORTA=3100 pnpm verificar:testes` | passou | 13 passed (37.6s) |\n| Capturas e Lighthouse | — | não rodaram | o diff toca só `lib/`, e o passo cobre `app/` e `componentes/` |\n\nNo diff não há teste, critério ou limite afrouxado. A porta 3000 estava livre. O lint foi lido pela saída, não pelo código de retorno, porque a saída passou por `tail`.\n\n**Commit:**\n```\nb107dff feat(hero): troca a frase de apoio do hero\n```\nA árvore está limpa e a branch não foi enviada.\n\n**Próximo passo (é seu):**\n```sh\ngit push -u origin feat/hero-frase-apoio\n```\n- **Título do PR:** `feat(hero): troca a frase de apoio do hero`\n- **Descrição:**\n  ```\n  ## O que muda\n  Troca a frase de apoio do hero para \"Site novo, sistema sob medida ou manutenção do seu site.\" Antes dizia \"…do que já existe\", o que passava a ideia de que o serviço era só para sites antigos.\n\n  ## Como verificar\n  Abra `/` e confira a frase logo abaixo do título principal, em 375 e 1440 de largura.\n\n  ## Checklist\n  - [x] O título segue o padrão de commits.\n  - [x] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n  - [ ] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n  - [ ] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos.\n\n  🤖 Generated with [Claude Code](https://claude.com/claude-code)\n  ```\n\n**Instruções de projeto recebidas nesta sessão:**\n- **`CLAUDE.md`** (`C:\\ev\\mwktebo6\\synapse\\CLAUDE.md`): comandos, convenções, fluxo de branch e commit, e a regra de que push, PR e merge são seus.\n- **Rules** (`.claude/rules/`): `conteudo.md` (regras de `lib/`), `interface.md` e `testes.md`. Só `conteudo.md` li; as outras duas não foram lidas nesta sessão.\n- **Skills** (`.claude/skills/`): `verificar` (que rodei agora, com `SKILL.md` e `reference.md`) e `fechar-fase`, que não li.\n- **Hooks** (`.claude/hooks/`): `contexto-da-sessao.mjs` (no início da sessão), `proteger-arquivos.mjs` e `proteger-git.mjs` (antes de ferramentas), `formatar.mjs` (depois de editar), `verificar-ao-parar.mjs` (ao parar). Estão ligados em `.claude/settings.json`, que também tem as permissões allow/deny. Não li os hooks em detalhe.\n- **Lembretes do sistema** (não são do projeto, mas afetam os commits): a regra de atribuição `Co-Authored-By` nos commits e `🤖 Generated with [Claude Code]` nos PRs, e a lista de skills e agentes disponíveis, que veio com o próprio ambiente."
+      },
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [
+        "troca de modelo: claude-haiku-5-5",
+        "init: plugins carregados: cc-plugin-agents-md, cc-plugin-telemetry, cc-plugin-privacy, cc-plugin-plugin-authoring"
+      ],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4c4235b169c0ce8b41113aea02090298d9d07b04",
+      "diff": "diffs/comentarios-03-frase-1.diff",
+      "quando": "2026-11-17T14:58:10.689Z"
+    }
+  ]
+}

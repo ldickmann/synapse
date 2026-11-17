@@ -1,0 +1,15 @@
+diff --git a/lib/texto.ts b/lib/texto.ts
+index d25121e..1223734 100644
+--- a/lib/texto.ts
++++ b/lib/texto.ts
+@@ -9,8 +9,9 @@ export const NOME_GIGANTE: readonly string[] = NOME_COMPLETO.split(' ')
+ export const PAPEIS: readonly string[] = ['Front-end', 'Sites', 'Sistemas', 'Manutenção', 'Navegantes']
+ 
+ export const H1 = 'Faço o site do seu negócio em Navegantes.'
++// Apoio do hero, agora com a frase nova.
+ export const APOIO =
+-  'Site, sistema sob medida ou manutenção do que já existe. Atendo em Navegantes e região, e à distância em todo o Brasil.'
++  'Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil.'
+ export const BOTAO_WHATSAPP = 'Chamar no WhatsApp'
+ 
+ export const NAV: readonly { href: string; rotulo: string }[] = [

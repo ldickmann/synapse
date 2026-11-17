@@ -1,0 +1,17 @@
+diff --git a/componentes/Fundo.tsx b/componentes/Fundo.tsx
+index c91560f..060f9af 100644
+--- a/componentes/Fundo.tsx
++++ b/componentes/Fundo.tsx
+@@ -101,9 +101,10 @@ export function Fundo({ ativo }: { ativo: boolean }) {
+             b.fillStyle = misturar(ceu, cores.alto, 0.5)
+             b.fillRect(c * t, l * t, t, t)
+           }
+-          // Estrelas: raras, mais no alto; as grandes ganham quatro picos.
++          // Estrelas espalhadas pelo céu inteiro: a mesma chance em qualquer altura, 2,5 % das células.
++          // As grandes ganham quatro picos.
+           const r = ruido(c, l, 3)
+-          if (r > 0.991 - (1 - y) * 0.006) {
++          if (r > 0.975) {
+             const grande = r > 0.9985
+             b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul
+             b.fillRect(c * t, l * t, t, t)
