@@ -137,6 +137,34 @@ export function conferirInit(
   return init
 }
 
+/**
+ * Confere, sem chamar o modelo, que o `claude` daquele ambiente e daquela pasta entra pelo token da assinatura
+ * (`claude auth status`). Com chave de API, `apiKeyHelper` ou outro provedor, a chamada seria cobrada pela API em vez
+ * de sair do limite do plano, e a rodada para antes dela.
+ */
+export function conferirCredencial(env: Ambiente, cwd: string): void {
+  const r = spawnSync(localizarClaude(), ['auth', 'status', '--json'], {
+    cwd,
+    env: paraSpawn(env),
+    encoding: 'utf8',
+    windowsHide: true,
+    timeout: 60_000,
+  })
+  let estado: { loggedIn?: unknown; authMethod?: unknown; apiProvider?: unknown } = {}
+  try {
+    estado = JSON.parse(r.stdout ?? '') as typeof estado
+  } catch {
+    estado = {}
+  }
+  if (estado.loggedIn !== true || estado.authMethod !== 'oauth_token' || estado.apiProvider !== 'firstParty') {
+    throw new Error(
+      `O claude em ${cwd} não entraria pelo token da assinatura: loggedIn ${String(estado.loggedIn)}, ` +
+        `authMethod ${String(estado.authMethod)}, apiProvider ${String(estado.apiProvider)} ` +
+        `(esperado true, oauth_token, firstParty).`,
+    )
+  }
+}
+
 /** Ambiente do agente, por lista branca (plano, seção 4.3). */
 export function ambienteDoAgente(ws: Workspace, token: string): Ambiente {
   return {
@@ -177,11 +205,13 @@ export async function rodarAgente(opcoes: OpcoesDoAgente): Promise<ResultadoDoAg
     '--no-session-persistence',
   )
 
+  const env = ambienteDoAgente(ws, opcoes.token)
+  conferirCredencial(env, ws.repo)
   const job = await criarJob()
   const inicio = Date.now()
   const filho = spawn(localizarClaude(), args, {
     cwd: ws.repo,
-    env: paraSpawn(ambienteDoAgente(ws, opcoes.token)),
+    env: paraSpawn(env),
     stdio: ['ignore', 'pipe', 'pipe'],
     windowsHide: true,
   })

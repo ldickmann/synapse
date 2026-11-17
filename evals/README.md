@@ -140,7 +140,7 @@ Só no Windows, uma tentativa por vez. Antes:
 
 - `pnpm install` feito, com o Chromium do Playwright, e o Claude Code na versão de `suite.json` (`claude --version`).
 - A tag do base na cópia local: `git fetch origin --tags`.
-- O token das evals: `claude setup-token`, guardado na variável de ambiente do usuário `SYNAPSE_EVALS_OAUTH_TOKEN`, nunca no repositório. O runner o passa ao agente e ao juiz como `CLAUDE_CODE_OAUTH_TOKEN`; as sessões normais não o veem.
+- O token das evals: `claude setup-token`, guardado na variável de ambiente do usuário `SYNAPSE_EVALS_OAUTH_TOKEN`, nunca no repositório. O runner o passa ao agente e ao juiz como `CLAUDE_CODE_OAUTH_TOKEN`; as sessões normais não o veem. Antes de cada chamada do agente e na criação do juiz, `claude auth status` no mesmo ambiente e na mesma pasta precisa dizer `oauth_token` e `firstParty`: com chave de API ou outro provedor, a chamada seria cobrada pela API em vez de sair do limite do plano, e a rodada para.
 - Nenhuma porta de 3000 a 3010 nem de 3100 a 3110 ocupada, nem a 3290, do avaliador: com o `pnpm dev` aberto, o Playwright testaria o servidor errado.
 
 ```sh

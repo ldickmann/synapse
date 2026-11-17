@@ -5,7 +5,7 @@ import { spawnSync } from 'node:child_process'
 import { mkdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { ambienteBase, EVALS, executar, LOCAL, type Ambiente, type Suite } from './comum.ts'
-import { localizarClaude } from './agente.ts'
+import { conferirCredencial, localizarClaude } from './agente.ts'
 
 export type Veredito = 'PASS' | 'FAIL' | 'UNKNOWN'
 export type Voto = { veredito: Veredito; justificativa: string }
@@ -90,6 +90,7 @@ export function criarJuiz(opcoes: OpcoesDoJuiz): Juiz {
     ENABLE_CLAUDEAI_MCP_SERVERS: 'false',
     DISABLE_AUTOUPDATER: '1',
   }
+  conferirCredencial(env, vazia)
   let custo = 0
   let chamadas = 0
 
