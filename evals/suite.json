@@ -18,7 +18,7 @@
   "tentativas": 3,
   "teto_tentativa_usd": 3.3,
   "orcamento_rodada_usd": 50,
-  "estimativa_juiz_tentativa_usd": 0.3,
+  "estimativa_juiz_tentativa_usd": 0.4,
   "tempo_limite_min": 45,
   "carencia_s": 60,
   "portas": {
