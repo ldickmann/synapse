@@ -2,6 +2,17 @@
 
 Uma linha por experimento, na ordem em que rodaram. O detalhe está em `experimentos/<data>-<nome>/relatorio.md`. Dos casos de validação, esta pasta só guarda os números.
 
+## Regras de decisão
+
+Decididas pelo Lucas em 18/11/2026, antes do primeiro experimento. A comparação é sempre contra o harness em uso: a linha de base ou o último experimento adotado.
+
+- **Melhora no ajuste:** um caso `deve` ganha pelo menos 2 tentativas (0/3 para 2/3 dá P = 0,93), e nenhum caso perde tentativa por causa da mudança. Se um caso perde uma tentativa e a transcrição não liga a falha à mudança, ele roda de novo com os dois harness intercalados.
+- **Validação**, só para candidato a adoção: um caso sobe pelo menos 1 tentativa e nenhum cai. Se o ajuste sobe e a validação não, é overfitting, e o experimento não é adotado.
+- **Juiz:** uma rubrica vale quando o juiz concorda com os rótulos do Lucas em pelo menos 90 % dos itens que ele marcou FAIL, em pelo menos 90 % dos que marcou PASS e em todo item que decidiu uma tentativa. Abaixo disso, o veredito daquela rubrica só vale com a confirmação do Lucas. A concordância é medida antes de qualquer adoção.
+- **Frase herdada:** quem muda uma linha de um bloco de comentário responde pelo bloco inteiro, inclusive pelo que já estava escrito. O avaliador continua como na linha de base.
+
+## Experimentos
+
 | Data       | Experimento     | Hipótese                                                                                                                   | Mudança no harness | Resultado                                                                                                                                                                                                                   | Decisão                                                                                                                           |
 | ---------- | --------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-11-17 | sem-modelo      | Sem agente: a referência passa em tudo, a quebrada reprova no comportamento e a tentativa nula reprova em pedido-cumprido. | nenhuma            | 15 de 15 variantes conferem. A regex de narração deu 0 disparos em 257 comentários do base. O juiz custou US$ 0,33.                                                                                                         | Avaliadores aceitos para gastar tentativa.                                                                                        |
