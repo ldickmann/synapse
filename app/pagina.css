@@ -189,14 +189,22 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: var(--color-sinapse-acento);
   text-decoration: none;
 }
 
 .sinapse-monograma {
-  width: 28px;
+  width: auto;
   height: 28px;
+  aspect-ratio: 850 / 755;
   display: block;
+}
+
+.sinapse-monograma-letra {
+  fill: var(--color-sinapse-logo-letra);
+}
+
+.sinapse-monograma-l {
+  fill: var(--color-sinapse-logo-acento);
 }
 
 .sinapse-marca-nome {
@@ -1146,11 +1154,9 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 6px;
-  color: var(--color-sinapse-acento);
 }
 
 .sinapse-sobre-marca .sinapse-monograma {
-  width: 64px;
   height: 64px;
 }
 

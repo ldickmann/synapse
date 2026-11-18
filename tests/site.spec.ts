@@ -319,7 +319,7 @@ for (const [tela, opcoes] of [
     test(`X1 ${tela}: monograma, h1 e whatsapp-hero sem rolar, e nada passa da largura`, async ({ page }) => {
       await page.goto('/')
       await esperarEntrada(page)
-      for (const seletor of ['svg[data-monograma="dLK"]', 'h1', '[data-testid="whatsapp-hero"]']) {
+      for (const seletor of ['svg[data-monograma="DLK"]', 'h1', '[data-testid="whatsapp-hero"]']) {
         expect(await algumDentroDaViewport(page, seletor), `${seletor} visível dentro da viewport`).toBe(true)
       }
       // Para em cada seção até o IntersectionObserver revelar o que entra ao rolar; depois, no fim da página.

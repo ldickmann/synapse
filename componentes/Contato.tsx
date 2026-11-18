@@ -14,7 +14,7 @@ export function Rodape() {
     <footer className="sinapse-rodape">
       <span>{RODAPE}</span>
       <span className="sinapse-rodape-bits" aria-hidden="true">
-        01001100 01000100 01001011
+        01000100 01001100 01001011
       </span>
     </footer>
   )

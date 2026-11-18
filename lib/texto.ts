@@ -62,9 +62,9 @@ export const CONTATO_TITULO = 'Contato'
 export const CONTATO_TEXTO = 'Me conta o que o seu negócio precisa. Eu respondo pelo WhatsApp.'
 export const RODAPE = `${NOME_COMPLETO}, desenvolvedor front-end. ${CIDADE}.`
 
-/** Trechos de script que flutuam atrás do texto (decorativos, aria-hidden). "01001100 01000100 01001011" é dLK em ASCII. */
+/** Trechos de script que flutuam atrás do texto (decorativos, aria-hidden). "01000100 01001100 01001011" é DLK em ASCII. */
 export const TRECHOS: readonly string[][] = [
   ['const disparar = (x) =>', '  x > limiar ? x : 0', 'rede.camadas.map(disparar)'],
-  ['01001100 01000100 01001011', 'peso += taxa * erro', 'while (erro > 0.01) treinar()'],
+  ['01000100 01001100 01001011', 'peso += taxa * erro', 'while (erro > 0.01) treinar()'],
   ['fetch("/orcamento")', '  .then(ler)', '  .then(responder)'],
 ]

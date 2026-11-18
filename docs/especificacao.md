@@ -31,7 +31,7 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 | Depoimentos, clientes, números, garantias | Não entram. Nada inventado.                                                                                       |
 | Trabalhos                                 | Os que o Lucas libera, em `lib/trabalhos.ts`; só os que têm link aparecem (`TRABALHOS_REAIS`) e abrem em aba nova |
 
-**Identidade.** Monograma `dLK` em SVG: um único `<path>` de traço contínuo, sem cor fixa (`currentColor`), definido em `lib/marca.ts`. Aparece no cabeçalho, ao lado do nome.
+**Identidade.** Monograma DLK em SVG: a logo em três peças preenchidas (L, D e K), definida em `lib/marca.ts`, com as cores nos tokens `--color-sinapse-logo-*`. Aparece no cabeçalho, ao lado do nome, e em Quem faz.
 
 ## 2. Piso de qualidade
 
