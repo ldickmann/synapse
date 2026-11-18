@@ -1,16 +1,15 @@
 // Todas as strings do site. Os fatos vêm dos outros arquivos de lib/.
 import { NUMERO_WHATSAPP } from './contato'
-import { CIDADE, NOME_COMPLETO } from './marca'
+import { CIDADE, MUNICIPIO, NOME_COMPLETO } from './marca'
 import { ATENDIMENTO, REGIAO, type Servico } from './oferta'
 
 /** O nome gigante do hero, uma palavra por linha. */
 export const NOME_GIGANTE: readonly string[] = NOME_COMPLETO.split(' ')
 
-export const PAPEIS: readonly string[] = ['Front-end', 'Sites', 'Sistemas', 'Manutenção', 'Navegantes']
+export const PAPEIS: readonly string[] = ['Front-end', 'Sites', 'Sistemas', 'Manutenção', MUNICIPIO]
 
-export const H1 = 'Faço o site do seu negócio em Navegantes.'
-export const APOIO =
-  'Site, sistema sob medida ou manutenção do que já existe. Atendo em Navegantes e região, e à distância em todo o Brasil.'
+export const H1 = `Faço o site do seu negócio em ${MUNICIPIO}.`
+export const APOIO = `Site, sistema sob medida ou manutenção do que já existe. Atendo em ${REGIAO.presencial}, e à distância em ${REGIAO.distancia}.`
 export const BOTAO_WHATSAPP = 'Chamar no WhatsApp'
 
 export const NAV: readonly { href: string; rotulo: string }[] = [
@@ -30,8 +29,8 @@ export const SOBRE_PARAGRAFOS: readonly string[] = [
   `Em ${REGIAO.presencial} eu vou até você. Para ${REGIAO.distancia}, atendo à distância.`,
 ]
 
-/** Navegantes, SC: as coordenadas que o modelo mostra antes do telefone. */
-export const COORDENADAS = { lat: '-26.8989', lon: '-48.6542' } as const
+/** Blumenau, SC: as coordenadas que o modelo mostra antes do telefone. */
+export const COORDENADAS = { lat: '-26.9189', lon: '-49.0658' } as const
 
 /** 5547988420692 vira +55 (47) 98842-0692. */
 export function numeroFormatado(numero: string = NUMERO_WHATSAPP): string {

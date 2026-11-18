@@ -1,6 +1,7 @@
 export const NOME_COMPLETO = 'Lucas Elias Dickmann'
 export const NOME_CURTO = 'Lucas Dickmann'
-export const CIDADE = 'Navegantes, SC'
+export const MUNICIPIO = 'Blumenau'
+export const CIDADE = `${MUNICIPIO}, SC`
 
 /**
  * Logo DLK: as três peças preenchidas, as mesmas do favicon e da assinatura. As coordenadas são pixels do JPG

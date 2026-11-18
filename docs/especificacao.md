@@ -19,11 +19,11 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | Nome                                      | Lucas Elias Dickmann                                                                                              |
 | Profissão                                 | Desenvolvedor front-end                                                                                           |
-| Cidade                                    | Navegantes, SC                                                                                                    |
+| Cidade                                    | Blumenau, SC                                                                                                      |
 | O que vende                               | Site institucional ou landing page; sistema ou painel sob medida; manutenção e evolução de site que já existe     |
-| Região                                    | Navegantes e região, com atendimento presencial; à distância para todo o Brasil                                   |
+| Região                                    | Blumenau e região, com atendimento presencial; à distância para todo o Brasil                                     |
 | Atendimento                               | Direto, sem intermediário: quem conversa é quem constrói                                                          |
-| Reunião presencial                        | Sim, em Navegantes e região                                                                                       |
+| Reunião presencial                        | Sim, em Blumenau e região                                                                                         |
 | Preço e prazo                             | Não aparecem na página                                                                                            |
 | Anos de experiência e formação            | Pendentes (§6); até lá, a frase que depende deles não aparece                                                     |
 | Contato                                   | `https://wa.me/<55 + DDD + número>?text=<mensagem codificada>`, montado por `linkWhatsApp()`                      |
@@ -165,10 +165,10 @@ Criada em 2026-10-10. O foco é layout, design, UI e UX, com micro-interações 
 
 1. **Carregamento:** sequência só em CSS ("iniciando sinapses") que vem no HTML, roda uma vez e some sozinha. É `aria-hidden` e não aparece com movimento reduzido.
 2. **Cabeçalho fixo:** monograma, nome, navegação por âncoras (Serviços, Trabalhos, Quem, Perguntas, Contato) e uma mini IA que passeia pela barra.
-3. **Hero (`#topo`):** o nome completo gigante, uma palavra por linha (abreviado, no máximo, para "Lucas E. Dickmann"), que decodifica de 0 e 1 para as letras. Depois, o marquee de papéis, o h1 `Faço o site do seu negócio em Navegantes.`, o apoio e o botão de WhatsApp.
+3. **Hero (`#topo`):** o nome completo gigante, uma palavra por linha (abreviado, no máximo, para "Lucas E. Dickmann"), que decodifica de 0 e 1 para as letras. Depois, o marquee de papéis, o h1 `Faço o site do seu negócio em Blumenau.`, o apoio e o botão de WhatsApp.
 4. **Serviços (`#servicos`):** título gigante, os três serviços, uma frase gigante do atendimento e a rede neural em canvas (16 entradas, duas camadas ocultas de 28 neurônios, três saídas). Uma onda de ativação atravessa a rede a cada 2,6 s, e passar sobre um serviço força a saída dele a vencer. Um robô operador caminha até a rede e a liga com uma batidinha.
 5. **Trabalhos (`#trabalhos`):** "T RA BA LHOS" em pedaços, como o "W O RK" do modelo. Os trabalhos de `TRABALHOS_REAIS` abrem em aba nova.
-6. **Quem faz (`#quem`):** texto de `lib/`, as coordenadas de Navegantes, o telefone formatado, trechos de script, uma faixa de bits e um pente de memória RAM cujas células acendem em leitura e escrita.
+6. **Quem faz (`#quem`):** texto de `lib/`, as coordenadas de Blumenau, o telefone formatado, trechos de script, uma faixa de bits e um pente de memória RAM cujas células acendem em leitura e escrita.
 7. **Perguntas (`#perguntas`):** as de `lib/oferta.ts`.
 8. **Contato (`#contato`):** "C ON TATO" em três pedaços que chegam em tempos diferentes, o texto de contato e o botão grande de WhatsApp. O rodapé fica fora de `main`.
 

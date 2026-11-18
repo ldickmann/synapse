@@ -1,6 +1,6 @@
 # Sinapse
 
-Site profissional e portfólio de Lucas Elias Dickmann, desenvolvedor front-end em Navegantes, SC.
+Site profissional e portfólio de Lucas Elias Dickmann, desenvolvedor front-end em Blumenau, SC.
 
 ## O que é
 

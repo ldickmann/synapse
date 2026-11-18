@@ -1,4 +1,5 @@
 // Fatos da oferta (docs/especificacao.md §1). O tom fica nos textos da página, em lib/texto.ts.
+import { MUNICIPIO } from './marca'
 
 export type Servico = 'site' | 'sistema' | 'manutencao'
 
@@ -9,7 +10,7 @@ export const SERVICOS: readonly { id: Servico; nome: string }[] = [
 ]
 
 export const REGIAO = {
-  presencial: 'Navegantes e região',
+  presencial: `${MUNICIPIO} e região`,
   distancia: 'todo o Brasil',
 } as const
 
@@ -42,8 +43,8 @@ export const PERGUNTAS: readonly Pergunta[] = [
     resposta: 'Depende do que o seu negócio precisa. Me chama no WhatsApp, eu entendo o caso e te passo um orçamento.',
   },
   {
-    pergunta: 'Você atende fora de Navegantes?',
-    resposta: 'Sim. Em Navegantes e região eu vou até você. Para outras cidades, atendo à distância.',
+    pergunta: `Você atende fora de ${MUNICIPIO}?`,
+    resposta: `Sim. Em ${REGIAO.presencial} eu vou até você. Para outras cidades, atendo à distância.`,
   },
   {
     pergunta: 'O site funciona bem no celular?',
