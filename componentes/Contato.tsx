@@ -1,6 +1,7 @@
 'use client'
 
-import { CONTATO_TEXTO, CONTATO_TITULO, RODAPE } from '@/lib/texto'
+import { CONTATO_TEXTO, CONTATO_TITULO, NAV, RODAPE_TOPO } from '@/lib/texto'
+import { useAtivo } from './ativo'
 import { BotaoWhatsApp } from './BotaoWhatsApp'
 import { useRevelar } from './revelar'
 import { Robo } from './Robo'
@@ -8,14 +9,29 @@ import { Robo } from './Robo'
 /** "C ON TATO": três pedaços que chegam em tempos diferentes, como o "C ON NECT" do modelo. */
 const PEDACOS = [CONTATO_TITULO.slice(0, 1), CONTATO_TITULO.slice(1, 3), CONTATO_TITULO.slice(3)]
 
-/** Fora de `main`, para os bits decorativos não entrarem na paridade de texto (X3). */
+function LinkRodape({ href, rotulo }: { href: string; rotulo: string }) {
+  const { ativo, props } = useAtivo()
+  return (
+    <a href={href} className="sinapse-rodape-link" data-efeito="" data-ativo={ativo ? 'true' : 'false'} {...props}>
+      <span className="sinapse-nav-pixel" aria-hidden="true" />
+      {rotulo}
+    </a>
+  )
+}
+
+/**
+ * Fora de `main`. A assinatura, logo abaixo, já leva o nome, então o rodapé traz a navegação do cabeçalho, que abaixo
+ * de 768 px só aparece aqui, e a volta ao topo.
+ */
 export function Rodape() {
   return (
     <footer className="sinapse-rodape">
-      <span>{RODAPE}</span>
-      <span className="sinapse-rodape-bits" aria-hidden="true">
-        01001100 01000100 01001011
-      </span>
+      <nav className="sinapse-rodape-nav" aria-label="Seções, no rodapé">
+        {NAV.map((item) => (
+          <LinkRodape key={item.href} {...item} />
+        ))}
+      </nav>
+      <LinkRodape href="#topo" rotulo={RODAPE_TOPO} />
     </footer>
   )
 }

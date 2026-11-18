@@ -1,19 +1,16 @@
 export const NOME_COMPLETO = 'Lucas Elias Dickmann'
 export const NOME_CURTO = 'Lucas Dickmann'
-export const CIDADE = 'Navegantes, SC'
+export const MUNICIPIO = 'Blumenau'
+export const CIDADE = `${MUNICIPIO}, SC`
 
 /**
- * Monograma dLK: string `d` de um único path de traço contínuo, viewBox 0 0 64 64.
- *
- * Uma linha só, sem preenchimento: desce a haste do d, contorna o bojo, segue
- * até a base, vira no pé do L, sobe a haste do K e abre o braço e a perna.
- * O d e o L dividem a mesma haste; o pé do L leva à haste do K. Renderizar com
- * `fill="none"`, `stroke="currentColor"`, `strokeWidth={MONOGRAMA_TRACO}`,
- * `strokeLinecap` e `strokeLinejoin` = MONOGRAMA_TERMINACAO.
+ * Logo DLK: as três peças preenchidas, as mesmas do favicon e da assinatura. As coordenadas são pixels do JPG
+ * de 2000 px da logo, por isso o viewBox não começa em 0. O L vem primeiro, para ficar por baixo do D e do K.
+ * As cores ficam nos tokens `--color-sinapse-logo-*` (G26).
  */
-export const MONOGRAMA_PATH = 'M21 7 V45 a9 12 0 0 1 -18 0 a9 12 0 0 1 18 0 V57 H43 V7 V31 L61 8 L43 31 L61 57'
-export const MONOGRAMA_VIEWBOX = '0 0 64 64'
-/** Espessura do traço em unidades do viewBox (1,4 px a 16 px; 2,4 px a 28 px; 3,4 px a 40 px). */
-export const MONOGRAMA_TRACO = 5.5
-/** Terminação e junção do traço (`stroke-linecap` e `stroke-linejoin`). */
-export const MONOGRAMA_TERMINACAO = 'round'
+export const MONOGRAMA_VIEWBOX = '589 659 850 755'
+export const MONOGRAMA_PECAS = {
+  l: 'M1000.04 1412.94 L999.68 1243.79 L1030.58 1208.99 L1069.26 1170.36 L1069.31 1340.96 L1164.47 1341.22 L1100.96 1412.87 Z M1199.95 1308.83 L1090.00 1191.91 L1068.11 1169.81 L1119.74 1117.71 L1250.32 1257.62 Z',
+  d: 'M589.60 1413.19 L589.48 659.89 L716.83 660.05 L945.25 917.51 L945.58 1034.31 L688.12 743.42 L666.85 721.94 L666.32 1339.92 L763.90 1340.10 L950.95 1122.17 L1053.32 1122.54 L803.44 1413.28 Z',
+  k: 'M1058.03 1111.59 L999.92 1049.99 L999.88 659.74 L1074.89 660.05 L1074.69 1093.49 Z M1437.98 1413.36 L1290.55 1413.34 L1198.08 1308.11 L1249.31 1256.01 L1326.73 1339.86 L1363.43 1340.04 L1363.00 1217.41 L1125.23 953.99 L1125.12 854.58 L1303.69 659.90 L1409.69 659.88 L1183.56 905.06 L1438.07 1191.31 Z',
+} as const

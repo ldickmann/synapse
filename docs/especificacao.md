@@ -19,11 +19,11 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | Nome                                      | Lucas Elias Dickmann                                                                                              |
 | Profissão                                 | Desenvolvedor front-end                                                                                           |
-| Cidade                                    | Navegantes, SC                                                                                                    |
+| Cidade                                    | Blumenau, SC                                                                                                      |
 | O que vende                               | Site institucional ou landing page; sistema ou painel sob medida; manutenção e evolução de site que já existe     |
-| Região                                    | Navegantes e região, com atendimento presencial; à distância para todo o Brasil                                   |
+| Região                                    | Blumenau e região, com atendimento presencial; à distância para todo o Brasil                                     |
 | Atendimento                               | Direto, sem intermediário: quem conversa é quem constrói                                                          |
-| Reunião presencial                        | Sim, em Navegantes e região                                                                                       |
+| Reunião presencial                        | Sim, em Blumenau e região                                                                                         |
 | Preço e prazo                             | Não aparecem na página                                                                                            |
 | Anos de experiência e formação            | Pendentes (§6); até lá, a frase que depende deles não aparece                                                     |
 | Contato                                   | `https://wa.me/<55 + DDD + número>?text=<mensagem codificada>`, montado por `linkWhatsApp()`                      |
@@ -31,7 +31,7 @@ O que a página precisa fazer, o piso de qualidade, os limites de desempenho, os
 | Depoimentos, clientes, números, garantias | Não entram. Nada inventado.                                                                                       |
 | Trabalhos                                 | Os que o Lucas libera, em `lib/trabalhos.ts`; só os que têm link aparecem (`TRABALHOS_REAIS`) e abrem em aba nova |
 
-**Identidade.** Monograma `dLK` em SVG: um único `<path>` de traço contínuo, sem cor fixa (`currentColor`), definido em `lib/marca.ts`. Aparece no cabeçalho, ao lado do nome.
+**Identidade.** Monograma DLK em SVG: a logo em três peças preenchidas (L, D e K), definida em `lib/marca.ts`, com as cores nos tokens `--color-sinapse-logo-*`. Aparece no cabeçalho, ao lado do nome, e em Quem faz. A mesma logo está no favicon e nos ícones de `app/` (`favicon.ico`, `icon0.svg`, `icon1.png` e `apple-icon.png`, pelas convenções de arquivo do Next) e nos dois ícones de `public/` que o manifesto (`app/manifest.json`) aponta.
 
 ## 2. Piso de qualidade
 
@@ -100,6 +100,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 - **G15.** `mouse.wheel(0, 600)` altera `window.scrollY`; nenhum listener de `wheel` ou `touchmove` chama `preventDefault`; o `body` não tem `overflow: hidden`.
 - **G19.** `html[lang="pt-BR"]`. Que todo o texto visível está em português se confere nas capturas.
 - **G27.** Um script de `/_next/static` sai com `Cache-Control: public, max-age=31536000, immutable`, de `public/_headers`, e uma rota que não existe (`/nao-existe`) responde 404 com o `404.html` da exportação. Sem o `404.html`, o Cloudflare Pages trataria o site como SPA e serviria `/` em qualquer caminho; o `pnpm start` (`scripts/servir.ts`) faz o mesmo.
+- **G28.** O `<head>` aponta `favicon.ico`, `icon0.svg`, `icon1.png`, `apple-icon.png` e o manifesto (`/manifest.json`), comparados pelo caminho, sem a query de hash do Next. Cada um responde 200 com o tipo certo. O manifesto traz o `NOME_COMPLETO` de `lib/marca.ts` e os dois ícones de `public/`, que também respondem 200. O `icon0.svg` não tem `<metadata>`: o gerador do favicon põe ali o crédito dele e as credenciais C2PA do SVG de origem, 15 kB que a aba não usa.
 - **X1.** Em 375×667 e 390×844 não há rolagem horizontal, e monograma, h1 e botão de WhatsApp aparecem sem rolar.
 - **X2.** Todo elemento com efeito (`data-efeito`) chega ao mesmo estado (`data-ativo="true"`) por hover e por foco, em 1440.
 - **X3.** Paridade de texto (§2), comparando o modo normal, o movimento reduzido e a página sem JavaScript, e todo texto decorativo `aria-hidden` também existe fora dele.
@@ -121,7 +122,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 
 - **G25.** Primeira tela, pico (serviços no alto da tela) e final, em 375 e 1440, e foco em 1440. Mudança de interface se confere olhando cada uma.
 
-A assinatura de autoria (`componentes/AssinaturaEncaixe.tsx`) é autocontida, com paleta e fontes próprias, e fica fora das fontes do G22 e do G26 por exceção declarada em `scripts/checar-padroes.ts`, impressa a cada execução.
+A assinatura de autoria (`componentes/AssinaturaStory.tsx`, estilo Story) é autocontida, com paleta e fontes próprias, e fica fora das fontes do G22 e do G26 por exceção declarada em `scripts/checar-padroes.ts`, impressa a cada execução. O `app/icon0.svg` e o `app/manifest.json` ficam fora do G26 pela mesma via: são a arte e as cores do ícone da marca, e o manifesto não lê CSS. O "Developer" da assinatura, marcado com `lang="en"`, é a única exceção ao G19, que pede texto visível em português.
 
 Os códigos que faltam na lista não são usados: G2 (índice das rotas), G3 (coberto pelo X1), G5 e G6 (versão sem WebGL), G9 e G24 (FPS da cena 3D), G16 e G17 (dica inativa e botão fixo) e G18 e G20 (comparação entre rotas). O G13 (imagem de prévia de 1200×630) volta com `app/opengraph-image.tsx`, que está no backlog.
 
@@ -164,12 +165,12 @@ Criada em 2026-10-10. O foco é layout, design, UI e UX, com micro-interações 
 
 1. **Carregamento:** sequência só em CSS ("iniciando sinapses") que vem no HTML, roda uma vez e some sozinha. É `aria-hidden` e não aparece com movimento reduzido.
 2. **Cabeçalho fixo:** monograma, nome, navegação por âncoras (Serviços, Trabalhos, Quem, Perguntas, Contato) e uma mini IA que passeia pela barra.
-3. **Hero (`#topo`):** o nome completo gigante, uma palavra por linha (abreviado, no máximo, para "Lucas E. Dickmann"), que decodifica de 0 e 1 para as letras. Depois, o marquee de papéis, o h1 `Faço o site do seu negócio em Navegantes.`, o apoio e o botão de WhatsApp.
+3. **Hero (`#topo`):** o nome completo gigante, uma palavra por linha (abreviado, no máximo, para "Lucas E. Dickmann"), que decodifica de 0 e 1 para as letras. Depois, o marquee de papéis, o h1 `Faço o site do seu negócio em Blumenau.`, o apoio e o botão de WhatsApp.
 4. **Serviços (`#servicos`):** título gigante, os três serviços, uma frase gigante do atendimento e a rede neural em canvas (16 entradas, duas camadas ocultas de 28 neurônios, três saídas). Uma onda de ativação atravessa a rede a cada 2,6 s, e passar sobre um serviço força a saída dele a vencer. Um robô operador caminha até a rede e a liga com uma batidinha.
 5. **Trabalhos (`#trabalhos`):** "T RA BA LHOS" em pedaços, como o "W O RK" do modelo. Os trabalhos de `TRABALHOS_REAIS` abrem em aba nova.
-6. **Quem faz (`#quem`):** texto de `lib/`, as coordenadas de Navegantes, o telefone formatado, trechos de script, uma faixa de bits e um pente de memória RAM cujas células acendem em leitura e escrita.
+6. **Quem faz (`#quem`):** texto de `lib/`, as coordenadas de Blumenau, o telefone formatado, trechos de script, uma faixa de bits e um pente de memória RAM cujas células acendem em leitura e escrita.
 7. **Perguntas (`#perguntas`):** as de `lib/oferta.ts`.
-8. **Contato (`#contato`):** "C ON TATO" em três pedaços que chegam em tempos diferentes, o texto de contato e o botão grande de WhatsApp. O rodapé fica fora de `main`.
+8. **Contato (`#contato`):** "C ON TATO" em três pedaços que chegam em tempos diferentes, o texto de contato e o botão grande de WhatsApp. O rodapé fica fora de `main`, com a navegação do cabeçalho (a única abaixo de 768 px) e um link de volta ao topo, e a assinatura Story logo abaixo dele.
 
 **Fundo.** A nebulosa em pixels num canvas 2D: céu marinho com estrelas em cima, azul aberto no meio e, embaixo, a crista de poeira desenhada por ruído em blocos, igual em toda visita. Por cima, sinapses: células acendem sozinhas e no rastro do ponteiro e apagam em meio segundo. Sem laço de animação quando não há faísca.
 

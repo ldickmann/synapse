@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { NOME_COMPLETO } from './marca'
+import { MUNICIPIO, NOME_COMPLETO } from './marca'
 
 // Endereço público do site, para og:url, og:image e canonical absolutos. Entra no HTML no build.
 // Ordem: NEXT_PUBLIC_SITE_URL (a produção no Cloudflare Pages, ou um domínio próprio) → CF_PAGES_URL (o endereço
@@ -18,9 +18,12 @@ export const metadataBase = new URL(enderecoDoSite())
 
 // Título provisório: o texto final fica para a fase de conteúdo.
 const TITULO = NOME_COMPLETO
-const DESCRICAO = 'Faço sites, sistemas sob medida e manutenção, em Navegantes e à distância para todo o Brasil.'
+const DESCRICAO = `Faço sites, sistemas sob medida e manutenção, em ${MUNICIPIO} e à distância para todo o Brasil.`
 
-/** Metadados de `/`, exportados por app/page.tsx; o layout raiz só define o metadataBase e o ícone. */
+/**
+ * Metadados de `/`, exportados por app/page.tsx. O layout raiz só define o metadataBase; os ícones e o manifesto
+ * vêm dos arquivos de app/.
+ */
 export const metadadosDaPagina: Metadata = {
   title: TITULO,
   description: DESCRICAO,

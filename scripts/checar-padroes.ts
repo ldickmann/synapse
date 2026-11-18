@@ -11,10 +11,14 @@ const PASTAS_DO_SITE = ['app', 'componentes', 'lib']
 const LIB = path.join(RAIZ, 'lib')
 // Única fonte de cor do site (G26): os canvas leem estes tokens em runtime.
 const TOKENS = 'app/tokens.css'
-// Exceções declaradas, impressas a cada execução. A assinatura de autoria leva a outros projetos a mesma
-// paleta própria e a pilha de fontes do sistema (o Roboto é a do Android).
+// Exceções declaradas, impressas a cada execução.
 const EXCECOES: Record<string, { fontes?: true; cores?: true }> = {
-  'componentes/AssinaturaEncaixe.tsx': { fontes: true, cores: true },
+  // A assinatura de autoria leva a outros projetos a mesma paleta própria e a pilha de fontes do sistema (o Roboto é a
+  // do Android).
+  'componentes/AssinaturaStory.tsx': { fontes: true, cores: true },
+  // Arte e cores do ícone da marca; o manifesto não lê CSS.
+  'app/icon0.svg': { cores: true },
+  'app/manifest.json': { cores: true },
 }
 const EXT_TEXTO = new Set([
   '.ts',

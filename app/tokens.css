@@ -29,6 +29,10 @@
   --color-sinapse-texto: #fff1d6; /* creme das estrelas. 15:1 no fundo */
   --color-sinapse-texto-suave: #d9b88a; /* poeira clara. 9:1 no fundo */
 
+  /* Logo DLK: as cores da marca, fora da nebulosa, as mesmas do favicon e da assinatura. */
+  --color-sinapse-logo-letra: #fbfbfb; /* D e K. 18,5:1 no fundo-baixo (cabeçalho), 16,9:1 no fundo */
+  --color-sinapse-logo-acento: #bcef40; /* L. 14,2:1 no fundo-baixo (cabeçalho), 13,0:1 no fundo */
+
   --ease-sinapse-pulso: cubic-bezier(0.2, 0.9, 0.3, 1);
   --ease-sinapse-pixel: steps(6, end);
   --dur-sinapse-curta: 140ms; /* hover, foco */

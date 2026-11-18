@@ -2,6 +2,7 @@
 // Uso: pnpm build && pnpm verificar:testes   (um só: pnpm verificar:testes tests/site.spec.ts -g "X2")
 import { expect, test, type BrowserContextOptions, type Page } from '@playwright/test'
 import { linkWhatsApp } from '../lib/contato.ts'
+import { NOME_COMPLETO } from '../lib/marca.ts'
 import { CELULAR, CELULAR_375, DESKTOP, esperarEntrada } from './comum.ts'
 
 async function conferirLinksWhatsApp(page: Page, minimo: number): Promise<void> {
@@ -308,6 +309,52 @@ test.describe('G27 cabeçalhos e 404 da exportação', () => {
   })
 })
 
+test.describe('G28 favicon, ícones e manifesto', () => {
+  test('G28: o <head> aponta os ícones de app/ e o manifesto, e cada arquivo responde 200 com o tipo certo', async ({
+    page,
+    request,
+  }) => {
+    const TIPOS: Record<string, string> = {
+      '.ico': 'image/x-icon',
+      '.svg': 'image/svg+xml',
+      '.png': 'image/png',
+      '.json': 'application/json',
+    }
+    const conferir = async (endereco: string) => {
+      const resposta = await request.get(endereco)
+      expect(resposta.status(), `status de ${endereco}`).toBe(200)
+      const extensao = new URL(endereco, 'http://x').pathname.match(/\.\w+$/)?.[0] ?? ''
+      const tipo = (resposta.headers()['content-type'] ?? '').split(';')[0].trim()
+      expect(tipo, `Content-Type de ${endereco}`).toBe(TIPOS[extensao])
+      return resposta
+    }
+
+    await page.goto('/')
+    // O Next põe um hash de cache na query (/icon0.svg?icon0.<hash>.svg): compara só o caminho.
+    const links = await page.evaluate(() =>
+      Array.from(
+        document.head.querySelectorAll('link[rel="icon"], link[rel="apple-touch-icon"], link[rel="manifest"]'),
+      ).map((link) => ({ rel: link.getAttribute('rel') ?? '', href: link.getAttribute('href') ?? '' })),
+    )
+    const caminhos = (rel: string) =>
+      links.filter((link) => link.rel === rel).map((link) => new URL(link.href, 'http://x').pathname)
+    expect(caminhos('icon').sort(), 'link rel="icon" no <head>').toEqual(['/favicon.ico', '/icon0.svg', '/icon1.png'])
+    expect(caminhos('apple-touch-icon'), 'link rel="apple-touch-icon" no <head>').toEqual(['/apple-icon.png'])
+    expect(caminhos('manifest'), 'link rel="manifest" no <head>').toEqual(['/manifest.json'])
+    for (const link of links) await conferir(link.href)
+
+    const manifesto = await (await conferir('/manifest.json')).json()
+    expect(manifesto.name, 'name do manifesto').toBe(NOME_COMPLETO)
+    const icones: string[] = (manifesto.icons ?? []).map((icone: { src: string }) => icone.src)
+    expect(icones, 'ícones do manifesto').toEqual(['/web-app-manifest-192x192.png', '/web-app-manifest-512x512.png'])
+    for (const icone of icones) await conferir(icone)
+
+    // O gerador do favicon põe blocos <metadata> (o crédito dele e as credenciais C2PA do SVG de origem): 15 kB que a
+    // aba não usa.
+    expect(await (await request.get('/icon0.svg')).text(), 'icon0.svg').not.toContain('<metadata')
+  })
+})
+
 // Checagens da página (docs/especificacao.md §5): X1 a X4.
 
 for (const [tela, opcoes] of [
@@ -319,7 +366,7 @@ for (const [tela, opcoes] of [
     test(`X1 ${tela}: monograma, h1 e whatsapp-hero sem rolar, e nada passa da largura`, async ({ page }) => {
       await page.goto('/')
       await esperarEntrada(page)
-      for (const seletor of ['svg[data-monograma="dLK"]', 'h1', '[data-testid="whatsapp-hero"]']) {
+      for (const seletor of ['svg[data-monograma="DLK"]', 'h1', '[data-testid="whatsapp-hero"]']) {
         expect(await algumDentroDaViewport(page, seletor), `${seletor} visível dentro da viewport`).toBe(true)
       }
       // Para em cada seção até o IntersectionObserver revelar o que entra ao rolar; depois, no fim da página.

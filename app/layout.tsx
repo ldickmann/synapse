@@ -25,7 +25,6 @@ const spaceGrotesk = Space_Grotesk({
 // Só o que vale para qualquer rota, até a de 404: título, descrição e canonical ficam em app/page.tsx.
 export const metadata: Metadata = {
   metadataBase,
-  icons: { icon: { url: '/favicon.svg', type: 'image/svg+xml' } },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
