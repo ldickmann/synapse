@@ -20,7 +20,10 @@ export const metadataBase = new URL(enderecoDoSite())
 const TITULO = NOME_COMPLETO
 const DESCRICAO = 'Faço sites, sistemas sob medida e manutenção, em Navegantes e à distância para todo o Brasil.'
 
-/** Metadados de `/`, exportados por app/page.tsx; o layout raiz só define o metadataBase e o ícone. */
+/**
+ * Metadados de `/`, exportados por app/page.tsx. O layout raiz só define o metadataBase; os ícones e o manifesto
+ * vêm dos arquivos de app/.
+ */
 export const metadadosDaPagina: Metadata = {
   title: TITULO,
   description: DESCRICAO,

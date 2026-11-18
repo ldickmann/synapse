@@ -20,6 +20,7 @@ Os critérios estão em `docs/especificacao.md` §5. Os títulos dos testes come
 | G25      | capturas                                              | `pnpm verificar:screenshots`                           | primeira tela, pico e final em 375 e 1440, e foco em 1440, olhadas uma a uma                                      |
 | G26      | cor só nos tokens                                     | `pnpm verificar:padroes`                               | nenhum literal de cor fora de `app/tokens.css`                                                                    |
 | G27      | cache de `/_next/static` e página 404                 | `tests/site.spec.ts`                                   | `Cache-Control: public, max-age=31536000, immutable` num script de `/_next/static`; status 404 em `/nao-existe`   |
+| G28      | favicon, ícones e manifesto                           | `tests/site.spec.ts`                                   | 4 ícones e o manifesto no `<head>`, com 200 e o tipo certo; 2 ícones no manifesto; `icon0.svg` sem `<metadata`    |
 | X1       | primeira tela e largura                               | `tests/site.spec.ts`                                   | em 375×667 e 390×844: monograma, `h1` e `whatsapp-hero` dentro da tela; `scrollWidth` até a largura da janela     |
 | X2       | hover e foco iguais                                   | `tests/site.spec.ts`                                   | todo `[data-efeito]` com `data-ativo="true"` por hover e por Tab, em 1440                                         |
 | X3       | paridade de texto                                     | `tests/site.spec.ts`                                   | texto de `main` igual nos três modos, mais de 100 caracteres, um `h1`, nenhuma palavra só na camada `aria-hidden` |
@@ -29,4 +30,4 @@ Outros números que, se mudarem, afrouxam a verificação:
 
 - `playwright.config.ts`: `timeout` de 90 s, `expect.timeout` de 10 s, sem `retries`.
 - `tests/site.spec.ts`: `ENTRADA_MS` de 3 000 ms e o `timeout` de 20 s do `esperarEntrada()`.
-- `scripts/checar-padroes.ts`: pastas `app`, `componentes` e `lib`; única exceção, `componentes/AssinaturaStory.tsx` (fontes do G22 e G26).
+- `scripts/checar-padroes.ts`: pastas `app`, `componentes` e `lib`; exceções, `componentes/AssinaturaStory.tsx` (fontes do G22 e G26), `app/icon0.svg` e `app/manifest.json` (G26).

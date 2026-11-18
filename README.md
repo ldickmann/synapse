@@ -27,10 +27,10 @@ Localmente, nenhuma variável de ambiente é obrigatória. O `.env.example` expl
 ## Estrutura
 
 ```text
-app/          layout, página, globals.css, tokens.css (única fonte de cor) e pagina.css
+app/          layout, página, globals.css, tokens.css (única fonte de cor), pagina.css, favicon, ícones e manifesto
 componentes/  as seções e os efeitos da página
 lib/          fatos e textos, sem visual: marca, contato, oferta, trabalhos, metadados e texto.ts
-public/       favicon, imagens dos trabalhos e _headers (cabeçalhos do Cloudflare Pages)
+public/       ícones do manifesto, imagens dos trabalhos e _headers (cabeçalhos do Cloudflare Pages)
 scripts/      servidor do pnpm start, checagem de padrões, capturas e Lighthouse
 tests/        testes de aceite do Playwright (site.spec.ts)
 docs/         especificação e decisões
