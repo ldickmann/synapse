@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/ldickmann/synapse/compare/v1.0.0...v1.0.0) (2026-11-18)
+
+
+### Novidades
+
+* **marca:** adota a logo DLK, a assinatura Story, o favicon novo e a cidade Blumenau ([#14](https://github.com/ldickmann/synapse/issues/14)) ([910dd75](https://github.com/ldickmann/synapse/commit/910dd75a190ac1a4649d0e396696406b0d823e96))
+
 ## [1.0.0](https://github.com/ldickmann/synapse/compare/v0.1.0...v1.0.0) (2026-11-15)
 
 
