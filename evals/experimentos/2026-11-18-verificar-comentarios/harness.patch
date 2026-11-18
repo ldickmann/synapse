@@ -1,0 +1,47 @@
+diff --git a/.claude/skills/verificar/SKILL.md b/.claude/skills/verificar/SKILL.md
+index b933a46..1e933d8 100644
+--- a/.claude/skills/verificar/SKILL.md
++++ b/.claude/skills/verificar/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: verificar
+-description: Verifica a mudança atual de ponta a ponta (lint, formatação, typecheck, padrões, build e Playwright), lê o diff, confere que nenhum teste ou limite foi afrouxado e reporta cada etapa com a evidência. Use antes de dizer que uma tarefa está pronta, antes do último commit de uma mudança em app/, componentes/, lib/, tests/ ou scripts/, e quando pedirem para verificar ou testar.
++description: Verifica a mudança atual de ponta a ponta (lint, formatação, typecheck, padrões, build e Playwright), lê o diff, confere que nenhum teste ou limite foi afrouxado, confere os comentários tocados contra o código e reporta cada etapa com a evidência. Use antes de dizer que uma tarefa está pronta, antes do último commit de uma mudança em app/, componentes/, lib/, tests/ ou scripts/, e quando pedirem para verificar ou testar.
+ allowed-tools:
+   - Bash(pnpm start --port 3100)
+   - PowerShell(pnpm start --port 3100)
+@@ -43,7 +43,18 @@ Leia o diff da branch e o que está fora de commit (`git diff develop...HEAD` e
+ 
+ Cada achado vai com `arquivo:linha`, o que mudou e se a especificação mudou no mesmo commit. Mudança de limite combinada com o Lucas e registrada na especificação não é afrouxamento, mas aparece no relatório.
+ 
+-## 3. Interface
++## 3. Comentários
++
++Um comentário diz a verdade sobre o código logo abaixo dele. Ache no diff (`git diff -U8 develop...HEAD` e `git diff -U8`, em `.ts`, `.tsx`, `.mjs` e `.css`) os comentários acrescentados ou alterados e os que ficaram em cima de código alterado. De cada um, leia o bloco inteiro e o trecho que ele acompanha: o comentário sozinho na linha vai até a primeira linha em branco ou o próximo comentário sozinho na linha; o do fim de uma linha, aquela linha; o cabeçalho do arquivo, o arquivo inteiro. Confira:
++
++- **Cada afirmação vale para o código de agora**, com o código aberto ao lado: número, tempo, proporção, quantidade, nome, ordem. Se a tarefa mudou uma linha de um bloco, ela responde pelo bloco inteiro, inclusive pelo que já estava escrito.
++- **Diz o porquê**: a razão, a regra (como G26 ou X3), a restrição ou a armadilha, ou resume um bloco que não se lê de relance. Não repete em palavras a linha de baixo.
++- **Fala do código**, não da tarefa nem do histórico ("agora", "alterado para", "antes era", "conforme pedido").
++- **Está em português**, como o resto do código.
++
++Cada achado vai com `arquivo:linha`, a afirmação e o que o código faz. Na correção, comentário falso muda ou sai, e o que só repete o código sai ou passa a dizer o porquê. O que continua verdadeiro fica como está. Comentário errado em código que a tarefa não tocou também fica como está e vai para o aviso final. Se a correção só muda comentário, basta repetir `pnpm lint`, `pnpm formatar:checar`, `pnpm typecheck` e esta etapa.
++
++## 4. Interface
+ 
+ Esta etapa roda se o diff toca `app/` ou `componentes/`. O servidor e os scripts recebem a porta de jeitos diferentes: o `pnpm start` (`scripts/servir.ts`) só lê `--port` (ou `PORT`), como no `playwright.config.ts`, e `scripts/screenshots.ts` e `scripts/lighthouse.mjs` leem `PORTA`. Os dois levam a 3100, para as capturas não fotografarem um `pnpm dev` na 3000. Os comandos com `PORTA=3100` na frente vão pela ferramenta Bash: uma regra de permissão não casa um comando com variável na frente, então esta skill libera a forma inteira, e com outra porta cada comando pede aprovação.
+ 
+@@ -55,7 +66,7 @@ Esta etapa roda se o diff toca `app/` ou `componentes/`. O servidor e os scripts
+ 6. Tente `PORTA=3100 pnpm verificar:lighthouse`. Se não rodar na máquina, diga isso e que a nota vem do PageSpeed Insights no endereço publicado.
+ 7. Pare a tarefa do servidor. No Windows isso encerra o shell, mas o servidor continua escutando na porta; encerre-o pelo PowerShell com `Get-NetTCPConnection -LocalPort 3100 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }` e confira com o comando do passo 1 que a 3100 ficou livre.
+ 
+-## 4. Relatório
++## 5. Relatório
+ 
+ ```text
+ | Etapa | Comando | Resultado | Evidência |
+@@ -64,4 +75,4 @@ Esta etapa roda se o diff toca `app/` ou `componentes/`. O servidor e os scripts
+ ...
+ ```
+ 
+-Depois da tabela: os achados do diff (ou "nenhum teste ou limite afrouxado", com os arquivos lidos), as capturas e o Lighthouse quando rodaram, e uma linha final: "Pronto para commit" ou "Não está pronto: <o que falta>". Etapa que não rodou aparece como "não rodou", com o motivo. Nada é dado como aprovado sem a saída do comando.
++Depois da tabela: os achados do diff (ou "nenhum teste ou limite afrouxado", com os arquivos lidos), os comentários conferidos e os achados deles, as capturas e o Lighthouse quando rodaram, e uma linha final: "Pronto para commit" ou "Não está pronto: <o que falta>". Etapa que não rodou aparece como "não rodou", com o motivo. Nada é dado como aprovado sem a saída do comando.

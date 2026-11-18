@@ -1,0 +1,113 @@
+diff --git a/componentes/Fundo.tsx b/componentes/Fundo.tsx
+index c91560f..dc3b244 100644
+--- a/componentes/Fundo.tsx
++++ b/componentes/Fundo.tsx
+@@ -2,14 +2,21 @@
+ 
+ import { useEffect, useRef } from 'react'
+ 
+-// Fundo: a nebulosa em pixels. Céu marinho em cima com estrelas (algumas com picos), azul aberto no
+-// meio e, embaixo, a crista de poeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em
+-// blocos. Por cima, sinapses: células acendem sozinhas e no rastro do ponteiro e apagam em meio
+-// segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm dos tokens (G26).
++// Fundo: a nebulosa em pixels. Céu marinho em cima, azul aberto no meio, estrelas (algumas com
++// picos) espalhadas do alto até a crista e, embaixo, a crista de poeira em ferrugem, brasa, laranja e
++// pêssego, desenhada por ruído em blocos. Por cima, sinapses: células acendem sozinhas e no rastro do
++// ponteiro e apagam em menos de um segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm
++// dos tokens (G26).
+ 
+ const CELULA = 20
+ const VIDA_MS = 900
+ const INTERVALO_MS = 380
++/** Fração das células do céu com estrela: a mesma no alto, no meio e junto à crista. */
++const ESTRELAS = 0.03
++/** Fração das estrelas que ganha quatro picos, fora as da linha que encosta na crista. */
++const ESTRELAS_GRANDES = 0.1
++
++type Estrela = { c: number; l: number; cor: string; grande: boolean }
+ 
+ type Faisca = { c: number; l: number; vida: number; cor: string }
+ 
+@@ -88,8 +95,15 @@ export function Fundo({ ativo }: { ativo: boolean }) {
+       const b = base.getContext('2d')
+       if (!b) return
+       const t = CELULA * dpr
++      const fim = Math.max(1, linhas - 1)
++      // Onde a crista começa em cada coluna: a borda recortada pelo ruído.
++      const bordas = Array.from(
++        { length: colunas },
++        (_, c) => 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05,
++      )
++      const estrelas: Estrela[] = []
+       for (let l = 0; l < linhas; l++) {
+-        const y = l / Math.max(1, linhas - 1)
++        const y = l / fim
+         // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.
+         const ceu =
+           y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)
+@@ -101,22 +115,19 @@ export function Fundo({ ativo }: { ativo: boolean }) {
+             b.fillStyle = misturar(ceu, cores.alto, 0.5)
+             b.fillRect(c * t, l * t, t, t)
+           }
+-          // Estrelas: raras, mais no alto; as grandes ganham quatro picos.
+-          const r = ruido(c, l, 3)
+-          if (r > 0.991 - (1 - y) * 0.006) {
+-            const grande = r > 0.9985
+-            b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul
+-            b.fillRect(c * t, l * t, t, t)
+-            if (grande) {
+-              b.globalAlpha = 0.3
+-              b.fillRect((c - 1) * t, l * t, t * 3, t)
+-              b.fillRect(c * t, (l - 1) * t, t, t * 3)
+-              b.globalAlpha = 1
++          const borda = bordas[c]
++          if (y <= borda) {
++            // Estrelas: a mesma chance em qualquer ponto do céu; metade branca, o resto dourado ou
++            // ciano. As grandes, só onde o pico de baixo ainda cai no céu.
++            const r = ruido(c, l, 3)
++            if (r > 1 - ESTRELAS) {
++              const grande = r > 1 - ESTRELAS * ESTRELAS_GRANDES && (l + 1) / fim <= borda
++              const tom = ruido(c, l, 4)
++              const cor = grande || tom < 0.5 ? cores.estrela : tom < 0.75 ? cores.dourado : cores.azul
++              estrelas.push({ c, l, cor, grande })
+             }
+-          }
+-          // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.
+-          const borda = 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05
+-          if (y > borda) {
++          } else {
++            // Crista de poeira: pêssego e laranja na borda, escurecendo até o marrom no pé da tela.
+             const prof = (y - borda) / Math.max(0.05, 1 - borda)
+             const n = suave(c, l, 5, 7)
+             let tom: string
+@@ -131,6 +142,18 @@ export function Fundo({ ativo }: { ativo: boolean }) {
+           }
+         }
+       }
++      // Estrelas por último: desenhadas no laço, os picos seriam cobertos pela linha de baixo e pelos
++      // blocos de textura à direita.
++      for (const e of estrelas) {
++        b.fillStyle = e.cor
++        b.fillRect(e.c * t, e.l * t, t, t)
++        if (e.grande) {
++          b.globalAlpha = 0.3
++          b.fillRect((e.c - 1) * t, e.l * t, t * 3, t)
++          b.fillRect(e.c * t, (e.l - 1) * t, t, t * 3)
++          b.globalAlpha = 1
++        }
++      }
+     }
+ 
+     function medir() {
+diff --git a/docs/especificacao.md b/docs/especificacao.md
+index 3655109..02a8ae6 100644
+--- a/docs/especificacao.md
++++ b/docs/especificacao.md
+@@ -171,7 +171,7 @@ Criada em 2026-10-10. O foco é layout, design, UI e UX, com micro-interações
+ 7. **Perguntas (`#perguntas`):** as de `lib/oferta.ts`.
+ 8. **Contato (`#contato`):** "C ON TATO" em três pedaços que chegam em tempos diferentes, o texto de contato e o botão grande de WhatsApp. O rodapé fica fora de `main`.
+ 
+-**Fundo.** A nebulosa em pixels num canvas 2D: céu marinho com estrelas em cima, azul aberto no meio e, embaixo, a crista de poeira desenhada por ruído em blocos, igual em toda visita. Por cima, sinapses: células acendem sozinhas e no rastro do ponteiro e apagam em meio segundo. Sem laço de animação quando não há faísca.
++**Fundo.** A nebulosa em pixels num canvas 2D: céu marinho em cima, azul aberto no meio, estrelas espalhadas pelo céu inteiro, do alto até a crista (3 % das células, um décimo delas com quatro picos), e, embaixo, a crista de poeira desenhada por ruído em blocos, igual em toda visita. Por cima, sinapses: células acendem sozinhas e no rastro do ponteiro e apagam em meio segundo. Sem laço de animação quando não há faísca.
+ 
+ **Texto decorativo.** Trechos de script, bits, endereços da memória e as camadas que ciclam 0 e 1 são `aria-hidden` ou desenhados por `content: attr(...)`, para não entrarem na paridade de texto (X3). Os robôs são SVG de 12×14 células com cor por `currentColor` e trocam de pose em quadros segurados por tempos desiguais, sem interpolação, como o pássaro do modelo.
