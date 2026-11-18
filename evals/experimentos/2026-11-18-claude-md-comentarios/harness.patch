@@ -1,0 +1,20 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index a11ed49..62ddd45 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -27,6 +27,15 @@ pnpm verificar:testes tests/site.spec.ts -g "X2"   # um teste só, pelo código
+ - Regra que muda leva `docs/especificacao.md` e o teste que a prova no mesmo commit.
+ - O site é uma exportação estática (`output: 'export'`, em `out/`): nada que precise de servidor (rotas de API, middleware, server actions, `headers()`, `redirects()` ou `rewrites()` no `next.config.ts`, `next/image` com o loader padrão). Cabeçalho de hospedagem vai em `public/_headers`.
+ 
++## Comentários
++
++Em `.ts`, `.tsx`, `.mjs` e `.css`:
++
++- Comentário diz o que o código não diz: a razão, a regra (como G26 ou X3), a restrição, a armadilha ou o resumo de um bloco que não se lê de relance. Não repete em palavras a linha de baixo nem o nome da função ou da constante.
++- Não copia do código valor que muda junto com ele (número, tempo, proporção, quantidade): cita a constante ou diz a razão. Valor copiado repete o código e fica falso na primeira mudança.
++- Quem muda uma linha de um bloco de comentário, ou o código que ele acompanha, responde pelo bloco inteiro, inclusive pelo que já estava escrito: confere cada afirmação contra o código de agora, e o que ficou falso muda ou sai. O cabeçalho do arquivo acompanha o arquivo inteiro. Código novo que não é assunto do comentário de cima fica separado dele por uma linha em branco.
++- Fala do código, não da tarefa nem do histórico ("agora", "alterado para", "antes era"), e fica em português.
++
+ ## Fluxo
+ 
+ - Cada tarefa numa branch `<tipo>/<assunto>` a partir de `develop`, nunca em `develop` ou `main`.

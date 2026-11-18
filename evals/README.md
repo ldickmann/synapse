@@ -192,7 +192,7 @@ No relatório:
 - **Por conjunto:** a média de `c/3`, quantos casos têm pass^3 e o custo médio por tentativa. Ajuste e validação aparecem sempre separados.
 - **Por avaliador:** o resultado de cada um, para saber o que reprovou.
 - **Comparação:** sempre contra o harness em uso (a linha de base ou o último experimento adotado), nunca contra o último experimento rodado. Mostra `c/3` antes e depois em cada caso, marcando melhora, regressão ou igual, o custo, os turnos e a probabilidade de o candidato ser melhor, com Beta(c+1, n−c+1) em cada braço: 3/3 contra 1/3 dá 0,93; 3/3 contra 2/3, 0,79; 2/3 contra 1/3, 0,76. Uma tentativa de diferença em três não decide nada sozinha: a decisão vem da tabela junto com a leitura das transcrições, e o limiar é do Lucas.
-- **Decisão:** o conjunto de ajuste roda primeiro, e a validação só roda se o ajuste melhorar sem regressão. Que diferença conta como melhora ou regressão, inclusive quando a validação fica igual, é decisão do Lucas, combinada antes do primeiro experimento.
+- **Decisão:** o conjunto de ajuste roda primeiro, e a validação só roda se o ajuste melhorar sem regressão. Que diferença conta como melhora ou regressão e quando o veredito do juiz vale foram decididos pelo Lucas antes do primeiro experimento e estão nas regras de decisão de `experimentos/INDICE.md`.
 
 Fora da conta de passa e falha:
 

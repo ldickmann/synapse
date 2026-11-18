@@ -1,0 +1,37 @@
+{
+  "nome": "claude-md-comentarios",
+  "data": "2026-11-18",
+  "modo": "rodada",
+  "base": {
+    "tag": "v1.0.0",
+    "commit": "b282c5acfe50a129d01b14232f6d604ad03c0879"
+  },
+  "claude_code": "2.1.325",
+  "versoes": {
+    "claude": "2.1.325 (C:\\Users\\ldick\\.local\\bin\\claude.exe)",
+    "node": "v26.12.1",
+    "git": "git version 2.56.0.windows.4"
+  },
+  "agente": {
+    "modelo": "claude-opus-5-5",
+    "esforco": "xhigh",
+    "modo": "auto",
+    "idioma": "Português (pt-BR)"
+  },
+  "juiz": {
+    "modelo": "claude-sonnet-5-5",
+    "votos": 3,
+    "teto_chamada_usd": 0.5
+  },
+  "tentativas": 3,
+  "teto_tentativa_usd": 3.3,
+  "orcamento_rodada_usd": 50,
+  "casos": ["comentarios-01-estrelas", "comentarios-02-respostas", "comentarios-03-frase"],
+  "variantes": [],
+  "harness_patch_sha256": "4bb8f0edeaa97734c632123ec5853f717ac621db3dbb338b8584f94bb5f2473b",
+  "hipotese": "Uma seção Comentários no CLAUDE.md, carregada em toda sessão, que pede o porquê, proíbe copiar valor do código, faz quem toca um bloco responder por ele inteiro e separa código novo de comentário alheio por linha em branco, leva comentarios-01-estrelas a pelo menos 2/3 sem tirar tentativa de comentarios-02-respostas e comentarios-03-frase.",
+  "manter": false,
+  "inicio": "2026-11-18T16:58:05.766Z",
+  "fim": "2026-11-18T17:54:42.264Z",
+  "parada": null
+}
