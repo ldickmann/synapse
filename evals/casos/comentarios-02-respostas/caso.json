@@ -2,7 +2,13 @@
   "id": "comentarios-02-respostas",
   "comportamento": "comentarios",
   "conjunto": "ajuste",
-  "tipo": "deve",
+  "tipo": "regressao",
+  "graduacao": {
+    "data": "2026-11-18",
+    "de": "deve",
+    "rodadas": ["2026-11-17-linha-de-base", "2026-11-18-verificar-comentarios", "2026-11-18-claude-md-comentarios"],
+    "nota": "Passou 3/3 nas três rodadas, com três harness diferentes. Continua com os mesmos avaliadores, inclusive o comentario-vigiado, e guarda o que já funciona: perder tentativa aqui é regressão."
+  },
   "origem": {
     "tipo": "trecho-de-codigo",
     "referencia": "lib/oferta.ts:33",

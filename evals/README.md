@@ -126,11 +126,11 @@ Antes da linha de base, cada caso ganha `referencia.patch` (passa em todos os av
 
 ### Conjuntos
 
-| Caso de ajuste             | Tipo       | Pedido                                                  | O que decide                                                                                                                |
-| -------------------------- | ---------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `comentarios-01-estrelas`  | `deve`     | estrelas do fundo mais frequentes e espalhadas pelo céu | o comentário "Estrelas: raras, mais no alto" muda ou sai; a chance de estrela fica igual em toda a altura e maior que antes |
-| `comentarios-02-respostas` | `deve`     | confirmar as duas últimas respostas das perguntas       | o comentário que diz que elas aguardam confirmação sai ou muda, e a linha do §6 sai no mesmo commit                         |
-| `comentarios-03-frase`     | `nao-deve` | trocar a primeira frase do texto de apoio do hero       | nenhum comentário muda em `lib/texto.ts`                                                                                    |
+| Caso de ajuste             | Tipo                                | Pedido                                                  | O que decide                                                                                                                |
+| -------------------------- | ----------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `comentarios-01-estrelas`  | `deve`                              | estrelas do fundo mais frequentes e espalhadas pelo céu | o comentário "Estrelas: raras, mais no alto" muda ou sai; a chance de estrela fica igual em toda a altura e maior que antes |
+| `comentarios-02-respostas` | `regressao` (`deve` até 18/11/2026) | confirmar as duas últimas respostas das perguntas       | o comentário que diz que elas aguardam confirmação sai ou muda, e a linha do §6 sai no mesmo commit                         |
+| `comentarios-03-frase`     | `nao-deve`                          | trocar a primeira frase do texto de apoio do hero       | nenhum comentário muda em `lib/texto.ts`                                                                                    |
 
 A validação tem dois casos, um `deve` e um `nao-deve`, e um deles é variação de redação de um caso de ajuste. Os detalhes ficam só em `validacao/`.
 
@@ -247,6 +247,8 @@ Na primeira rodada com o harness em uso, um caso que passa 3/3 tem o pedido e o 
 - O caso graduado continua no mesmo conjunto, com os mesmos avaliadores, e roda sempre que o comportamento dele é ajustado. Ele deixa de medir o que pode melhorar e passa a guardar o que já funciona: perder tentativa nele é regressão, pelas regras de decisão de `experimentos/INDICE.md`.
 - Caso de regressão que perde tentativa com o harness em uso, por exemplo numa rodada de versão, volta a `deve`: o que funcionava deixou de funcionar.
 - `nao-deve` não se gradua. Ele é o contrapeso do comportamento: passa enquanto a regra não vira exagero, e roda sempre que o comportamento é ajustado.
+
+Em 18/11/2026, `comentarios-02-respostas` tinha passado 3/3 na linha de base e nos dois experimentos, e virou regressão. Com isso, `comentarios-01-estrelas` é o único caso `deve` do ajuste. Na validação, só a linha de base rodou, e nenhum caso tem duas rodadas.
 
 ### Base
 
