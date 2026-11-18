@@ -1708,18 +1708,45 @@ body {
 .sinapse-rodape {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 24px var(--gutter);
-  font-size: 14px;
-  color: var(--color-sinapse-pessego);
+  gap: 0 24px;
+  padding: 12px var(--gutter);
   background: var(--color-sinapse-marrom);
   border-top: 2px solid var(--color-sinapse-ferrugem);
 }
 
-.sinapse-rodape-bits {
-  letter-spacing: 0.14em;
-  color: var(--color-sinapse-ferrugem);
+.sinapse-rodape-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+}
+
+/* Pêssego 9,5:1 e dourado 11,5:1 no marrom. */
+.sinapse-rodape-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-sinapse-pessego);
+  text-decoration: none;
+  transition: color var(--dur-sinapse-curta) var(--ease-sinapse-pulso);
+}
+
+.sinapse-rodape-link[data-ativo="true"] {
+  color: var(--color-sinapse-dourado);
+}
+
+/* O pixel fica no vão à esquerda, para o texto alinhar com a margem da página. */
+.sinapse-rodape-link .sinapse-nav-pixel {
+  position: absolute;
+  left: -14px;
+}
+
+.sinapse-rodape-link[data-ativo="true"] .sinapse-nav-pixel {
+  transform: scale(1);
 }
 
 /* ---------- Movimento reduzido: nada grande roda sozinho, tudo fica visível (X4) ----------

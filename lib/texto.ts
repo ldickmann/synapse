@@ -59,7 +59,7 @@ export const PERGUNTAS_TITULO = 'Perguntas que sempre aparecem'
 
 export const CONTATO_TITULO = 'Contato'
 export const CONTATO_TEXTO = 'Me conta o que o seu negócio precisa. Eu respondo pelo WhatsApp.'
-export const RODAPE = `${NOME_COMPLETO}, desenvolvedor front-end. ${CIDADE}.`
+export const RODAPE_TOPO = 'Voltar ao topo'
 
 /** Trechos de script que flutuam atrás do texto (decorativos, aria-hidden). "01000100 01001100 01001011" é DLK em ASCII. */
 export const TRECHOS: readonly string[][] = [

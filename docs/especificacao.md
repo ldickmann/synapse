@@ -170,7 +170,7 @@ Criada em 2026-10-10. O foco é layout, design, UI e UX, com micro-interações 
 5. **Trabalhos (`#trabalhos`):** "T RA BA LHOS" em pedaços, como o "W O RK" do modelo. Os trabalhos de `TRABALHOS_REAIS` abrem em aba nova.
 6. **Quem faz (`#quem`):** texto de `lib/`, as coordenadas de Blumenau, o telefone formatado, trechos de script, uma faixa de bits e um pente de memória RAM cujas células acendem em leitura e escrita.
 7. **Perguntas (`#perguntas`):** as de `lib/oferta.ts`.
-8. **Contato (`#contato`):** "C ON TATO" em três pedaços que chegam em tempos diferentes, o texto de contato e o botão grande de WhatsApp. O rodapé fica fora de `main`.
+8. **Contato (`#contato`):** "C ON TATO" em três pedaços que chegam em tempos diferentes, o texto de contato e o botão grande de WhatsApp. O rodapé fica fora de `main`, com a navegação do cabeçalho (a única abaixo de 768 px) e um link de volta ao topo, e a assinatura Story logo abaixo dele.
 
 **Fundo.** A nebulosa em pixels num canvas 2D: céu marinho com estrelas em cima, azul aberto no meio e, embaixo, a crista de poeira desenhada por ruído em blocos, igual em toda visita. Por cima, sinapses: células acendem sozinhas e no rastro do ponteiro e apagam em meio segundo. Sem laço de animação quando não há faísca.
 
