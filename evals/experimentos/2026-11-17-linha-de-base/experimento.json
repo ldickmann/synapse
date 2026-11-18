@@ -1,0 +1,43 @@
+{
+  "nome": "linha-de-base",
+  "data": "2026-11-17",
+  "modo": "rodada",
+  "base": {
+    "tag": "v1.0.0",
+    "commit": "b282c5acfe50a129d01b14232f6d604ad03c0879"
+  },
+  "claude_code": "2.1.325",
+  "versoes": {
+    "claude": "2.1.325 (C:\\Users\\ldick\\.local\\bin\\claude.exe)",
+    "node": "v26.12.1",
+    "git": "git version 2.56.0.windows.4"
+  },
+  "agente": {
+    "modelo": "claude-opus-5-5",
+    "esforco": "xhigh",
+    "modo": "auto",
+    "idioma": "Português (pt-BR)"
+  },
+  "juiz": {
+    "modelo": "claude-sonnet-5-5",
+    "votos": 3,
+    "teto_chamada_usd": 0.5
+  },
+  "tentativas": 3,
+  "teto_tentativa_usd": 3.3,
+  "orcamento_rodada_usd": 50,
+  "casos": [
+    "comentarios-01-estrelas",
+    "comentarios-02-respostas",
+    "comentarios-03-frase",
+    "comentarios-v1-onda",
+    "comentarios-v2-frase"
+  ],
+  "variantes": [],
+  "harness_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "hipotese": "Linha de base: o harness do commit base, sem mudança.",
+  "manter": false,
+  "inicio": "2026-11-17T16:52:57.826Z",
+  "fim": "2026-11-17T18:35:29.666Z",
+  "parada": null
+}

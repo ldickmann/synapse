@@ -1,0 +1,2097 @@
+{
+  "tentativas": [
+    {
+      "id": "comentarios-v1-onda#1",
+      "caso": "comentarios-v1-onda",
+      "conjunto": "validacao",
+      "tipo": "deve",
+      "n": 1,
+      "variante": null,
+      "status": "indeterminado",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 3,
+              "Bash": 14,
+              "Read": 11,
+              "Edit": 2,
+              "Skill": 1,
+              "PowerShell": 1
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 17,
+              "PreToolUse hook_response": 17,
+              "PostToolUse hook_started": 2,
+              "PostToolUse hook_response": 2,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/onda-da-rede, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/onda-da-rede"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "b717b0c fix(rede): faz a onda de ativação parar na camada de saída"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: componentes/Rede.tsx",
+          "detalhes": {
+            "tocados": ["componentes/Rede.tsx"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "passa",
+          "resumo": "o comentário vigiado mudou ou saiu",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "componentes/Rede.tsx",
+              "linha": 203,
+              "ingles": 0,
+              "portugues": 8
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "indeterminado",
+          "resumo": "componentes/Rede.tsx:203 UNKNOWN (UNKNOWN, UNKNOWN, UNKNOWN): A interpolação em `frente` confere: fase 1 dá `ultima` e fase 0 dá `primeira`. Mas o trecho não mostra se `fase` é limitada a 1 nem como as saídas ficam acesas até a próxima onda. Essas afirmações dependem de código de fora. A linha `nomeFonte` não tem relação e não foi tocada.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nA frente da onda em x, da primeira camada até a última, onde para: as saídas ficam acesas\naté a próxima onda. Nesta forma, fase 1 dá a posição exata da última camada.\n</comentario>\n<trecho>\n205 +       const primeira = CAMADAS[0].x\n206 +       const ultima = CAMADAS[CAMADAS.length - 1].x\n207 +       const frente = primeira * (1 - fase) + ultima * fase\n208         const nomeFonte = `${fonte}`\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A interpolação em `frente` confere: fase 1 dá `ultima` e fase 0 dá `primeira`. Mas o trecho não mostra se `fase` é limitada a 1 nem como as saídas ficam acesas até a próxima onda. Essas afirmações dependem de código de fora. A linha `nomeFonte` não tem relação e não foi tocada."
+                },
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A interpolação linear confere: fase 1 dá `ultima`. Mas \"onde para: as saídas ficam acesas até a próxima onda\" depende de como `fase` é limitada e de como as saídas são acesas, e isso está fora do trecho."
+                },
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A afirmação sobre a fase 1 vale: a fórmula dá `ultima` quando fase é 1. Mas o trecho não mostra se `fase` fica limitada a 1, nem que as saídas permanecem acesas até a próxima onda. Isso depende de código fora do trecho."
+                }
+              ],
+              "veredito": "UNKNOWN",
+              "justificativa": "A interpolação em `frente` confere: fase 1 dá `ultima` e fase 0 dá `primeira`. Mas o trecho não mostra se `fase` é limitada a 1 nem como as saídas ficam acesas até a próxima onda. Essas afirmações dependem de código de fora. A linha `nomeFonte` não tem relação e não foi tocada."
+            }
+          ]
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "componentes/Rede.tsx:203 PASS (PASS, PASS, PASS): Explica o significado de 'frente' (posição da onda), que as saídas ficam acesas até a próxima onda e que fase 1 coincide com a última camada. Isso não se lê na interpolação.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nA frente da onda em x, da primeira camada até a última, onde para: as saídas ficam acesas\naté a próxima onda. Nesta forma, fase 1 dá a posição exata da última camada.\n</comentario>\n<trecho>\n205 +       const primeira = CAMADAS[0].x\n206 +       const ultima = CAMADAS[CAMADAS.length - 1].x\n207 +       const frente = primeira * (1 - fase) + ultima * fase\n208         const nomeFonte = `${fonte}`\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o significado de 'frente' (posição da onda), que as saídas ficam acesas até a próxima onda e que fase 1 coincide com a última camada. Isso não se lê na interpolação."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o significado de 'frente' (interpolação entre primeira e última camada), que as saídas ficam acesas até a próxima onda e que fase 1 dá a posição exata da última camada; isso não se lê direto no código."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o significado de 'frente' (interpolação entre primeira e última camada), que as saídas permanecem acesas até a próxima onda e que fase 1 cai exatamente na última camada. Isso não se lê só da fórmula."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Explica o significado de 'frente' (posição da onda), que as saídas ficam acesas até a próxima onda e que fase 1 coincide com a última camada. Isso não se lê na interpolação."
+            }
+          ]
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "componentes/Rede.tsx:288 (o trecho de um comentário mantido mudou) PASS (PASS, PASS, PASS): A única linha alterada (289) só troca a expressão do limite por `ultima` na definição de `chegou`, ligada à \"onda chega\". Os valores ainda se aproximam do alvo quando chegou, e a vencedora (`ganhou`) ainda recebe a caixa dourada.",
+          "itens": [
+            {
+              "id": "a1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nValores das saídas: aproximam-se do alvo quando a onda chega; a vencedora ganha a caixa.\n</comentario>\n<antes>\n286         const chegou = frente >= CAMADAS[CAMADAS.length - 1].x\n287         valores = valores.map((v, i) => {\n288           const alvo = chegou ? alvos[i] : v + (Math.random() - 0.5) * 0.08\n289           return v + (Math.min(1, Math.max(0, alvo)) - v) * (chegou ? 0.12 : 0.3)\n290         })\n291         ctx!.textBaseline = 'middle'\n292         for (let i = 0; i < SAIDAS; i++) {\n293           const { x, y } = p[CAMADAS.length - 1][i]\n294           const nome = SERVICOS[i].nome.split(' ')[0]\n295           const valor = valores[i].toFixed(3)\n296           const ganhou = chegou && i === vencedora\n297           ctx!.font = `700 ${Math.max(11, largura * 0.011)}px ${nomeFonte}`\n298           const lw = ctx!.measureText(nome).width\n299           if (ganhou) {\n300             ctx!.fillStyle = cores.dourado\n301             ctx!.fillRect(x + 16, y - 12, lw + 16, 24)\n302             ctx!.fillStyle = cores.baixo\n303           } else ctx!.fillStyle = cores.texto\n304           ctx!.fillText(nome, x + 24, y)\n305           ctx!.font = `500 ${Math.max(10, largura * 0.0095)}px ${nomeFonte}`\n306           ctx!.fillStyle = ganhou ? cores.dourado : cores.suave\n307           ctx!.fillText(valor, x + 24 + lw + 26, y)\n308         }\n</antes>\n<depois>\n289 +       const chegou = frente >= ultima\n290         valores = valores.map((v, i) => {\n291           const alvo = chegou ? alvos[i] : v + (Math.random() - 0.5) * 0.08\n292           return v + (Math.min(1, Math.max(0, alvo)) - v) * (chegou ? 0.12 : 0.3)\n293         })\n294         ctx!.textBaseline = 'middle'\n295         for (let i = 0; i < SAIDAS; i++) {\n296           const { x, y } = p[CAMADAS.length - 1][i]\n297           const nome = SERVICOS[i].nome.split(' ')[0]\n298           const valor = valores[i].toFixed(3)\n299           const ganhou = chegou && i === vencedora\n300           ctx!.font = `700 ${Math.max(11, largura * 0.011)}px ${nomeFonte}`\n301           const lw = ctx!.measureText(nome).width\n302           if (ganhou) {\n303             ctx!.fillStyle = cores.dourado\n304             ctx!.fillRect(x + 16, y - 12, lw + 16, 24)\n305             ctx!.fillStyle = cores.baixo\n306           } else ctx!.fillStyle = cores.texto\n307           ctx!.fillText(nome, x + 24, y)\n308           ctx!.font = `500 ${Math.max(10, largura * 0.0095)}px ${nomeFonte}`\n309           ctx!.fillStyle = ganhou ? cores.dourado : cores.suave\n310           ctx!.fillText(valor, x + 24 + lw + 26, y)\n311         }\n</depois>",
+              "rubrica": "juiz-comentario-antigo",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A única linha alterada (289) só troca a expressão do limite por `ultima` na definição de `chegou`, ligada à \"onda chega\". Os valores ainda se aproximam do alvo quando chegou, e a vencedora (`ganhou`) ainda recebe a caixa dourada."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A única alteração é em `chegou`, que passou a comparar `frente >= ultima`. Pelo nome, `ultima` é a última camada. Os valores ainda se aproximam do alvo quando a onda chega (fator 0.12), e a vencedora (`ganhou`) ainda ganha a caixa dourada."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A linha alterada (`chegou = frente >= ultima`) continua sendo a condição de a onda chegar à última camada. `ultima` parece substituir `CAMADAS[...].x`. O resto do trecho, com aproximação do alvo e caixa dourada para a vencedora, não mudou."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "A única linha alterada (289) só troca a expressão do limite por `ultima` na definição de `chegou`, ligada à \"onda chega\". Os valores ainda se aproximam do alvo quando chegou, e a vencedora (`ganhou`) ainda recebe a caixa dourada."
+            }
+          ]
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "juiz: PASS (PASS, PASS, PASS): `frente` agora é `primeira*(1-fase) + ultima*fase`, com `fase` limitado a 1 por `Math.min`. O máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS. `chegou` continua verdadeiro em fase 1.",
+          "itens": [
+            {
+              "id": "p1",
+              "conteudo": "<pedido>\nA onda da rede passa do ponto; faça ela parar na última camada.\n</pedido>\n<criterio>\nPASS se, depois da tentativa, o maior valor que `frente` alcança é o x da última camada (CAMADAS[CAMADAS.length - 1].x), sem passar dele, e o período (PERIODO_MS, 2,6 s) e a duração da onda (DURACAO_ONDA_MS, 1,5 s) continuam iguais. No base, `frente` vai até o x da última camada mais 0.08. FAIL se a frente ainda passa da última camada, se para antes dela ou se o período ou a duração mudam.\n</criterio>\n<diff>\ndiff --git a/componentes/Rede.tsx b/componentes/Rede.tsx\nindex b3cd7e9..43435fa 100644\n--- a/componentes/Rede.tsx\n+++ b/componentes/Rede.tsx\n@@ -188,32 +188,35 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo\n             b.stroke()\n           }\n         }\n       }\n       desenhar(performance.now())\n     }\n \n     function desenhar(agora: number) {\n       if (!base) return\n       ctx!.setTransform(1, 0, 0, 1, 0, 0)\n       ctx!.clearRect(0, 0, canvas!.width, canvas!.height)\n       ctx!.drawImage(base, 0, 0)\n       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)\n       const p = posicoes()\n       const fase = Math.min(1, (agora - inicioOnda) / DURACAO_ONDA_MS)\n-      // A frente da onda em x, da primeira camada até depois da última.\n-      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x + 0.08)\n+      // A frente da onda em x, da primeira camada até a última, onde para: as saídas ficam acesas\n+      // até a próxima onda. Nesta forma, fase 1 dá a posição exata da última camada.\n+      const primeira = CAMADAS[0].x\n+      const ultima = CAMADAS[CAMADAS.length - 1].x\n+      const frente = primeira * (1 - fase) + ultima * fase\n       const nomeFonte = `${fonte}`\n \n       // Grade de entrada: o glifo lido, em pixels; os pixels acesos piscam quando a onda começa.\n       const g = GLIFOS[glifo]\n       const lado = Math.min(largura * 0.14, altura * 0.6) / GRADE\n       const gx = largura * 0.05\n       const gy = altura / 2 - (lado * GRADE) / 2\n       for (let l = 0; l < GRADE; l++) {\n         for (let c = 0; c < GRADE; c++) {\n           const aceso = g[l][c] === '#'\n           ctx!.fillStyle = aceso ? (fase < 0.2 ? cores.dourado : cores.azul) : comAlfa(cores.linha, 0.35)\n           ctx!.fillRect(gx + c * lado, gy + l * lado, lado - 1, lado - 1)\n         }\n       }\n       // Da grade para as entradas: as linhas dos pixels acesos.\n@@ -271,31 +274,31 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo\n           const ativoNo = hash(i, glifo, 40 + k) > 0.35\n           let tom = cores.poeira\n           if (ehSaida) tom = coresSaida[i]\n           else if (brilho > 0 && ativoNo) tom = cores.acento\n           ctx!.fillStyle = tom\n           if (brilho > 0 && (ativoNo || ehSaida)) {\n             ctx!.shadowColor = ehSaida ? coresSaida[i] : cores.acento\n             ctx!.shadowBlur = 14 * brilho\n           }\n           ctx!.fillRect(p[k][i].x - tamanho / 2, p[k][i].y - tamanho / 2, tamanho, tamanho)\n           ctx!.shadowBlur = 0\n         }\n       }\n \n       // Valores das saídas: aproximam-se do alvo quando a onda chega; a vencedora ganha a caixa.\n-      const chegou = frente >= CAMADAS[CAMADAS.length - 1].x\n+      const chegou = frente >= ultima\n       valores = valores.map((v, i) => {\n         const alvo = chegou ? alvos[i] : v + (Math.random() - 0.5) * 0.08\n         return v + (Math.min(1, Math.max(0, alvo)) - v) * (chegou ? 0.12 : 0.3)\n       })\n       ctx!.textBaseline = 'middle'\n       for (let i = 0; i < SAIDAS; i++) {\n         const { x, y } = p[CAMADAS.length - 1][i]\n         const nome = SERVICOS[i].nome.split(' ')[0]\n         const valor = valores[i].toFixed(3)\n         const ganhou = chegou && i === vencedora\n         ctx!.font = `700 ${Math.max(11, largura * 0.011)}px ${nomeFonte}`\n         const lw = ctx!.measureText(nome).width\n         if (ganhou) {\n           ctx!.fillStyle = cores.dourado\n           ctx!.fillRect(x + 16, y - 12, lw + 16, 24)\n</diff>",
+              "rubrica": "pedido-cumprido",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`frente` agora é `primeira*(1-fase) + ultima*fase`, com `fase` limitado a 1 por `Math.min`. O máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS. `chegou` continua verdadeiro em fase 1."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`fase` é limitada a 1 por `Math.min`, e `frente = primeira*(1-fase) + ultima*fase` dá exatamente `ultima` em fase 1. O +0.08 saiu. O diff não mexe em PERIODO_MS nem em DURACAO_ONDA_MS, e `chegou` continua alcançável."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`frente` agora é `primeira*(1-fase) + ultima*fase`, com `fase` limitada a 1 por `Math.min`. O máximo é exatamente o x da última camada, sem o +0.08. O diff não mexe em PERIODO_MS nem em DURACAO_ONDA_MS, e `chegou` continua verdadeiro em fase 1."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "`frente` agora é `primeira*(1-fase) + ultima*fase`, com `fase` limitado a 1 por `Math.min`. O máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS. `chegou` continua verdadeiro em fase 1."
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (38.3s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 18,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 11,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (38.3s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.975162,
+        "turnos": 34,
+        "duracaoS": 336,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.07,
+          "seteDias": 0.14,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-linha-de-base\\validacao\\comentarios-v1-onda-1.jsonl",
+        "mensagemFinal": "A onda agora para na camada de saída. Está no commit `b717b0c` da branch `fix/onda-da-rede` e a árvore está limpa. Todas as verificações passaram, menos o Lighthouse local, que reprovou por coisas que não vêm desta mudança.\n\n**O que estava errado:** a frente da onda ia até `0.84 + 0.08 = 0.92`, ou seja, passava da camada de saída, que fica em `0.84`. Por isso o brilho das saídas e das ligações que chegam nelas caía antes do fim da onda. O quadro parado (antes da primeira batida e com movimento reduzido) ficava mais apagado.\n\n**A correção** (`componentes/Rede.tsx:203`): a frente vai da primeira à última camada e para nela ao fim da onda. As saídas ficam acesas até a onda seguinte. A conta foi escrita para cair exatamente em `0.84` no fim; assim a vencedora sempre ganha a caixa, mesmo se as camadas mudarem de lugar um dia.\n\n**Uma consequência a decidir:** a frente agora leva 1,5 s inteiros para chegar à saída, contra uns 1,32 s antes, então a travessia ficou cerca de 12% mais lenta. Se preferir a velocidade antiga, basta baixar `DURACAO_ONDA_MS` para 1320.\n\n| Etapa | Resultado | Evidência |\n| --- | --- | --- |\n| `pnpm lint` | passou | sem saída de erro |\n| `pnpm formatar:checar` | passou | \"All matched files use Prettier code style!\" |\n| `pnpm typecheck` | passou | sem erros |\n| `pnpm verificar:padroes` | passou | \"G21, G22 e G26: nenhuma violação.\" |\n| `pnpm build` | passou | `○ /` estática; `out/index.html` e `out/404.html` existem |\n| `pnpm verificar:testes` | passou | 13 passed (38,3 s) |\n| Capturas | conferidas | as 7 imagens; nada mudou fora da rede |\n| Capturas do canvas | conferidas | com ~1,9 s a frente está parada na saída, a vencedora tem a caixa e as ligações seguem acesas |\n| `pnpm verificar:lighthouse` | reprovou | Perf 89, TBT 385 ms, contraste, LCP |\n\n- **Lighthouse:** o contraste que falha é o `span.sinapse-rodape-bits` do rodapé. O TBT vem das tarefas longas do carregamento inicial, e o LCP aponta o `p.sinapse-apoio`. A mudança não toca em nada disso, mas não rodei no `develop` para comparar. Como o `CLAUDE.md` avisa, a nota que vale é a do PageSpeed Insights no endereço publicado.\n- **Nada afrouxado:** nenhum teste, limite ou configuração foi mexido. Não há teste da onda e a especificação não muda: ela já diz que a onda \"atravessa a rede\".\n- **Problema antigo que vi nas capturas:** em 375 px, os nomes das saídas são cortados na borda do canvas (\"Siste\", \"Manu\"). Isso já acontecia e não tem relação com a onda. Posso corrigir em outra branch, se quiser.\n- **Console:** não conferi erros do console à parte.\n\n**Para você publicar:**\n\n```sh\ngit push -u origin fix/onda-da-rede\n```\n\nPR para `develop`:\n\n- **Título:** `fix(rede): faz a onda de ativação parar na camada de saída`\n- **Descrição:**\n\n```markdown\n## O que muda\n\nA frente da onda de ativação ia até 0,08 depois da camada de saída, então o brilho das saídas e das\nligações que chegam nelas caía antes do fim da onda. Agora a frente para na camada de saída, e as\nsaídas ficam acesas até a onda seguinte, também no quadro parado do movimento reduzido. Efeito\ncolateral: a frente chega à saída em 1,5 s, em vez de ~1,32 s.\n\n## Como verificar\n\nEm `#servicos`, passe sobre um serviço para o robô ligar a rede. Depois que a onda chega à saída,\nas ligações para a vencedora e o brilho das saídas ficam acesos até a próxima onda, sem esmaecer.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [x] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [x] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos (nenhuma regra mudou).\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n```\n\nNa descrição, o item das capturas está marcado, mas ele também afirma \"console sem erro\", que não conferi. Desmarque antes de abrir o PR ou confira o console. O item do CI fica para depois do push."
+      },
+      "juiz": {
+        "custoUsd": 0.14578220000000003,
+        "chamadas": 12
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "eba11803bc5fbc53b64664ec14857d9fb25916fa",
+      "diff": "diffs/comentarios-v1-onda-1.diff",
+      "quando": "2026-11-17T17:21:51.668Z"
+    },
+    {
+      "id": "comentarios-v2-frase#1",
+      "caso": "comentarios-v2-frase",
+      "conjunto": "validacao",
+      "tipo": "nao-deve",
+      "n": 1,
+      "variante": null,
+      "status": "passa",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 1,
+              "Bash": 11,
+              "Read": 1,
+              "Edit": 1,
+              "Skill": 1
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 12,
+              "PreToolUse hook_response": 12,
+              "PostToolUse hook_started": 1,
+              "PostToolUse hook_response": 1,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/frase-do-hero, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/frase-do-hero"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "1cd41b8 fix(hero): reescreve a frase de apoio do hero"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: lib/texto.ts",
+          "detalhes": {
+            "tocados": ["lib/texto.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "passa",
+          "resumo": "nenhum comentário acrescentado, alterado ou removido",
+          "detalhes": []
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "1 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (38.5s)) (mesmo estado avaliado antes nesta rodada)",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 19,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (38.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.3305582,
+        "turnos": 17,
+        "duracaoS": 132,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.07,
+          "seteDias": 0.14,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-linha-de-base\\validacao\\comentarios-v2-frase-1.jsonl",
+        "mensagemFinal": "Troquei a frase. No hero agora está:\n\n> Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil.\n\nA frase só existia em `lib/texto.ts:13`, e nenhum teste nem a especificação dependiam dela.\n\n**Verificação:** lint, formatação, typecheck e padrões passaram. O build saiu estático e os testes passaram (13 de 13), incluindo o que confere que o título, o monograma e o botão do WhatsApp continuam aparecendo sem rolar em 375×667 e 390×844. Não tirei capturas de tela: a verificação só pede quando a mudança mexe em `app/` ou `componentes/`, e aqui foi só o texto em `lib/`.\n\n**Commit** na branch `fix/frase-do-hero`, com a árvore limpa:\n- `1cd41b8 fix(hero): reescreve a frase de apoio do hero`\n\n**Para publicar:**\n```sh\ngit push -u origin fix/frase-do-hero\n```\n\n**PR (base `develop`)**\n\nTítulo: `fix(hero): reescreve a frase de apoio do hero`\n\n```markdown\n## O que muda\n\nA frase de apoio do hero passa de \"Site, sistema sob medida ou manutenção do que já existe.\"\npara \"Site novo, sistema sob medida ou manutenção do seu site.\", que deixa claro que dá para\npedir um site do zero ou cuidar do que a pessoa já tem. Só muda `APOIO` em `lib/texto.ts`.\n\n## Como verificar\n\nAbra `/` e leia o parágrafo logo abaixo do título do hero.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [ ] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [ ] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n```\n\nDeixei desmarcado o item das capturas porque não as rodei. Se quiser marcar, rode `pnpm verificar:screenshots` com o `pnpm start` no ar, ou veja a página no preview do PR."
+      },
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4c4235b169c0ce8b41113aea02090298d9d07b04",
+      "diff": "diffs/comentarios-v2-frase-1.diff",
+      "quando": "2026-11-17T17:27:24.816Z"
+    },
+    {
+      "id": "comentarios-v1-onda#2",
+      "caso": "comentarios-v1-onda",
+      "conjunto": "validacao",
+      "tipo": "deve",
+      "n": 2,
+      "variante": null,
+      "status": "indeterminado",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 2,
+              "Read": 9,
+              "Bash": 18,
+              "Edit": 1,
+              "Skill": 1,
+              "PowerShell": 3
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 22,
+              "PreToolUse hook_response": 22,
+              "PostToolUse hook_started": 1,
+              "PostToolUse hook_response": 1,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/onda-da-rede, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/onda-da-rede"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "9831348 fix(rede): para a onda de ativação na última camada"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: componentes/Rede.tsx",
+          "detalhes": {
+            "tocados": ["componentes/Rede.tsx"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "passa",
+          "resumo": "o comentário vigiado mudou ou saiu",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "componentes/Rede.tsx",
+              "linha": 203,
+              "ingles": 0,
+              "portugues": 10
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "indeterminado",
+          "resumo": "componentes/Rede.tsx:203 UNKNOWN (UNKNOWN, UNKNOWN, UNKNOWN): A interpolação `x0*(1-fase) + xN*fase` dá exatamente a última camada com fase=1. Mas \"para nela\" depende de `fase` ser limitada a 1, e `chegou` não aparece no trecho. Ambos são definidos fora dele.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nA frente da onda em x, da primeira camada até a última, e para nela. A interpolação em\nduas parcelas dá a última camada exata no fim, para `chegou` valer sem erro de arredondamento.\n</comentario>\n<trecho>\n205 +       const frente = CAMADAS[0].x * (1 - fase) + CAMADAS[CAMADAS.length - 1].x * fase\n206         const nomeFonte = `${fonte}`\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A interpolação `x0*(1-fase) + xN*fase` dá exatamente a última camada com fase=1. Mas \"para nela\" depende de `fase` ser limitada a 1, e `chegou` não aparece no trecho. Ambos são definidos fora dele."
+                },
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A fórmula x0*(1-fase)+xN*fase é uma interpolação em duas parcelas e dá exatamente a última camada quando fase=1. Mas \"para nela\" depende de `fase` ser limitada a 1, e `chegou` não aparece no trecho. Os dois estão definidos fora dele."
+                },
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A fórmula x0*(1-fase)+xN*fase dá exatamente a última camada quando fase=1, como o comentário diz. Mas \"para nela\" depende de `fase` ser limitada a 1, e `chegou` também está fora do trecho. Não dá para decidir."
+                }
+              ],
+              "veredito": "UNKNOWN",
+              "justificativa": "A interpolação `x0*(1-fase) + xN*fase` dá exatamente a última camada com fase=1. Mas \"para nela\" depende de `fase` ser limitada a 1, e `chegou` não aparece no trecho. Ambos são definidos fora dele."
+            }
+          ]
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "componentes/Rede.tsx:203 PASS (PASS, PASS, PASS): Explica a razão da interpolação em duas parcelas (exatidão na última camada para `chegou` sem erro de arredondamento), algo que o código não mostra sozinho.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nA frente da onda em x, da primeira camada até a última, e para nela. A interpolação em\nduas parcelas dá a última camada exata no fim, para `chegou` valer sem erro de arredondamento.\n</comentario>\n<trecho>\n205 +       const frente = CAMADAS[0].x * (1 - fase) + CAMADAS[CAMADAS.length - 1].x * fase\n206         const nomeFonte = `${fonte}`\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica a razão da interpolação em duas parcelas (exatidão na última camada para `chegou` sem erro de arredondamento), algo que o código não mostra sozinho."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica a razão de escolher a interpolação em duas parcelas (garante a última camada exata em fase=1, evitando erro de arredondamento no `chegou`), algo que o código sozinho não revela."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica a razão da interpolação em duas parcelas (garante a última camada exata, evitando erro de arredondamento em `chegou`), algo que o código não mostra sozinho."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Explica a razão da interpolação em duas parcelas (exatidão na última camada para `chegou` sem erro de arredondamento), algo que o código não mostra sozinho."
+            }
+          ]
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "juiz: PASS (PASS, PASS, PASS): frente = x0*(1-fase) + xUlt*fase, com fase limitada a 1 por Math.min; máximo é exatamente o x da última camada. O diff não toca PERIODO_MS nem DURACAO_ONDA_MS.",
+          "itens": [
+            {
+              "id": "p1",
+              "conteudo": "<pedido>\nA onda da rede passa do ponto; faça ela parar na última camada.\n</pedido>\n<criterio>\nPASS se, depois da tentativa, o maior valor que `frente` alcança é o x da última camada (CAMADAS[CAMADAS.length - 1].x), sem passar dele, e o período (PERIODO_MS, 2,6 s) e a duração da onda (DURACAO_ONDA_MS, 1,5 s) continuam iguais. No base, `frente` vai até o x da última camada mais 0.08. FAIL se a frente ainda passa da última camada, se para antes dela ou se o período ou a duração mudam.\n</criterio>\n<diff>\ndiff --git a/componentes/Rede.tsx b/componentes/Rede.tsx\nindex b3cd7e9..6d7803d 100644\n--- a/componentes/Rede.tsx\n+++ b/componentes/Rede.tsx\n@@ -188,32 +188,33 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo\n             b.stroke()\n           }\n         }\n       }\n       desenhar(performance.now())\n     }\n \n     function desenhar(agora: number) {\n       if (!base) return\n       ctx!.setTransform(1, 0, 0, 1, 0, 0)\n       ctx!.clearRect(0, 0, canvas!.width, canvas!.height)\n       ctx!.drawImage(base, 0, 0)\n       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)\n       const p = posicoes()\n       const fase = Math.min(1, (agora - inicioOnda) / DURACAO_ONDA_MS)\n-      // A frente da onda em x, da primeira camada até depois da última.\n-      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x + 0.08)\n+      // A frente da onda em x, da primeira camada até a última, e para nela. A interpolação em\n+      // duas parcelas dá a última camada exata no fim, para `chegou` valer sem erro de arredondamento.\n+      const frente = CAMADAS[0].x * (1 - fase) + CAMADAS[CAMADAS.length - 1].x * fase\n       const nomeFonte = `${fonte}`\n \n       // Grade de entrada: o glifo lido, em pixels; os pixels acesos piscam quando a onda começa.\n       const g = GLIFOS[glifo]\n       const lado = Math.min(largura * 0.14, altura * 0.6) / GRADE\n       const gx = largura * 0.05\n       const gy = altura / 2 - (lado * GRADE) / 2\n       for (let l = 0; l < GRADE; l++) {\n         for (let c = 0; c < GRADE; c++) {\n           const aceso = g[l][c] === '#'\n           ctx!.fillStyle = aceso ? (fase < 0.2 ? cores.dourado : cores.azul) : comAlfa(cores.linha, 0.35)\n           ctx!.fillRect(gx + c * lado, gy + l * lado, lado - 1, lado - 1)\n         }\n       }\n       // Da grade para as entradas: as linhas dos pixels acesos.\n</diff>",
+              "rubrica": "pedido-cumprido",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "frente = x0*(1-fase) + xUlt*fase, com fase limitada a 1 por Math.min; máximo é exatamente o x da última camada. O diff não toca PERIODO_MS nem DURACAO_ONDA_MS."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "frente = x0*(1-fase) + xUlt*fase, com fase limitada a 1 por Math.min; máximo é exatamente o x da última camada. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "frente = x0*(1-fase) + xUltima*fase, com fase limitada a 1 por Math.min: máximo é exatamente CAMADAS[último].x, sem passar. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "frente = x0*(1-fase) + xUlt*fase, com fase limitada a 1 por Math.min; máximo é exatamente o x da última camada. O diff não toca PERIODO_MS nem DURACAO_ONDA_MS."
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (34.2s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 17,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 11,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 35,
+                "evidencia": "13 passed (34.2s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.9210644,
+        "turnos": 36,
+        "duracaoS": 408,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.14,
+          "seteDias": 0.14,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-linha-de-base\\validacao\\comentarios-v1-onda-2.jsonl",
+        "mensagemFinal": "A onda agora para na última camada. Antes, a frente seguia até uma distância de 0,08 da largura além das saídas. Por isso, quando assentava, as ligações para as saídas e o brilho delas já apareciam apagando. Agora a frente chega às saídas e fica parada ali até a próxima onda, com essas ligações acesas por inteiro e a vencedora na caixa.\n\nA mudança é uma linha em `componentes/Rede.tsx:205`. Do jeito que a conta está escrita, a frente cai exatamente na última camada no fim da onda, então a vencedora sempre ganha a caixa. A duração continua 1,5 s e a distância ficou menor, então a onda anda uns 12% mais devagar e chega às saídas em 1,5 s, não mais em 1,32 s. A especificação não fala dessa sobra, então ela não mudou.\n\n## Verificação\n\n| Etapa | Resultado | Evidência |\n|---|---|---|\n| Lint, formatação, typecheck | passou | sem erros; \"All matched files use Prettier code style!\" |\n| Padrões | passou | \"G21, G22 e G26: nenhuma violação.\" |\n| Build | passou | `○ /` estática; `out/index.html` e `out/404.html` existem; o JS gerado tem a conta nova |\n| Playwright | passou | 13 passed (38.5s) |\n| Capturas | conferidas | as 7. Em `pico-1440` a rede está parada com a onda nas saídas e `Site 0.969` na caixa; o resto não mudou |\n| Lighthouse | não passou, mas não foi esta mudança | o `develop` sem a mudança falha nos mesmos três pontos |\n\nAs três falhas do Lighthouse, que já existiam:\n- **Contraste:** os bits do rodapé (`span.sinapse-rodape-bits`, 1,76:1).\n- **Elemento de LCP:** é o `p.sinapse-apoio`, não o `h1`.\n- **TBT acima de 300 ms:** variou de 290 a 485 ms no mesmo build, contra 321 e 328 ms no `develop`, ruído demais para medir localmente. Vale olhar o PageSpeed Insights do preview.\n\nNenhum teste nem limite foi afrouxado: o diff só toca `componentes/Rede.tsx`.\n\n## Duas coisas que vi e não mexi\n\n- **A rede para no meio de uma onda.** Depois da batida do robô ela trabalha 9 s e para. Com uma onda a cada 2,6 s, a última está em torno de 80% do caminho nesse momento, entre a segunda camada oculta e as saídas, e sem vencedora na caixa. Se a ideia era também que ela \"pare na última camada\" quando desliga, dá para deixar a onda em curso terminar antes de parar. Quer que eu faça?\n- **Saídas cortadas no celular.** Em 375 px, os nomes das saídas da rede aparecem cortados no canto direito (\"Siste\", \"Manu\"). Isso já era assim antes.\n\n## Para você publicar\n\nCommit na branch `fix/onda-da-rede`, com a árvore limpa:\n- `9831348 fix(rede): para a onda de ativação na última camada`\n\n```sh\ngit push -u origin fix/onda-da-rede\n```\n\n**Título do PR:** `fix(rede): para a onda de ativação na última camada`\n\n```markdown\n## O que muda\n\nA frente da onda de ativação ia até 0,08 da largura depois da última camada, então passava das\nsaídas e já chegava esfriando. Agora ela vai até a última camada e para nela até a onda seguinte:\nas ligações para as saídas ficam acesas por inteiro e a vencedora ganha a caixa no fim da onda.\n\n## Como verificar\n\nEm `#servicos`, passe sobre um serviço para o robô ligar a rede e veja a onda chegar às saídas e\nparar ali, sem apagar antes da próxima. Com movimento reduzido, o quadro parado mostra a onda nas\nsaídas.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [x] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [x] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos. (Nenhuma regra mudou.)\n```"
+      },
+      "juiz": {
+        "custoUsd": 0.05897600000000003,
+        "chamadas": 9
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "464dce226d81ecc20c36fd990ddb03451c3ba6f0",
+      "diff": "diffs/comentarios-v1-onda-2.diff",
+      "quando": "2026-11-17T17:57:26.092Z"
+    },
+    {
+      "id": "comentarios-v2-frase#2",
+      "caso": "comentarios-v2-frase",
+      "conjunto": "validacao",
+      "tipo": "nao-deve",
+      "n": 2,
+      "variante": null,
+      "status": "passa",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 2,
+              "Read": 1,
+              "Bash": 8,
+              "Edit": 1,
+              "Skill": 1
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 9,
+              "PreToolUse hook_response": 9,
+              "PostToolUse hook_started": 1,
+              "PostToolUse hook_response": 1,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/apoio-do-hero, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/apoio-do-hero"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "3a27775 fix(hero): troca a frase de apoio do hero"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: lib/texto.ts",
+          "detalhes": {
+            "tocados": ["lib/texto.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "passa",
+          "resumo": "nenhum comentário acrescentado, alterado ou removido",
+          "detalhes": []
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "1 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (38.5s)) (mesmo estado avaliado antes nesta rodada)",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 19,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (38.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.3108126,
+        "turnos": 15,
+        "duracaoS": 126,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.14,
+          "seteDias": 0.15,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-linha-de-base\\validacao\\comentarios-v2-frase-2.jsonl",
+        "mensagemFinal": "Troquei a frase. A mudança está no commit `3a27775`, na branch `fix/apoio-do-hero`, e a árvore ficou limpa.\n\n**Antes:** \"Site, sistema sob medida ou manutenção do que já existe.\"\n**Depois:** \"Site novo, sistema sob medida ou manutenção do seu site.\"\n\nO resto do parágrafo continua igual (\"Atendo em Navegantes e região, e à distância em todo o Brasil.\"). A frase só aparecia em `lib/texto.ts:13`; não estava em testes nem na especificação.\n\n| Etapa | Comando | Resultado | Evidência |\n| --- | --- | --- | --- |\n| Lint | `pnpm lint` | passou | sem erros nem avisos |\n| Formatação | `pnpm formatar:checar` | passou | All matched files use Prettier code style! |\n| Typecheck | `pnpm typecheck` | passou | sem erros |\n| Padrões | `pnpm verificar:padroes` | passou | G21, G22 e G26: nenhuma violação |\n| Build | `pnpm build` | passou | `/` estática (○), `out/index.html` e `out/404.html` gerados |\n| Testes | `pnpm verificar:testes` | passou | 13 passed (38.6s) |\n| Capturas e Lighthouse | — | não rodou | o diff não toca `app/` nem `componentes/` |\n\nO diff tem só essa linha, então nenhum teste ou limite ficou mais permissivo. As capturas não rodaram, então ninguém olhou o hero com a frase nova. Ela tem o mesmo tamanho da antiga, e o X1, que confere a primeira tela em 375×667 e 390×844, passou.\n\n**Para você publicar:**\n\n```sh\ngit push -u origin fix/apoio-do-hero\n```\n\n**Título do PR:** `fix(hero): troca a frase de apoio do hero`\n\n**Descrição:**\n\n```markdown\n## O que muda\n\nTroca a frase de apoio do hero de \"Site, sistema sob medida ou manutenção do que já existe.\" para \"Site novo, sistema sob medida ou manutenção do seu site.\", que deixa mais claro o que é cada serviço.\n\n## Como verificar\n\nAbrir `/` no preview e ler o parágrafo abaixo do título do hero.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [ ] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [ ] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos.\n```"
+      },
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4c4235b169c0ce8b41113aea02090298d9d07b04",
+      "diff": "diffs/comentarios-v2-frase-2.diff",
+      "quando": "2026-11-17T18:02:31.497Z"
+    },
+    {
+      "id": "comentarios-v1-onda#3",
+      "caso": "comentarios-v1-onda",
+      "conjunto": "validacao",
+      "tipo": "deve",
+      "n": 3,
+      "variante": null,
+      "status": "indeterminado",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 4,
+              "Bash": 13,
+              "Read": 9,
+              "Edit": 1,
+              "Skill": 1,
+              "PowerShell": 1
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 15,
+              "PreToolUse hook_response": 15,
+              "PostToolUse hook_started": 1,
+              "PostToolUse hook_response": 1,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/onda-da-rede, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/onda-da-rede"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "a7b5b42 fix(rede): para a onda de ativação na camada de saída"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: componentes/Rede.tsx",
+          "detalhes": {
+            "tocados": ["componentes/Rede.tsx"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "passa",
+          "resumo": "o comentário vigiado mudou ou saiu",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "1 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "componentes/Rede.tsx",
+              "linha": 203,
+              "ingles": 0,
+              "portugues": 11
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "indeterminado",
+          "resumo": "componentes/Rede.tsx:203 UNKNOWN (UNKNOWN, UNKNOWN, UNKNOWN): A interpolação confere: com fase em 1 dá exatamente o x da última camada. Mas o comentário diz que isso faz `chegou` ser verdadeiro, e `chegou` não aparece no trecho. Sem o código que o define e usa, não dá para decidir.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nA frente da onda em x, da primeira camada até a última, onde para. A interpolação\ndá exatamente o x da saída com a fase em 1, para que `chegou` seja verdadeiro no fim.\n</comentario>\n<trecho>\n205 +       const frente = (1 - fase) * CAMADAS[0].x + fase * CAMADAS[CAMADAS.length - 1].x\n206         const nomeFonte = `${fonte}`\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A interpolação confere: com fase em 1 dá exatamente o x da última camada. Mas o comentário diz que isso faz `chegou` ser verdadeiro, e `chegou` não aparece no trecho. Sem o código que o define e usa, não dá para decidir."
+                },
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A linha interpola de CAMADAS[0].x (fase 0) até a última camada (fase 1), e com fase 1 dá exatamente o x da saída. Mas `chegou` e o limite de `fase` ficam fora do trecho, então não dá para confirmar que `chegou` fica verdadeiro no fim."
+                },
+                {
+                  "veredito": "UNKNOWN",
+                  "justificativa": "A interpolação confere: com fase em 1 o resultado é exatamente o x da última camada. Mas o comentário diz que isso faz `chegou` ser verdadeiro, e `chegou` não aparece no trecho. Também não dá para ver o intervalo de `fase` nem como `chegou` é calculado."
+                }
+              ],
+              "veredito": "UNKNOWN",
+              "justificativa": "A interpolação confere: com fase em 1 dá exatamente o x da última camada. Mas o comentário diz que isso faz `chegou` ser verdadeiro, e `chegou` não aparece no trecho. Sem o código que o define e usa, não dá para decidir."
+            }
+          ]
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "componentes/Rede.tsx:203 PASS (PASS, PASS, PASS): Explica o propósito da interpolação (atingir exatamente o x final com fase 1, para `chegou` ser verdadeiro) e a relação com outra variável, o que o código sozinho não revela.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Rede.tsx</arquivo>\n<comentario>\nA frente da onda em x, da primeira camada até a última, onde para. A interpolação\ndá exatamente o x da saída com a fase em 1, para que `chegou` seja verdadeiro no fim.\n</comentario>\n<trecho>\n205 +       const frente = (1 - fase) * CAMADAS[0].x + fase * CAMADAS[CAMADAS.length - 1].x\n206         const nomeFonte = `${fonte}`\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o propósito da interpolação (atingir exatamente o x final com fase 1, para `chegou` ser verdadeiro) e a relação com outra variável, o que o código sozinho não revela."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o propósito da interpolação (chegar exatamente ao x final com fase 1, para `chegou` ser verdadeiro) e a ligação com outra variável; isso não se lê só da fórmula."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o propósito da interpolação (x exato da última camada com fase 1, garantindo `chegou` verdadeiro) e a semântica de 'frente da onda', coisas que a fórmula sozinha não revela."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Explica o propósito da interpolação (atingir exatamente o x final com fase 1, para `chegou` ser verdadeiro) e a relação com outra variável, o que o código sozinho não revela."
+            }
+          ]
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "juiz: PASS (PASS, PASS, PASS): A frente passa a ser (1-fase)*x0 + fase*xN. Com fase limitada a 1 por Math.min, o máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS.",
+          "itens": [
+            {
+              "id": "p1",
+              "conteudo": "<pedido>\nA onda da rede passa do ponto; faça ela parar na última camada.\n</pedido>\n<criterio>\nPASS se, depois da tentativa, o maior valor que `frente` alcança é o x da última camada (CAMADAS[CAMADAS.length - 1].x), sem passar dele, e o período (PERIODO_MS, 2,6 s) e a duração da onda (DURACAO_ONDA_MS, 1,5 s) continuam iguais. No base, `frente` vai até o x da última camada mais 0.08. FAIL se a frente ainda passa da última camada, se para antes dela ou se o período ou a duração mudam.\n</criterio>\n<diff>\ndiff --git a/componentes/Rede.tsx b/componentes/Rede.tsx\nindex b3cd7e9..ac2f7c7 100644\n--- a/componentes/Rede.tsx\n+++ b/componentes/Rede.tsx\n@@ -188,32 +188,33 @@ export function Rede({ destaque, ativo }: { destaque: Servico | null; ativo: boo\n             b.stroke()\n           }\n         }\n       }\n       desenhar(performance.now())\n     }\n \n     function desenhar(agora: number) {\n       if (!base) return\n       ctx!.setTransform(1, 0, 0, 1, 0, 0)\n       ctx!.clearRect(0, 0, canvas!.width, canvas!.height)\n       ctx!.drawImage(base, 0, 0)\n       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)\n       const p = posicoes()\n       const fase = Math.min(1, (agora - inicioOnda) / DURACAO_ONDA_MS)\n-      // A frente da onda em x, da primeira camada até depois da última.\n-      const frente = CAMADAS[0].x + fase * (CAMADAS[CAMADAS.length - 1].x - CAMADAS[0].x + 0.08)\n+      // A frente da onda em x, da primeira camada até a última, onde para. A interpolação\n+      // dá exatamente o x da saída com a fase em 1, para que `chegou` seja verdadeiro no fim.\n+      const frente = (1 - fase) * CAMADAS[0].x + fase * CAMADAS[CAMADAS.length - 1].x\n       const nomeFonte = `${fonte}`\n \n       // Grade de entrada: o glifo lido, em pixels; os pixels acesos piscam quando a onda começa.\n       const g = GLIFOS[glifo]\n       const lado = Math.min(largura * 0.14, altura * 0.6) / GRADE\n       const gx = largura * 0.05\n       const gy = altura / 2 - (lado * GRADE) / 2\n       for (let l = 0; l < GRADE; l++) {\n         for (let c = 0; c < GRADE; c++) {\n           const aceso = g[l][c] === '#'\n           ctx!.fillStyle = aceso ? (fase < 0.2 ? cores.dourado : cores.azul) : comAlfa(cores.linha, 0.35)\n           ctx!.fillRect(gx + c * lado, gy + l * lado, lado - 1, lado - 1)\n         }\n       }\n       // Da grade para as entradas: as linhas dos pixels acesos.\n</diff>",
+              "rubrica": "pedido-cumprido",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A frente passa a ser (1-fase)*x0 + fase*xN. Com fase limitada a 1 por Math.min, o máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`frente` agora interpola de CAMADAS[0].x até CAMADAS[último].x, sem o +0.08. `fase` é limitada a 1 por Math.min, então o máximo é exatamente o x da última camada. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`frente` agora é (1-fase)*x0 + fase*xN. Com fase limitada a 1 por Math.min, o máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "A frente passa a ser (1-fase)*x0 + fase*xN. Com fase limitada a 1 por Math.min, o máximo é exatamente o x da última camada, sem o +0.08. O diff não altera PERIODO_MS nem DURACAO_ONDA_MS."
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (36.4s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 18,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 37,
+                "evidencia": "13 passed (36.4s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.9135506,
+        "turnos": 31,
+        "duracaoS": 294,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.2,
+          "seteDias": 0.15,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-linha-de-base\\validacao\\comentarios-v1-onda-3.jsonl",
+        "mensagemFinal": "Corrigi: a onda agora para na camada de saída. O commit está na branch `fix/onda-da-rede`, com a árvore limpa.\n\n**O problema:** a frente da onda ia da primeira camada até 0,08 além da última (`componentes/Rede.tsx:204`). Com isso, ela passava da saída e apagava parte das ligações e do brilho da saída antes de assentar.\n\n**A correção:** a frente agora termina exatamente na posição da camada de saída. Escolhi uma fórmula que chega a esse ponto sem erro de arredondamento, para a caixa dourada da vencedora continuar aparecendo no fim de cada onda.\n\n**O que muda na tela:** no quadro parado (antes da batida do robô, com movimento reduzido e entre uma onda e outra), as ligações até a vencedora ficam acesas por inteiro. A segunda camada oculta mantém um rastro leve. A onda leva os 1,5 s inteiros para chegar à saída, em vez de ~1,3 s.\n\n## Verificação\n\n| Etapa | Resultado | Evidência |\n|---|---|---|\n| `pnpm lint` | passou | sem erros nem avisos |\n| `pnpm formatar:checar` | passou | \"All matched files use Prettier code style!\" |\n| `pnpm typecheck` | passou | sem erros |\n| `pnpm verificar:padroes` | passou | \"G21, G22 e G26: nenhuma violação.\" |\n| `pnpm build` | passou | `○ /` estática; `out/index.html` e `out/404.html` existem |\n| `pnpm verificar:testes` | passou | 13 passed (36,7 s); G7 com 0,070 % de pixels diferentes |\n| Capturas | conferidas | as 7; nas de Serviços (375 e 1440), as ligações acesas terminam na saída e a vencedora tem a caixa |\n| `pnpm verificar:lighthouse` | **falhou** | TBT 330 ms (limite 300), contraste dos bits do rodapé, LCP no parágrafo do hero |\n\nAs falhas do Lighthouse não têm relação com a rede: o contraste reprovado é dos bits do rodapé, e o TBT vem da hidratação. Não rodei o Lighthouse em `develop` para comparar. Como diz o CLAUDE.md, a nota vale pelo PageSpeed Insights no endereço publicado.\n\nNo diff, nenhum teste ou limite foi afrouxado. Não mexi na especificação, porque ela só diz que a onda \"atravessa a rede\".\n\n## Um problema parecido que deixei de fora\n\nDepois da batida do robô, a rede trabalha por 9 s e para no quadro em que estiver. A última onda começa por volta de 7,8 s, então em 9 s ela está em ~80 % do caminho. A rede congela com a frente entre a segunda camada oculta e a saída, as linhas pela metade e sem a caixa da vencedora. Ou seja, nesse caso a onda para antes da última camada. Se quiser, corrijo numa próxima tarefa, deixando a onda em curso terminar antes de a rede parar.\n\n## Para você publicar\n\n```sh\ngit push -u origin fix/onda-da-rede\n```\n\nCommit: `a7b5b42 fix(rede): para a onda de ativação na camada de saída`\n\n**Título do PR:** `fix(rede): para a onda de ativação na camada de saída`\n\n```markdown\n## O que muda\n\nA frente da onda de ativação ia da primeira camada até 0,08 além da última, então passava da camada de saída e apagava parte das ligações e do brilho dela antes de assentar. Agora ela para exatamente na camada de saída, e a caixa da vencedora continua aparecendo no fim de cada onda.\n\n## Como verificar\n\nEm `#servicos`, passe sobre um serviço para o robô ligar a rede: cada onda termina nas três saídas, com as ligações até a vencedora acesas e a caixa dourada nela. Com movimento reduzido, o quadro parado mostra o mesmo estado final.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [x] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [x] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos. (Nenhuma regra mudou.)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n```\n\nDeixei o item do CI desmarcado porque ele só roda depois do push. O item do console está marcado, mas não procurei erros de console em separado; só os testes e as capturas rodaram sem falha."
+      },
+      "juiz": {
+        "custoUsd": 0.0747294999999999,
+        "chamadas": 9
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "bad7deb5324d7fb0462d6abf6d88bfa394ce1a79",
+      "diff": "diffs/comentarios-v1-onda-3.diff",
+      "quando": "2026-11-17T18:28:40.657Z"
+    },
+    {
+      "id": "comentarios-v2-frase#3",
+      "caso": "comentarios-v2-frase",
+      "conjunto": "validacao",
+      "tipo": "nao-deve",
+      "n": 3,
+      "variante": null,
+      "status": "passa",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 2,
+              "Read": 1,
+              "Bash": 10,
+              "Edit": 2,
+              "Skill": 1
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 12,
+              "PreToolUse hook_response": 12,
+              "PostToolUse hook_started": 2,
+              "PostToolUse hook_response": 2,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch fix/frase-do-hero, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "fix/frase-do-hero"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "058c945 fix(hero): reescreve a frase de apoio do hero"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: lib/texto.ts",
+          "detalhes": {
+            "tocados": ["lib/texto.ts"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "sem-comentario-novo": {
+          "status": "passa",
+          "resumo": "nenhum comentário acrescentado, alterado ou removido",
+          "detalhes": []
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "0 comentário(s) novo(s), todos em português",
+          "detalhes": []
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-porque": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "juiz-comentario-antigo": {
+          "status": "passa",
+          "resumo": "nenhum comentário para julgar"
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "1 verificações passaram",
+          "detalhes": [
+            {
+              "checagem": "APOIO em lib/texto.ts igual ao valor pedido",
+              "passa": true,
+              "evidencia": "igual"
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (38.5s)) (mesmo estado avaliado antes nesta rodada)",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 19,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 10,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 39,
+                "evidencia": "13 passed (38.5s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 0.37521720000000003,
+        "turnos": 18,
+        "duracaoS": 197,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.21,
+          "seteDias": 0.15,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-linha-de-base\\validacao\\comentarios-v2-frase-3.jsonl",
+        "mensagemFinal": "Troquei a frase do hero e fiz o commit na branch `fix/frase-do-hero`. A árvore ficou limpa.\n\nO texto mora em `lib/texto.ts:13`, na constante `APOIO`. Esse é o único lugar do repositório onde ele aparece. Agora o parágrafo fica assim:\n\n> Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil.\n\nNa primeira edição, o espaço depois do ponto se perdeu e ficou \"seu site.Atendo\". Nenhum teste pegou isso; eu vi ao ler o diff. Corrigi e rodei todas as etapas de novo, do começo.\n\n| Etapa | Comando | Resultado | Evidência |\n|---|---|---|---|\n| Lint | `pnpm lint` | passou | saiu com código 0, sem saída |\n| Formatação | `pnpm formatar:checar` | passou | All matched files use Prettier code style! |\n| Typecheck | `pnpm typecheck` | passou | saiu com código 0 |\n| Padrões | `pnpm verificar:padroes` | passou | G21, G22 e G26: nenhuma violação |\n| Build | `pnpm build` | passou | `○ /` estática; `out/index.html` e `out/404.html` existem; a frase nova está no HTML |\n| Testes | `pnpm verificar:testes` | passou | 13 passed (38.4s) |\n\n- **Diff:** só a linha de `APOIO` mudou. Nenhum teste ou limite foi afrouxado.\n- **Capturas e Lighthouse:** não rodaram, porque a skill só os pede quando o diff mexe em `app/` ou `componentes/`. O texto novo tem quase o mesmo tamanho do antigo. O teste X1 passou em 375×667 e 390×844: o h1 e o botão do WhatsApp continuam aparecendo sem rolar, e nada passa da largura da tela. Se quiser conferir na tela, rode `pnpm verificar:screenshots`.\n\n## Para você publicar\n\n**Commit:** `058c945 fix(hero): reescreve a frase de apoio do hero`\n\n```sh\ngit push -u origin fix/frase-do-hero\ngh pr create --base develop\n```\n\n**Título do PR:** `fix(hero): reescreve a frase de apoio do hero`\n\n**Descrição:**\n\n```markdown\n## O que muda\n\nA frase de apoio do hero troca \"Site, sistema sob medida ou manutenção do que já existe.\" por \"Site novo, sistema sob medida ou manutenção do seu site.\" A segunda frase, sobre o atendimento, continua igual.\n\n## Como verificar\n\nAbrir `/` e ler o parágrafo abaixo do h1.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [ ] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [ ] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n```"
+      },
+      "juiz": {
+        "custoUsd": 0,
+        "chamadas": 0
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "4c4235b169c0ce8b41113aea02090298d9d07b04",
+      "diff": "diffs/comentarios-v2-frase-3.diff",
+      "quando": "2026-11-17T18:35:05.692Z"
+    }
+  ]
+}

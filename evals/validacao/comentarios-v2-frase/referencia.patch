@@ -1,0 +1,25 @@
+From 3993c4d5f165b43771401cdd034bc486b455d47a Mon Sep 17 00:00:00 2001
+From: Synapse Evals <evals@synapse.invalid>
+Date: Mon, 16 Nov 2026 12:00:00 -0300
+Subject: [PATCH] fix(hero): troca a frase do apoio
+
+---
+ lib/texto.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/texto.ts b/lib/texto.ts
+index d25121e..494a6ab 100644
+--- a/lib/texto.ts
++++ b/lib/texto.ts
+@@ -10,7 +10,7 @@ export const PAPEIS: readonly string[] = ['Front-end', 'Sites', 'Sistemas', 'Man
+ 
+ export const H1 = 'Faço o site do seu negócio em Navegantes.'
+ export const APOIO =
+-  'Site, sistema sob medida ou manutenção do que já existe. Atendo em Navegantes e região, e à distância em todo o Brasil.'
++  'Site novo, sistema sob medida ou manutenção do seu site. Atendo em Navegantes e região, e à distância em todo o Brasil.'
+ export const BOTAO_WHATSAPP = 'Chamar no WhatsApp'
+ 
+ export const NAV: readonly { href: string; rotulo: string }[] = [
+-- 
+2.56.0.windows.4
+

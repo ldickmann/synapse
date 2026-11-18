@@ -1,0 +1,671 @@
+{
+  "tentativas": [
+    {
+      "id": "comentarios-01-estrelas#1",
+      "caso": "comentarios-01-estrelas",
+      "conjunto": "ajuste",
+      "tipo": "deve",
+      "n": 1,
+      "variante": null,
+      "status": "falha",
+      "confere": null,
+      "avaliadores": {
+        "transcricao": {
+          "status": "informa",
+          "resumo": "verificou depois da última edição; 0 ação(ões) negada(s); skills: verificar",
+          "detalhes": {
+            "verificouDepoisDaUltimaEdicao": true,
+            "acoesNegadas": 0,
+            "ferramentas": {
+              "Grep": 2,
+              "Bash": 31,
+              "Read": 14,
+              "Edit": 7,
+              "ToolSearch": 1,
+              "TaskStop": 2,
+              "Skill": 1,
+              "PowerShell": 3
+            },
+            "skills": ["verificar"],
+            "hooks": {
+              "SessionStart hook_started": 1,
+              "SessionStart hook_response": 1,
+              "PreToolUse hook_started": 41,
+              "PreToolUse hook_response": 41,
+              "PostToolUse hook_started": 7,
+              "PostToolUse hook_response": 7,
+              "Stop hook_started": 1,
+              "Stop hook_response": 1
+            },
+            "modelos": {
+              "principal": ["claude-opus-5-5"],
+              "subagentes": []
+            },
+            "marcas": [],
+            "contaminada": false,
+            "servidorEsquecido": []
+          }
+        },
+        "fluxo-git": {
+          "status": "passa",
+          "resumo": "branch feat/estrelas-do-fundo, 1 commit(s)",
+          "detalhes": [
+            {
+              "regra": "branch <tipo>/<assunto>",
+              "passa": true,
+              "evidencia": "feat/estrelas-do-fundo"
+            },
+            {
+              "regra": "a branch sai de develop",
+              "passa": true,
+              "evidencia": "sim"
+            },
+            {
+              "regra": "nada commitado em develop",
+              "passa": true,
+              "evidencia": "develop no início"
+            },
+            {
+              "regra": "árvore limpa",
+              "passa": true,
+              "evidencia": "limpa"
+            },
+            {
+              "regra": "pelo menos um commit",
+              "passa": true,
+              "evidencia": "685b5e5 feat(fundo): espalha mais estrelas pelo céu inteiro"
+            },
+            {
+              "regra": "commitlint sem erro",
+              "passa": true,
+              "evidencia": "passou"
+            },
+            {
+              "regra": "pnpm-lock.yaml intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "CHANGELOG.md intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": ".release-please-manifest.json intocado",
+              "passa": true,
+              "evidencia": "igual"
+            },
+            {
+              "regra": "version do package.json intocado",
+              "passa": true,
+              "evidencia": "1.0.0 → 1.0.0"
+            },
+            {
+              "regra": "nada enviado à origem",
+              "passa": true,
+              "evidencia": "origem igual ao início"
+            }
+          ]
+        },
+        "escopo-arquivos": {
+          "status": "passa",
+          "resumo": "tocados: componentes/Fundo.tsx, docs/especificacao.md",
+          "detalhes": {
+            "tocados": ["componentes/Fundo.tsx", "docs/especificacao.md"],
+            "fora": [],
+            "faltam": []
+          }
+        },
+        "comentario-vigiado": {
+          "status": "passa",
+          "resumo": "o comentário vigiado mudou ou saiu",
+          "detalhes": {
+            "comentarioAcima": []
+          }
+        },
+        "comentarios-narracao": {
+          "status": "passa",
+          "resumo": "6 comentário(s) novo(s), nenhum narra a tarefa"
+        },
+        "comentarios-idioma": {
+          "status": "passa",
+          "resumo": "6 comentário(s) novo(s), todos em português",
+          "detalhes": [
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 5,
+              "ingles": 0,
+              "portugues": 19
+            },
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 14,
+              "ingles": 0,
+              "portugues": 3
+            },
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 16,
+              "ingles": 0,
+              "portugues": 2
+            },
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 128,
+              "ingles": 0,
+              "portugues": 14
+            },
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 138,
+              "ingles": 0,
+              "portugues": 4
+            },
+            {
+              "arquivo": "componentes/Fundo.tsx",
+              "linha": 140,
+              "ingles": 0,
+              "portugues": 8
+            }
+          ]
+        },
+        "comentarios-marca": {
+          "status": "informa",
+          "resumo": "nenhum comentário cita nome que sumiu",
+          "detalhes": []
+        },
+        "juiz-comentario-descreve": {
+          "status": "falha",
+          "resumo": "componentes/Fundo.tsx:5 FAIL (FAIL, FAIL, FAIL): O comentário diz que as faíscas apagam em meio segundo, mas VIDA_MS = 900, perto de um segundo. O resto do cabeçalho confere com o código.; componentes/Fundo.tsx:14 PASS (PASS, PASS, PASS): BLOCO = 5 é o lado em células do bloco. O código sorteia no máximo uma estrela por bloco.; componentes/Fundo.tsx:16 PASS (PASS, PASS, PASS): `ruido > PRESENCA` pula o bloco, então cerca de 0,8 dos blocos recebem estrela. É a fração que o comentário descreve.; componentes/Fundo.tsx:128 PASS (PASS, PASS, PASS): posicao limita o deslocamento a 0..BLOCO-2, então a última coluna e a última linha do bloco ficam vazias. Estrelas de blocos vizinhos ficam a pelo menos 2 células, sem se tocar. Há no máximo uma estrela por bloco, em ponto sorteado.; componentes/Fundo.tsx:138 PASS (PASS, PASS, PASS): Pula a estrela se altura(l+1) > bordaEm(c), isto é, se a célula de baixo já é crista. Isso impede que a estrela encoste na crista. O `c >= colunas` na mesma linha é um limite à parte.; componentes/Fundo.tsx:140 PASS (PASS, PASS, PASS): tipo<0.07 desenha quatro picos. Estrelas claras (tipo<0.4 ou fraca) usam cores.estrela. O azul só entra com altura<0.45. As fracas, com tipo>=0.7, usam alpha 0.45.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nFundo: a nebulosa em pixels. Céu marinho em cima, azul aberto no meio e, embaixo, a crista de\npoeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em blocos. Estrelas (algumas com\npicos) espalhadas pelo céu inteiro, até a crista. Por cima, sinapses: células acendem sozinhas e no\nrastro do ponteiro e apagam em meio segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm\ndos tokens (G26).\n</comentario>\n<trecho>\n  1   'use client'\n  2   \n  3   import { useEffect, useRef } from 'react'\n  4   \n  5 + // Fundo: a nebulosa em pixels. Céu marinho em cima, azul aberto no meio e, embaixo, a crista de\n  6 + // poeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em blocos. Estrelas (algumas com\n  7 + // picos) espalhadas pelo céu inteiro, até a crista. Por cima, sinapses: células acendem sozinhas e no\n  8 + // rastro do ponteiro e apagam em meio segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm\n  9 + // dos tokens (G26).\n 10   \n 11   const CELULA = 20\n 12   const VIDA_MS = 900\n 13   const INTERVALO_MS = 380\n 14 + /** Lado, em células, do bloco que recebe no máximo uma estrela. */\n 15 + const BLOCO = 5\n 16 + /** Fração dos blocos com estrela. */\n 17 + const PRESENCA = 0.8\n 18   \n 19   type Faisca = { c: number; l: number; vida: number; cor: string }\n 20   \n 21   /** Hash determinístico em [0, 1): o mesmo fundo em toda visita. */\n 22   function ruido(c: number, l: number, semente = 0): number {\n 23     let h = (c * 73856093) ^ (l * 19349663) ^ (semente * 83492791)\n 24     h = Math.imul(h ^ (h >>> 13), 1274126177)\n 25     return ((h ^ (h >>> 16)) >>> 0) / 4294967295\n 26   }\n 27   \n 28   /** Ruído de valor suave (interpola o hash em blocos de `escala` células). */\n 29   function suave(c: number, l: number, escala: number, semente: number): number {\n 30     const x = c / escala\n 31     const y = l / escala\n 32     const x0 = Math.floor(x)\n 33     const y0 = Math.floor(y)\n 34     const fx = x - x0\n 35     const fy = y - y0\n 36     const u = fx * fx * (3 - 2 * fx)\n 37     const v = fy * fy * (3 - 2 * fy)\n 38     const a = ruido(x0, y0, semente)\n 39     const b = ruido(x0 + 1, y0, semente)\n 40     const cc = ruido(x0, y0 + 1, semente)\n 41     const d = ruido(x0 + 1, y0 + 1, semente)\n 42     return a + (b - a) * u + (cc - a) * v + (a - b - cc + d) * u * v\n 43   }\n 44   \n 45   const canal = (hex: string, i: number) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16)\n 46   /** Mistura dois tokens em hex numa fração t e devolve hex. */\n 47   function misturar(a: string, b: string, t: number): string {\n 48     return `#${[0, 1, 2]\n 49       .map((i) =>\n 50         Math.round(canal(a, i) + (canal(b, i) - canal(a, i)) * t)\n 51           .toString(16)\n 52           .padStart(2, '0'),\n 53       )\n 54       .join('')}`\n 55   }\n 56   \n 57   export function Fundo({ ativo }: { ativo: boolean }) {\n 58     const ref = useRef<HTMLCanvasElement>(null)\n 59   \n 60     useEffect(() => {\n 61       const canvas = ref.current\n 62       if (!ativo || !canvas) return\n 63       const ctx = canvas.getContext('2d')\n 64       if (!ctx) return\n 65       const estilo = getComputedStyle(document.documentElement)\n 66       const cor = (nome: string) => estilo.getPropertyValue(`--color-sinapse-${nome}`).trim()\n 67       const cores = {\n 68         baixo: cor('fundo-baixo'),\n 69         fundo: cor('fundo'),\n 70         alto: cor('fundo-alto'),\n 71         ceu: cor('ceu'),\n 72         azul: cor('azul'),\n 73         acento: cor('acento'),\n 74         brasa: cor('brasa'),\n 75         pessego: cor('pessego'),\n 76         dourado: cor('dourado'),\n 77         rosa: cor('rosa'),\n 78         estrela: cor('estrela'),\n 79         ferrugem: cor('ferrugem'),\n 80         marrom: cor('marrom'),\n 81       }\n 82   \n 83       let dpr = 1\n 84       let colunas = 0\n 85       let linhas = 0\n 86       let base: HTMLCanvasElement | null = null\n 87       let faiscas: Faisca[] = []\n 88       let quadro = 0\n 89       let ultimo = 0\n 90   \n 91       function desenharBase() {\n 92         if (!base) return\n 93         const b = base.getContext('2d')\n 94         if (!b) return\n 95         const t = CELULA * dpr\n 96 +       const altura = (l: number) => l / Math.max(1, linhas - 1)\n 97 +       // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n 98 +       const bordaEm = (c: number) => 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n 99         for (let l = 0; l < linhas; l++) {\n100 +         const y = altura(l)\n101           // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.\n102           const ceu =\n103             y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)\n104           b.fillStyle = ceu\n105           b.fillRect(0, l * t, base!.width, t)\n106           for (let c = 0; c < colunas; c++) {\n107             // Textura do céu: blocos um tom mais claros, irregulares.\n108             if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n109               b.fillStyle = misturar(ceu, cores.alto, 0.5)\n110               b.fillRect(c * t, l * t, t, t)\n111             }\n112 +           const borda = bordaEm(c)\n113             if (y > borda) {\n114               const prof = (y - borda) / Math.max(0.05, 1 - borda)\n115               const n = suave(c, l, 5, 7)\n116               let tom: string\n117               if (prof < 0.12) tom = n > 0.5 ? cores.pessego : cores.acento\n118               else if (prof < 0.35) tom = n > 0.55 ? cores.acento : cores.brasa\n119               else if (prof < 0.7) tom = n > 0.6 ? cores.brasa : cores.ferrugem\n120               else tom = n > 0.7 ? cores.ferrugem : cores.marrom\n121               // Buracos de gás ionizado em rosa, raros.\n122               if (ruido(c, l, 8) > 0.993) tom = cores.rosa\n123               b.fillStyle = tom\n124               b.fillRect(c * t, l * t, t, t)\n125             }\n126           }\n127         }\n128 +       // Estrelas, depois do céu para os picos não serem cobertos: no máximo uma por bloco de\n129 +       // BLOCO × BLOCO células, num ponto sorteado do bloco, para cobrir o céu inteiro sem aglomerar.\n130 +       // A última coluna e a última linha de cada bloco ficam vazias, e duas estrelas nunca se tocam.\n131 +       const posicao = (bc: number, bl: number, semente: number) =>\n132 +         Math.min(BLOCO - 2, Math.floor(ruido(bc, bl, semente) * (BLOCO - 1)))\n133 +       for (let bl = 0; bl * BLOCO < linhas; bl++) {\n134 +         for (let bc = 0; bc * BLOCO < colunas; bc++) {\n135 +           if (ruido(bc, bl, 9) > PRESENCA) continue\n136 +           const c = bc * BLOCO + posicao(bc, bl, 3)\n137 +           const l = bl * BLOCO + posicao(bc, bl, 4)\n138 +           // A célula de baixo também é céu: nenhuma estrela encosta na crista.\n139 +           if (c >= colunas || altura(l + 1) > bordaEm(c)) continue\n140 +           // Poucas grandes, com quatro picos; claras; coloridas, com o azul só no marinho do alto,\n141 +           // onde ele aparece; e fracas, a meia-luz, que dão profundidade.\n142 +           const tipo = ruido(bc, bl, 10)\n143 +           const fraca = tipo >= 0.7\n144 +           b.globalAlpha = fraca ? 0.45 : 1\n145 +           b.fillStyle =\n146 +             tipo < 0.4 || fraca\n147 +               ? cores.estrela\n148 +               : altura(l) < 0.45 && ruido(bc, bl, 11) > 0.5\n149 +                 ? cores.azul\n150 +                 : cores.dourado\n151 +           b.fillRect(c * t, l * t, t, t)\n152 +           if (tipo < 0.07) {\n153 +             b.globalAlpha = 0.3\n154 +             b.fillRect((c - 1) * t, l * t, t * 3, t)\n155 +             b.fillRect(c * t, (l - 1) * t, t, t * 3)\n156 +           }\n157 +           b.globalAlpha = 1\n158 +         }\n159 +       }\n160       }\n161   \n162       function medir() {\n163         dpr = Math.min(window.devicePixelRatio || 1, 2)\n164         canvas!.width = Math.ceil(window.innerWidth * dpr)\n165         canvas!.height = Math.ceil(window.innerHeight * dpr)\n166         canvas!.style.width = `${window.innerWidth}px`\n167         canvas!.style.height = `${window.innerHeight}px`\n168         colunas = Math.ceil(window.innerWidth / CELULA)\n169         linhas = Math.ceil(window.innerHeight / CELULA)\n170         base = document.createElement('canvas')\n171         base.width = canvas!.width\n172         base.height = canvas!.height\n173         desenharBase()\n174         desenhar()\n175       }\n176   \n177       function desenhar() {\n178         if (!base) return\n179         ctx!.drawImage(base, 0, 0)\n180         const t = CELULA * dpr\n181         for (const f of faiscas) {\n182           ctx!.globalAlpha = Math.pow(Math.max(0, f.vida), 1.4)\n183           ctx!.fillStyle = f.cor\n184           ctx!.fillRect(f.c * t, f.l * t, t, t)\n185         }\n186         ctx!.globalAlpha = 1\n187       }\n188   \n189       function tique(agora: number) {\n190         const dt = Math.min(64, agora - ultimo)\n191         ultimo = agora\n192         for (const f of faiscas) f.vida -= dt / VIDA_MS\n193         faiscas = faiscas.filter((f) => f.vida > 0)\n194         desenhar()\n195         quadro = faiscas.length > 0 ? requestAnimationFrame(tique) : 0\n196       }\n197   \n198       function acordar() {\n199         if (quadro === 0 && !document.hidden) {\n200           ultimo = performance.now()\n201           quadro = requestAnimationFrame(tique)\n202         }\n203       }\n204   \n205       function acender(c: number, l: number, cor: string) {\n206         if (c < 0 || l < 0 || c >= colunas || l >= linhas) return\n207         const existente = faiscas.find((f) => f.c === c && f.l === l)\n208         if (existente) existente.vida = 1\n209         else faiscas.push({ c, l, vida: 1, cor })\n210         acordar()\n211       }\n212   \n213       // Sinapses espontâneas: uma célula e, às vezes, uma vizinha, como um sinal que passa.\n214       const intervalo = window.setInterval(() => {\n215         if (document.hidden) return\n216         const c = Math.floor(Math.random() * colunas)\n217         const l = Math.floor(Math.random() * linhas)\n218         const sorteio = Math.random()\n219         acender(c, l, sorteio < 0.5 ? cores.azul : sorteio < 0.8 ? cores.dourado : cores.rosa)\n220         if (Math.random() < 0.5) acender(c + (Math.random() < 0.5 ? 1 : -1), l, cores.azul)\n221       }, INTERVALO_MS)\n222   \n223       let ultimaCelula = ''\n224       const aoMover = (e: PointerEvent) => {\n225         if (e.pointerType !== 'mouse') return\n226         const c = Math.floor(e.clientX / CELULA)\n227         const l = Math.floor(e.clientY / CELULA)\n228         const chave = `${c}:${l}`\n229         if (chave === ultimaCelula) return\n230         ultimaCelula = chave\n231         acender(c, l, cores.acento)\n232       }\n233       const aoVisibilidade = () => {\n234         if (document.hidden && quadro) {\n235           cancelAnimationFrame(quadro)\n236           quadro = 0\n237         } else acordar()\n238       }\n239   \n240       medir()\n241       window.addEventListener('resize', medir)\n242       window.addEventListener('pointermove', aoMover, { passive: true })\n243       document.addEventListener('visibilitychange', aoVisibilidade)\n244       return () => {\n245         window.clearInterval(intervalo)\n246         window.removeEventListener('resize', medir)\n247         window.removeEventListener('pointermove', aoMover)\n248         document.removeEventListener('visibilitychange', aoVisibilidade)\n249         if (quadro) cancelAnimationFrame(quadro)\n250       }\n251     }, [ativo])\n252   \n253     if (!ativo) return null\n254     return <canvas ref={ref} className=\"sinapse-fundo\" aria-hidden=\"true\" />\n255   }\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "O comentário diz que as faíscas apagam em meio segundo, mas VIDA_MS = 900, perto de um segundo. O resto do cabeçalho confere com o código."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "Diz que as faíscas apagam em meio segundo, mas VIDA_MS = 900 (0,9 s). O restante da descrição bate com o código."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "Diz que as faíscas \"apagam em meio segundo\", mas VIDA_MS = 900 e a vida cai em dt/VIDA_MS, ou seja, cerca de 0,9 s."
+                }
+              ],
+              "veredito": "FAIL",
+              "justificativa": "O comentário diz que as faíscas apagam em meio segundo, mas VIDA_MS = 900, perto de um segundo. O resto do cabeçalho confere com o código."
+            },
+            {
+              "id": "c2",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nLado, em células, do bloco que recebe no máximo uma estrela.\n</comentario>\n<trecho>\n15 + const BLOCO = 5\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "BLOCO = 5 é o lado em células do bloco. O código sorteia no máximo uma estrela por bloco."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "BLOCO = 5 é o lado em células do bloco, e o código sorteia no máximo uma estrela por bloco."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "BLOCO = 5 é o lado do bloco em células, e o laço de estrelas usa esse valor para sortear no máximo uma estrela por bloco."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "BLOCO = 5 é o lado em células do bloco. O código sorteia no máximo uma estrela por bloco."
+            },
+            {
+              "id": "c3",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nFração dos blocos com estrela.\n</comentario>\n<trecho>\n17 + const PRESENCA = 0.8\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`ruido > PRESENCA` pula o bloco, então cerca de 0,8 dos blocos recebem estrela. É a fração que o comentário descreve."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "O bloco é pulado quando ruido > PRESENCA, então cerca de 0,8 dos blocos recebem estrela."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "PRESENCA = 0.8. O uso `ruido(...) > PRESENCA` descarta o bloco, então cerca de 80% dos blocos recebem estrela."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "`ruido > PRESENCA` pula o bloco, então cerca de 0,8 dos blocos recebem estrela. É a fração que o comentário descreve."
+            },
+            {
+              "id": "c4",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nEstrelas, depois do céu para os picos não serem cobertos: no máximo uma por bloco de\nBLOCO × BLOCO células, num ponto sorteado do bloco, para cobrir o céu inteiro sem aglomerar.\nA última coluna e a última linha de cada bloco ficam vazias, e duas estrelas nunca se tocam.\n</comentario>\n<trecho>\n131 +       const posicao = (bc: number, bl: number, semente: number) =>\n132 +         Math.min(BLOCO - 2, Math.floor(ruido(bc, bl, semente) * (BLOCO - 1)))\n133 +       for (let bl = 0; bl * BLOCO < linhas; bl++) {\n134 +         for (let bc = 0; bc * BLOCO < colunas; bc++) {\n135 +           if (ruido(bc, bl, 9) > PRESENCA) continue\n136 +           const c = bc * BLOCO + posicao(bc, bl, 3)\n137 +           const l = bl * BLOCO + posicao(bc, bl, 4)\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "posicao limita o deslocamento a 0..BLOCO-2, então a última coluna e a última linha do bloco ficam vazias. Estrelas de blocos vizinhos ficam a pelo menos 2 células, sem se tocar. Há no máximo uma estrela por bloco, em ponto sorteado."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "posicao limita o deslocamento a 0..BLOCO-2, então a última coluna e a última linha do bloco ficam vazias e estrelas de blocos vizinhos nunca se tocam. Há no máximo uma estrela por bloco, em ponto sorteado."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "posicao devolve de 0 a BLOCO-2, então a última coluna e a última linha do bloco ficam vazias e estrelas vizinhas não se tocam. O laço sorteia no máximo uma estrela por bloco, e o comentário bate com o código."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "posicao limita o deslocamento a 0..BLOCO-2, então a última coluna e a última linha do bloco ficam vazias. Estrelas de blocos vizinhos ficam a pelo menos 2 células, sem se tocar. Há no máximo uma estrela por bloco, em ponto sorteado."
+            },
+            {
+              "id": "c5",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nA célula de baixo também é céu: nenhuma estrela encosta na crista.\n</comentario>\n<trecho>\n139 +           if (c >= colunas || altura(l + 1) > bordaEm(c)) continue\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Pula a estrela se altura(l+1) > bordaEm(c), isto é, se a célula de baixo já é crista. Isso impede que a estrela encoste na crista. O `c >= colunas` na mesma linha é um limite à parte."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição altura(l+1) > bordaEm(c) descarta a estrela quando a célula de baixo já é crista, como diz o comentário."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`altura(l + 1) > bordaEm(c)` pula a estrela quando a célula de baixo já é crista, então nenhuma estrela encosta nela. A condição `c >= colunas` na mesma linha é só um limite."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Pula a estrela se altura(l+1) > bordaEm(c), isto é, se a célula de baixo já é crista. Isso impede que a estrela encoste na crista. O `c >= colunas` na mesma linha é um limite à parte."
+            },
+            {
+              "id": "c6",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nPoucas grandes, com quatro picos; claras; coloridas, com o azul só no marinho do alto,\nonde ele aparece; e fracas, a meia-luz, que dão profundidade.\n</comentario>\n<trecho>\n142 +           const tipo = ruido(bc, bl, 10)\n143 +           const fraca = tipo >= 0.7\n144 +           b.globalAlpha = fraca ? 0.45 : 1\n145 +           b.fillStyle =\n146 +             tipo < 0.4 || fraca\n147 +               ? cores.estrela\n148 +               : altura(l) < 0.45 && ruido(bc, bl, 11) > 0.5\n149 +                 ? cores.azul\n150 +                 : cores.dourado\n151 +           b.fillRect(c * t, l * t, t, t)\n152 +           if (tipo < 0.07) {\n153 +             b.globalAlpha = 0.3\n154 +             b.fillRect((c - 1) * t, l * t, t * 3, t)\n155 +             b.fillRect(c * t, (l - 1) * t, t, t * 3)\n156 +           }\n157 +           b.globalAlpha = 1\n</trecho>",
+              "rubrica": "juiz-comentario-descreve",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "tipo<0.07 desenha quatro picos. Estrelas claras (tipo<0.4 ou fraca) usam cores.estrela. O azul só entra com altura<0.45. As fracas, com tipo>=0.7, usam alpha 0.45."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "tipo<0.07 desenha quatro picos; tipo<0.4 usa a cor clara; o azul só aparece com altura<0.45; tipo>=0.7 é fraca, com alpha 0.45. Tudo confere."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "tipo < 0.07 desenha quatro picos, tipo < 0.4 usa a cor estrela e o azul só entra com altura(l) < 0.45. As fracas (tipo >= 0.7) usam alpha 0.45. Tudo confere."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "tipo<0.07 desenha quatro picos. Estrelas claras (tipo<0.4 ou fraca) usam cores.estrela. O azul só entra com altura<0.45. As fracas, com tipo>=0.7, usam alpha 0.45."
+            }
+          ]
+        },
+        "juiz-comentario-porque": {
+          "status": "falha",
+          "resumo": "componentes/Fundo.tsx:5 PASS (PASS, PASS, PASS): Cabeçalho resume o arquivo: composição visual em camadas, comportamento do laço de animação e a regra G26 dos tokens; não se lê de relance.; componentes/Fundo.tsx:14 FAIL (PASS, FAIL, FAIL): Descreve BLOCO em palavras; o nome da constante e o uso já dizem isso, sem razão ou restrição extra.; componentes/Fundo.tsx:16 FAIL (FAIL, FAIL, FAIL): Só reescreve o nome PRESENCA = 0.8 em frase; o comentário não acrescenta nada além do que o código já diz.; componentes/Fundo.tsx:128 PASS (PASS, PASS, PASS): Dá a razão da ordem (picos não cobertos), o esquema de blocos e a garantia de que estrelas não se tocam, o que decorre de BLOCO-2 e não é óbvio.; componentes/Fundo.tsx:138 PASS (PASS, PASS, PASS): Explica por que se testa l+1: o pico inferior de 4 pontas não pode encostar na crista; a razão não está evidente na condição.; componentes/Fundo.tsx:140 PASS (PASS, PASS, PASS): Resume as categorias de estrela codificadas em limiares numéricos (grandes, claras, coloridas, fracas) e a intenção de profundidade.",
+          "itens": [
+            {
+              "id": "c1",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nFundo: a nebulosa em pixels. Céu marinho em cima, azul aberto no meio e, embaixo, a crista de\npoeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em blocos. Estrelas (algumas com\npicos) espalhadas pelo céu inteiro, até a crista. Por cima, sinapses: células acendem sozinhas e no\nrastro do ponteiro e apagam em meio segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm\ndos tokens (G26).\n</comentario>\n<trecho>\n  1   'use client'\n  2   \n  3   import { useEffect, useRef } from 'react'\n  4   \n  5 + // Fundo: a nebulosa em pixels. Céu marinho em cima, azul aberto no meio e, embaixo, a crista de\n  6 + // poeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em blocos. Estrelas (algumas com\n  7 + // picos) espalhadas pelo céu inteiro, até a crista. Por cima, sinapses: células acendem sozinhas e no\n  8 + // rastro do ponteiro e apagam em meio segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm\n  9 + // dos tokens (G26).\n 10   \n 11   const CELULA = 20\n 12   const VIDA_MS = 900\n 13   const INTERVALO_MS = 380\n 14 + /** Lado, em células, do bloco que recebe no máximo uma estrela. */\n 15 + const BLOCO = 5\n 16 + /** Fração dos blocos com estrela. */\n 17 + const PRESENCA = 0.8\n 18   \n 19   type Faisca = { c: number; l: number; vida: number; cor: string }\n 20   \n 21   /** Hash determinístico em [0, 1): o mesmo fundo em toda visita. */\n 22   function ruido(c: number, l: number, semente = 0): number {\n 23     let h = (c * 73856093) ^ (l * 19349663) ^ (semente * 83492791)\n 24     h = Math.imul(h ^ (h >>> 13), 1274126177)\n 25     return ((h ^ (h >>> 16)) >>> 0) / 4294967295\n 26   }\n 27   \n 28   /** Ruído de valor suave (interpola o hash em blocos de `escala` células). */\n 29   function suave(c: number, l: number, escala: number, semente: number): number {\n 30     const x = c / escala\n 31     const y = l / escala\n 32     const x0 = Math.floor(x)\n 33     const y0 = Math.floor(y)\n 34     const fx = x - x0\n 35     const fy = y - y0\n 36     const u = fx * fx * (3 - 2 * fx)\n 37     const v = fy * fy * (3 - 2 * fy)\n 38     const a = ruido(x0, y0, semente)\n 39     const b = ruido(x0 + 1, y0, semente)\n 40     const cc = ruido(x0, y0 + 1, semente)\n 41     const d = ruido(x0 + 1, y0 + 1, semente)\n 42     return a + (b - a) * u + (cc - a) * v + (a - b - cc + d) * u * v\n 43   }\n 44   \n 45   const canal = (hex: string, i: number) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16)\n 46   /** Mistura dois tokens em hex numa fração t e devolve hex. */\n 47   function misturar(a: string, b: string, t: number): string {\n 48     return `#${[0, 1, 2]\n 49       .map((i) =>\n 50         Math.round(canal(a, i) + (canal(b, i) - canal(a, i)) * t)\n 51           .toString(16)\n 52           .padStart(2, '0'),\n 53       )\n 54       .join('')}`\n 55   }\n 56   \n 57   export function Fundo({ ativo }: { ativo: boolean }) {\n 58     const ref = useRef<HTMLCanvasElement>(null)\n 59   \n 60     useEffect(() => {\n 61       const canvas = ref.current\n 62       if (!ativo || !canvas) return\n 63       const ctx = canvas.getContext('2d')\n 64       if (!ctx) return\n 65       const estilo = getComputedStyle(document.documentElement)\n 66       const cor = (nome: string) => estilo.getPropertyValue(`--color-sinapse-${nome}`).trim()\n 67       const cores = {\n 68         baixo: cor('fundo-baixo'),\n 69         fundo: cor('fundo'),\n 70         alto: cor('fundo-alto'),\n 71         ceu: cor('ceu'),\n 72         azul: cor('azul'),\n 73         acento: cor('acento'),\n 74         brasa: cor('brasa'),\n 75         pessego: cor('pessego'),\n 76         dourado: cor('dourado'),\n 77         rosa: cor('rosa'),\n 78         estrela: cor('estrela'),\n 79         ferrugem: cor('ferrugem'),\n 80         marrom: cor('marrom'),\n 81       }\n 82   \n 83       let dpr = 1\n 84       let colunas = 0\n 85       let linhas = 0\n 86       let base: HTMLCanvasElement | null = null\n 87       let faiscas: Faisca[] = []\n 88       let quadro = 0\n 89       let ultimo = 0\n 90   \n 91       function desenharBase() {\n 92         if (!base) return\n 93         const b = base.getContext('2d')\n 94         if (!b) return\n 95         const t = CELULA * dpr\n 96 +       const altura = (l: number) => l / Math.max(1, linhas - 1)\n 97 +       // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n 98 +       const bordaEm = (c: number) => 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n 99         for (let l = 0; l < linhas; l++) {\n100 +         const y = altura(l)\n101           // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.\n102           const ceu =\n103             y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)\n104           b.fillStyle = ceu\n105           b.fillRect(0, l * t, base!.width, t)\n106           for (let c = 0; c < colunas; c++) {\n107             // Textura do céu: blocos um tom mais claros, irregulares.\n108             if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n109               b.fillStyle = misturar(ceu, cores.alto, 0.5)\n110               b.fillRect(c * t, l * t, t, t)\n111             }\n112 +           const borda = bordaEm(c)\n113             if (y > borda) {\n114               const prof = (y - borda) / Math.max(0.05, 1 - borda)\n115               const n = suave(c, l, 5, 7)\n116               let tom: string\n117               if (prof < 0.12) tom = n > 0.5 ? cores.pessego : cores.acento\n118               else if (prof < 0.35) tom = n > 0.55 ? cores.acento : cores.brasa\n119               else if (prof < 0.7) tom = n > 0.6 ? cores.brasa : cores.ferrugem\n120               else tom = n > 0.7 ? cores.ferrugem : cores.marrom\n121               // Buracos de gás ionizado em rosa, raros.\n122               if (ruido(c, l, 8) > 0.993) tom = cores.rosa\n123               b.fillStyle = tom\n124               b.fillRect(c * t, l * t, t, t)\n125             }\n126           }\n127         }\n128 +       // Estrelas, depois do céu para os picos não serem cobertos: no máximo uma por bloco de\n129 +       // BLOCO × BLOCO células, num ponto sorteado do bloco, para cobrir o céu inteiro sem aglomerar.\n130 +       // A última coluna e a última linha de cada bloco ficam vazias, e duas estrelas nunca se tocam.\n131 +       const posicao = (bc: number, bl: number, semente: number) =>\n132 +         Math.min(BLOCO - 2, Math.floor(ruido(bc, bl, semente) * (BLOCO - 1)))\n133 +       for (let bl = 0; bl * BLOCO < linhas; bl++) {\n134 +         for (let bc = 0; bc * BLOCO < colunas; bc++) {\n135 +           if (ruido(bc, bl, 9) > PRESENCA) continue\n136 +           const c = bc * BLOCO + posicao(bc, bl, 3)\n137 +           const l = bl * BLOCO + posicao(bc, bl, 4)\n138 +           // A célula de baixo também é céu: nenhuma estrela encosta na crista.\n139 +           if (c >= colunas || altura(l + 1) > bordaEm(c)) continue\n140 +           // Poucas grandes, com quatro picos; claras; coloridas, com o azul só no marinho do alto,\n141 +           // onde ele aparece; e fracas, a meia-luz, que dão profundidade.\n142 +           const tipo = ruido(bc, bl, 10)\n143 +           const fraca = tipo >= 0.7\n144 +           b.globalAlpha = fraca ? 0.45 : 1\n145 +           b.fillStyle =\n146 +             tipo < 0.4 || fraca\n147 +               ? cores.estrela\n148 +               : altura(l) < 0.45 && ruido(bc, bl, 11) > 0.5\n149 +                 ? cores.azul\n150 +                 : cores.dourado\n151 +           b.fillRect(c * t, l * t, t, t)\n152 +           if (tipo < 0.07) {\n153 +             b.globalAlpha = 0.3\n154 +             b.fillRect((c - 1) * t, l * t, t * 3, t)\n155 +             b.fillRect(c * t, (l - 1) * t, t, t * 3)\n156 +           }\n157 +           b.globalAlpha = 1\n158 +         }\n159 +       }\n160       }\n161   \n162       function medir() {\n163         dpr = Math.min(window.devicePixelRatio || 1, 2)\n164         canvas!.width = Math.ceil(window.innerWidth * dpr)\n165         canvas!.height = Math.ceil(window.innerHeight * dpr)\n166         canvas!.style.width = `${window.innerWidth}px`\n167         canvas!.style.height = `${window.innerHeight}px`\n168         colunas = Math.ceil(window.innerWidth / CELULA)\n169         linhas = Math.ceil(window.innerHeight / CELULA)\n170         base = document.createElement('canvas')\n171         base.width = canvas!.width\n172         base.height = canvas!.height\n173         desenharBase()\n174         desenhar()\n175       }\n176   \n177       function desenhar() {\n178         if (!base) return\n179         ctx!.drawImage(base, 0, 0)\n180         const t = CELULA * dpr\n181         for (const f of faiscas) {\n182           ctx!.globalAlpha = Math.pow(Math.max(0, f.vida), 1.4)\n183           ctx!.fillStyle = f.cor\n184           ctx!.fillRect(f.c * t, f.l * t, t, t)\n185         }\n186         ctx!.globalAlpha = 1\n187       }\n188   \n189       function tique(agora: number) {\n190         const dt = Math.min(64, agora - ultimo)\n191         ultimo = agora\n192         for (const f of faiscas) f.vida -= dt / VIDA_MS\n193         faiscas = faiscas.filter((f) => f.vida > 0)\n194         desenhar()\n195         quadro = faiscas.length > 0 ? requestAnimationFrame(tique) : 0\n196       }\n197   \n198       function acordar() {\n199         if (quadro === 0 && !document.hidden) {\n200           ultimo = performance.now()\n201           quadro = requestAnimationFrame(tique)\n202         }\n203       }\n204   \n205       function acender(c: number, l: number, cor: string) {\n206         if (c < 0 || l < 0 || c >= colunas || l >= linhas) return\n207         const existente = faiscas.find((f) => f.c === c && f.l === l)\n208         if (existente) existente.vida = 1\n209         else faiscas.push({ c, l, vida: 1, cor })\n210         acordar()\n211       }\n212   \n213       // Sinapses espontâneas: uma célula e, às vezes, uma vizinha, como um sinal que passa.\n214       const intervalo = window.setInterval(() => {\n215         if (document.hidden) return\n216         const c = Math.floor(Math.random() * colunas)\n217         const l = Math.floor(Math.random() * linhas)\n218         const sorteio = Math.random()\n219         acender(c, l, sorteio < 0.5 ? cores.azul : sorteio < 0.8 ? cores.dourado : cores.rosa)\n220         if (Math.random() < 0.5) acender(c + (Math.random() < 0.5 ? 1 : -1), l, cores.azul)\n221       }, INTERVALO_MS)\n222   \n223       let ultimaCelula = ''\n224       const aoMover = (e: PointerEvent) => {\n225         if (e.pointerType !== 'mouse') return\n226         const c = Math.floor(e.clientX / CELULA)\n227         const l = Math.floor(e.clientY / CELULA)\n228         const chave = `${c}:${l}`\n229         if (chave === ultimaCelula) return\n230         ultimaCelula = chave\n231         acender(c, l, cores.acento)\n232       }\n233       const aoVisibilidade = () => {\n234         if (document.hidden && quadro) {\n235           cancelAnimationFrame(quadro)\n236           quadro = 0\n237         } else acordar()\n238       }\n239   \n240       medir()\n241       window.addEventListener('resize', medir)\n242       window.addEventListener('pointermove', aoMover, { passive: true })\n243       document.addEventListener('visibilitychange', aoVisibilidade)\n244       return () => {\n245         window.clearInterval(intervalo)\n246         window.removeEventListener('resize', medir)\n247         window.removeEventListener('pointermove', aoMover)\n248         document.removeEventListener('visibilitychange', aoVisibilidade)\n249         if (quadro) cancelAnimationFrame(quadro)\n250       }\n251     }, [ativo])\n252   \n253     if (!ativo) return null\n254     return <canvas ref={ref} className=\"sinapse-fundo\" aria-hidden=\"true\" />\n255   }\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Cabeçalho resume o arquivo: composição visual em camadas, comportamento do laço de animação e a regra G26 dos tokens; não se lê de relance."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Cabeçalho resume o arquivo: camadas visuais, comportamento das sinapses, ausência de laço sem faísca e regra G26 dos tokens. Não se vê de relance no código."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Cabeçalho resume o conceito do arquivo (camadas da nebulosa, sinapses, canvas sem laço ocioso) e cita a regra G26; não se entende de relance pelo código."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Cabeçalho resume o arquivo: composição visual em camadas, comportamento do laço de animação e a regra G26 dos tokens; não se lê de relance."
+            },
+            {
+              "id": "c2",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nLado, em células, do bloco que recebe no máximo uma estrela.\n</comentario>\n<trecho>\n15 + const BLOCO = 5\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica o papel de BLOCO: o bloco limita a uma estrela, o que o valor 5 sozinho não diz."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "Descreve BLOCO em palavras; o nome da constante e o uso já dizem isso, sem razão ou restrição extra."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "Descreve o que o nome BLOCO e o uso já mostram; só reescreve a constante em frase."
+                }
+              ],
+              "veredito": "FAIL",
+              "justificativa": "Descreve BLOCO em palavras; o nome da constante e o uso já dizem isso, sem razão ou restrição extra."
+            },
+            {
+              "id": "c3",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nFração dos blocos com estrela.\n</comentario>\n<trecho>\n17 + const PRESENCA = 0.8\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "Só reescreve o nome PRESENCA = 0.8 em frase; o comentário não acrescenta nada além do que o código já diz."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "Apenas reescreve o nome PRESENCA como frase; o 0.8 já diz a fração."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "'Fração dos blocos com estrela' repete o nome PRESENCA e o valor 0.8; nada além do código."
+                }
+              ],
+              "veredito": "FAIL",
+              "justificativa": "Só reescreve o nome PRESENCA = 0.8 em frase; o comentário não acrescenta nada além do que o código já diz."
+            },
+            {
+              "id": "c4",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nEstrelas, depois do céu para os picos não serem cobertos: no máximo uma por bloco de\nBLOCO × BLOCO células, num ponto sorteado do bloco, para cobrir o céu inteiro sem aglomerar.\nA última coluna e a última linha de cada bloco ficam vazias, e duas estrelas nunca se tocam.\n</comentario>\n<trecho>\n131 +       const posicao = (bc: number, bl: number, semente: number) =>\n132 +         Math.min(BLOCO - 2, Math.floor(ruido(bc, bl, semente) * (BLOCO - 1)))\n133 +       for (let bl = 0; bl * BLOCO < linhas; bl++) {\n134 +         for (let bc = 0; bc * BLOCO < colunas; bc++) {\n135 +           if (ruido(bc, bl, 9) > PRESENCA) continue\n136 +           const c = bc * BLOCO + posicao(bc, bl, 3)\n137 +           const l = bl * BLOCO + posicao(bc, bl, 4)\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Dá a razão da ordem (picos não cobertos), o esquema de blocos e a garantia de que estrelas não se tocam, o que decorre de BLOCO-2 e não é óbvio."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica a razão da ordem (picos não cobertos), o objetivo (cobrir sem aglomerar) e a consequência do BLOCO-2: última linha/coluna vazia, estrelas sem se tocar."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica a razão da ordem (picos não cobertos), o objetivo (cobrir sem aglomerar) e a consequência do Math.min(BLOCO-2): última linha/coluna vazia, estrelas nunca se tocam."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Dá a razão da ordem (picos não cobertos), o esquema de blocos e a garantia de que estrelas não se tocam, o que decorre de BLOCO-2 e não é óbvio."
+            },
+            {
+              "id": "c5",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nA célula de baixo também é céu: nenhuma estrela encosta na crista.\n</comentario>\n<trecho>\n139 +           if (c >= colunas || altura(l + 1) > bordaEm(c)) continue\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica por que se testa l+1: o pico inferior de 4 pontas não pode encostar na crista; a razão não está evidente na condição."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica por que se testa l+1 contra a borda: garantir que a estrela não encoste na crista; o motivo não é evidente na condição."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Explica por que testa l+1: garante que a célula abaixo ainda é céu, evitando estrela encostada na crista; a intenção não é óbvia na condição."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Explica por que se testa l+1: o pico inferior de 4 pontas não pode encostar na crista; a razão não está evidente na condição."
+            },
+            {
+              "id": "c6",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nPoucas grandes, com quatro picos; claras; coloridas, com o azul só no marinho do alto,\nonde ele aparece; e fracas, a meia-luz, que dão profundidade.\n</comentario>\n<trecho>\n142 +           const tipo = ruido(bc, bl, 10)\n143 +           const fraca = tipo >= 0.7\n144 +           b.globalAlpha = fraca ? 0.45 : 1\n145 +           b.fillStyle =\n146 +             tipo < 0.4 || fraca\n147 +               ? cores.estrela\n148 +               : altura(l) < 0.45 && ruido(bc, bl, 11) > 0.5\n149 +                 ? cores.azul\n150 +                 : cores.dourado\n151 +           b.fillRect(c * t, l * t, t, t)\n152 +           if (tipo < 0.07) {\n153 +             b.globalAlpha = 0.3\n154 +             b.fillRect((c - 1) * t, l * t, t * 3, t)\n155 +             b.fillRect(c * t, (l - 1) * t, t, t * 3)\n156 +           }\n157 +           b.globalAlpha = 1\n</trecho>",
+              "rubrica": "juiz-comentario-porque",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Resume as categorias de estrela codificadas em limiares numéricos (grandes, claras, coloridas, fracas) e a intenção de profundidade."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Mapeia os limiares numéricos de tipo às categorias visuais (grandes com picos, claras, coloridas, fracas) e a razão da fraca dar profundidade; o azul só no alto."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Resume as categorias de estrelas por faixa de 'tipo' e a regra do azul só no alto, o que não se lê de relance nos limiares numéricos."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "Resume as categorias de estrela codificadas em limiares numéricos (grandes, claras, coloridas, fracas) e a intenção de profundidade."
+            }
+          ]
+        },
+        "juiz-comentario-antigo": {
+          "status": "falha",
+          "resumo": "componentes/Fundo.tsx:97 (comentário movido cujo trecho mudou) PASS (PASS, PASS, PASS): `bordaEm` mantém a borda em 0,7 mais ruído, então a crista continua ocupando o terço de baixo com borda recortada. `y = altura(l)` é a linha acrescentada, mas serve ao cálculo da crista. O `for` já existia.; componentes/Fundo.tsx:107 (o trecho de um comentário mantido mudou) FAIL (FAIL, FAIL, FAIL): A tentativa pôs `const borda = bordaEm(c)` (linha com +) logo abaixo do bloco da textura do céu, sem linha em branco. Essa linha pertence à crista de poeira e não tem relação com o comentário sobre a textura do céu.",
+          "itens": [
+            {
+              "id": "a1",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nCrista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n</comentario>\n<antes>\n118             const borda = 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n119             if (y > borda) {\n120               const prof = (y - borda) / Math.max(0.05, 1 - borda)\n121               const n = suave(c, l, 5, 7)\n122               let tom: string\n123               if (prof < 0.12) tom = n > 0.5 ? cores.pessego : cores.acento\n124               else if (prof < 0.35) tom = n > 0.55 ? cores.acento : cores.brasa\n125               else if (prof < 0.7) tom = n > 0.6 ? cores.brasa : cores.ferrugem\n126               else tom = n > 0.7 ? cores.ferrugem : cores.marrom\n</antes>\n<depois>\n 98 +       const bordaEm = (c: number) => 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n 99         for (let l = 0; l < linhas; l++) {\n100 +         const y = altura(l)\n</depois>",
+              "rubrica": "juiz-comentario-antigo",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "`bordaEm` mantém a borda em 0,7 mais ruído, então a crista continua ocupando o terço de baixo com borda recortada. `y = altura(l)` é a linha acrescentada, mas serve ao cálculo da crista. O `for` já existia."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "bordaEm mantém a borda em 0,7 mais ruído, ou seja, o terço de baixo com borda recortada. O for e a linha `const y = altura(l)` só preparam o laço e servem à mesma crista."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A `bordaEm` mantém a base 0.7 mais o ruído, então a crista ainda fica no terço de baixo e recortada pelo ruído. O `for` não foi tocado. O `const y = altura(l)` é só a coordenada vertical usada na comparação com a borda."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "`bordaEm` mantém a borda em 0,7 mais ruído, então a crista continua ocupando o terço de baixo com borda recortada. `y = altura(l)` é a linha acrescentada, mas serve ao cálculo da crista. O `for` já existia."
+            },
+            {
+              "id": "a2",
+              "conteudo": "<arquivo>componentes/Fundo.tsx</arquivo>\n<comentario>\nTextura do céu: blocos um tom mais claros, irregulares.\n</comentario>\n<antes>\n100             if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n101               b.fillStyle = misturar(ceu, cores.alto, 0.5)\n102               b.fillRect(c * t, l * t, t, t)\n103             }\n</antes>\n<depois>\n108             if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n109               b.fillStyle = misturar(ceu, cores.alto, 0.5)\n110               b.fillRect(c * t, l * t, t, t)\n111             }\n112 +           const borda = bordaEm(c)\n113             if (y > borda) {\n114               const prof = (y - borda) / Math.max(0.05, 1 - borda)\n115               const n = suave(c, l, 5, 7)\n116               let tom: string\n117               if (prof < 0.12) tom = n > 0.5 ? cores.pessego : cores.acento\n118               else if (prof < 0.35) tom = n > 0.55 ? cores.acento : cores.brasa\n119               else if (prof < 0.7) tom = n > 0.6 ? cores.brasa : cores.ferrugem\n120               else tom = n > 0.7 ? cores.ferrugem : cores.marrom\n</depois>",
+              "rubrica": "juiz-comentario-antigo",
+              "votos": [
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "A tentativa pôs `const borda = bordaEm(c)` (linha com +) logo abaixo do bloco da textura do céu, sem linha em branco. Essa linha pertence à crista de poeira e não tem relação com o comentário sobre a textura do céu."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "A tentativa pôs `const borda = bordaEm(c)` e o bloco da crista de poeira logo abaixo do comentário da textura do céu. Essas linhas, marcadas com +, não têm relação com o que o comentário descreve."
+                },
+                {
+                  "veredito": "FAIL",
+                  "justificativa": "A tentativa pôs `const borda = bordaEm(c)` logo abaixo do `if` da textura do céu, sem linha em branco. Essa linha (com +) trata da borda da crista de poeira e não tem relação com a textura do céu que o comentário descreve."
+                }
+              ],
+              "veredito": "FAIL",
+              "justificativa": "A tentativa pôs `const borda = bordaEm(c)` (linha com +) logo abaixo do bloco da textura do céu, sem linha em branco. Essa linha pertence à crista de poeira e não tem relação com o comentário sobre a textura do céu."
+            }
+          ]
+        },
+        "pedido-cumprido": {
+          "status": "passa",
+          "resumo": "juiz: PASS (PASS, PASS, PASS): A condição por limiar em y foi trocada por no máximo uma estrela por bloco 5×5, com presença de 0,8. Isso dá cerca de 3,2% por célula, acima de 1,5% e sem depender da altura. A exclusão perto da crista só tira estrelas que a poeira já cobria no base.",
+          "itens": [
+            {
+              "id": "p1",
+              "conteudo": "<pedido>\nDeixe as estrelas do fundo mais frequentes e espalhadas pelo céu inteiro, não só no alto.\n</pedido>\n<criterio>\nPASS se, depois da tentativa, a chance de uma célula do céu virar estrela é a mesma em qualquer altura (a condição não depende mais de y) e maior que 1,5 %, a maior chance do base. No base, a condição é r > 0.991 - (1 - y) * 0.006: limiar 0,985 no alto (1,5 %) e 0,991 embaixo (0,9 %). FAIL se a chance ainda muda com a altura, se não passa de 1,5 % ou se a mudança faz outra coisa no lugar.\n</criterio>\n<diff>\ndiff --git a/componentes/Fundo.tsx b/componentes/Fundo.tsx\nindex c91560f..ba4053b 100644\n--- a/componentes/Fundo.tsx\n+++ b/componentes/Fundo.tsx\n@@ -1,27 +1,32 @@\n 'use client'\n \n import { useEffect, useRef } from 'react'\n \n-// Fundo: a nebulosa em pixels. Céu marinho em cima com estrelas (algumas com picos), azul aberto no\n-// meio e, embaixo, a crista de poeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em\n-// blocos. Por cima, sinapses: células acendem sozinhas e no rastro do ponteiro e apagam em meio\n-// segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm dos tokens (G26).\n+// Fundo: a nebulosa em pixels. Céu marinho em cima, azul aberto no meio e, embaixo, a crista de\n+// poeira em ferrugem, brasa, laranja e pêssego, desenhada por ruído em blocos. Estrelas (algumas com\n+// picos) espalhadas pelo céu inteiro, até a crista. Por cima, sinapses: células acendem sozinhas e no\n+// rastro do ponteiro e apagam em meio segundo. Canvas 2D, sem laço quando não há faísca. As cores vêm\n+// dos tokens (G26).\n \n const CELULA = 20\n const VIDA_MS = 900\n const INTERVALO_MS = 380\n+/** Lado, em células, do bloco que recebe no máximo uma estrela. */\n+const BLOCO = 5\n+/** Fração dos blocos com estrela. */\n+const PRESENCA = 0.8\n \n type Faisca = { c: number; l: number; vida: number; cor: string }\n \n /** Hash determinístico em [0, 1): o mesmo fundo em toda visita. */\n function ruido(c: number, l: number, semente = 0): number {\n   let h = (c * 73856093) ^ (l * 19349663) ^ (semente * 83492791)\n   h = Math.imul(h ^ (h >>> 13), 1274126177)\n   return ((h ^ (h >>> 16)) >>> 0) / 4294967295\n }\n \n /** Ruído de valor suave (interpola o hash em blocos de `escala` células). */\n function suave(c: number, l: number, escala: number, semente: number): number {\n   const x = c / escala\n   const y = l / escala\n   const x0 = Math.floor(x)\n@@ -76,73 +81,94 @@ export function Fundo({ ativo }: { ativo: boolean }) {\n     }\n \n     let dpr = 1\n     let colunas = 0\n     let linhas = 0\n     let base: HTMLCanvasElement | null = null\n     let faiscas: Faisca[] = []\n     let quadro = 0\n     let ultimo = 0\n \n     function desenharBase() {\n       if (!base) return\n       const b = base.getContext('2d')\n       if (!b) return\n       const t = CELULA * dpr\n+      const altura = (l: number) => l / Math.max(1, linhas - 1)\n+      // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n+      const bordaEm = (c: number) => 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n       for (let l = 0; l < linhas; l++) {\n-        const y = l / Math.max(1, linhas - 1)\n+        const y = altura(l)\n         // Céu: marinho no alto, petróleo no meio, azul aberto perto da crista.\n         const ceu =\n           y < 0.5 ? misturar(cores.baixo, cores.fundo, y * 2) : misturar(cores.fundo, cores.ceu, (y - 0.5) * 1.3)\n         b.fillStyle = ceu\n         b.fillRect(0, l * t, base!.width, t)\n         for (let c = 0; c < colunas; c++) {\n           // Textura do céu: blocos um tom mais claros, irregulares.\n           if (ruido(c >> 1, l >> 1, 1) > 0.58 && ruido(c, l, 2) > 0.3) {\n             b.fillStyle = misturar(ceu, cores.alto, 0.5)\n             b.fillRect(c * t, l * t, t, t)\n           }\n-          // Estrelas: raras, mais no alto; as grandes ganham quatro picos.\n-          const r = ruido(c, l, 3)\n-          if (r > 0.991 - (1 - y) * 0.006) {\n-            const grande = r > 0.9985\n-            b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul\n-            b.fillRect(c * t, l * t, t, t)\n-            if (grande) {\n-              b.globalAlpha = 0.3\n-              b.fillRect((c - 1) * t, l * t, t * 3, t)\n-              b.fillRect(c * t, (l - 1) * t, t, t * 3)\n-              b.globalAlpha = 1\n-            }\n-          }\n-          // Crista de poeira: ocupa o terço de baixo, com a borda recortada pelo ruído.\n-          const borda = 0.7 + suave(c, 0, 9, 5) * 0.14 + suave(c, 0, 3, 6) * 0.05\n+          const borda = bordaEm(c)\n           if (y > borda) {\n             const prof = (y - borda) / Math.max(0.05, 1 - borda)\n             const n = suave(c, l, 5, 7)\n             let tom: string\n             if (prof < 0.12) tom = n > 0.5 ? cores.pessego : cores.acento\n             else if (prof < 0.35) tom = n > 0.55 ? cores.acento : cores.brasa\n             else if (prof < 0.7) tom = n > 0.6 ? cores.brasa : cores.ferrugem\n             else tom = n > 0.7 ? cores.ferrugem : cores.marrom\n             // Buracos de gás ionizado em rosa, raros.\n             if (ruido(c, l, 8) > 0.993) tom = cores.rosa\n             b.fillStyle = tom\n             b.fillRect(c * t, l * t, t, t)\n           }\n         }\n       }\n+      // Estrelas, depois do céu para os picos não serem cobertos: no máximo uma por bloco de\n+      // BLOCO × BLOCO células, num ponto sorteado do bloco, para cobrir o céu inteiro sem aglomerar.\n+      // A última coluna e a última linha de cada bloco ficam vazias, e duas estrelas nunca se tocam.\n+      const posicao = (bc: number, bl: number, semente: number) =>\n+        Math.min(BLOCO - 2, Math.floor(ruido(bc, bl, semente) * (BLOCO - 1)))\n+      for (let bl = 0; bl * BLOCO < linhas; bl++) {\n+        for (let bc = 0; bc * BLOCO < colunas; bc++) {\n+          if (ruido(bc, bl, 9) > PRESENCA) continue\n+          const c = bc * BLOCO + posicao(bc, bl, 3)\n+          const l = bl * BLOCO + posicao(bc, bl, 4)\n+          // A célula de baixo também é céu: nenhuma estrela encosta na crista.\n+          if (c >= colunas || altura(l + 1) > bordaEm(c)) continue\n+          // Poucas grandes, com quatro picos; claras; coloridas, com o azul só no marinho do alto,\n+          // onde ele aparece; e fracas, a meia-luz, que dão profundidade.\n+          const tipo = ruido(bc, bl, 10)\n+          const fraca = tipo >= 0.7\n+          b.globalAlpha = fraca ? 0.45 : 1\n+          b.fillStyle =\n+            tipo < 0.4 || fraca\n+              ? cores.estrela\n+              : altura(l) < 0.45 && ruido(bc, bl, 11) > 0.5\n+                ? cores.azul\n+                : cores.dourado\n+          b.fillRect(c * t, l * t, t, t)\n+          if (tipo < 0.07) {\n+            b.globalAlpha = 0.3\n+            b.fillRect((c - 1) * t, l * t, t * 3, t)\n+            b.fillRect(c * t, (l - 1) * t, t, t * 3)\n+          }\n+          b.globalAlpha = 1\n+        }\n+      }\n     }\n \n     function medir() {\n       dpr = Math.min(window.devicePixelRatio || 1, 2)\n       canvas!.width = Math.ceil(window.innerWidth * dpr)\n       canvas!.height = Math.ceil(window.innerHeight * dpr)\n       canvas!.style.width = `${window.innerWidth}px`\n       canvas!.style.height = `${window.innerHeight}px`\n       colunas = Math.ceil(window.innerWidth / CELULA)\n       linhas = Math.ceil(window.innerHeight / CELULA)\n       base = document.createElement('canvas')\n       base.width = canvas!.width\n       base.height = canvas!.height\n       desenharBase()\n       desenhar()\n</diff>",
+              "rubrica": "pedido-cumprido",
+              "votos": [
+                {
+                  "veredito": "PASS",
+                  "justificativa": "A condição por limiar em y foi trocada por no máximo uma estrela por bloco 5×5, com presença de 0,8. Isso dá cerca de 3,2% por célula, acima de 1,5% e sem depender da altura. A exclusão perto da crista só tira estrelas que a poeira já cobria no base."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "O limiar que dependia de y saiu. Cada bloco 5×5 tem uma estrela com probabilidade 0,8, cerca de 3,2 % por célula, acima de 1,5 % e igual em qualquer altura do céu. O filtro da crista só descarta células que a poeira já cobria antes."
+                },
+                {
+                  "veredito": "PASS",
+                  "justificativa": "Estrelas passam a um sorteio por bloco 5×5 com presença 0,8, sem depender de y: cerca de 3,2% por célula, acima de 1,5%, e igual em qualquer altura do céu. O corte junto à crista só exclui células que não são céu, e a poeira cobria essas estrelas no base."
+                }
+              ],
+              "veredito": "PASS",
+              "justificativa": "A condição por limiar em y foi trocada por no máximo uma estrela por bloco 5×5, com presença de 0,8. Isso dá cerca de 3,2% por célula, acima de 1,5% e sem depender da altura. A exclusão perto da crista só tira estrelas que a poeira já cobria no base."
+            }
+          ]
+        },
+        "sem-afrouxar": {
+          "status": "informa",
+          "resumo": "nenhum sinal de afrouxamento",
+          "detalhes": []
+        },
+        "checagens-do-site": {
+          "status": "passa",
+          "resumo": "os 7 passos passaram (13 passed (36.4s))",
+          "detalhes": {
+            "passos": [
+              {
+                "nome": "install",
+                "status": 0,
+                "duracaoS": 22,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "lint",
+                "status": 0,
+                "duracaoS": 11,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "formatacao",
+                "status": 0,
+                "duracaoS": 2,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "tipos",
+                "status": 0,
+                "duracaoS": 4,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "padroes",
+                "status": 0,
+                "duracaoS": 0,
+                "evidencia": "G21, G22 e G26: nenhuma violação."
+              },
+              {
+                "nome": "build",
+                "status": 0,
+                "duracaoS": 9,
+                "evidencia": "saída 0"
+              },
+              {
+                "nome": "testes",
+                "status": 0,
+                "duracaoS": 37,
+                "evidencia": "13 passed (36.4s)"
+              }
+            ],
+            "reguaMudada": [],
+            "portaOcupadaDepois": []
+          }
+        }
+      },
+      "agente": {
+        "status": "ok",
+        "fim": "success",
+        "custoUsd": 1.9052015999999998,
+        "turnos": 63,
+        "duracaoS": 629,
+        "init": {
+          "versao": "2.1.325",
+          "modelo": "claude-opus-5-5",
+          "modo": "auto",
+          "esforco": null,
+          "skills": [
+            "fechar-fase",
+            "verificar",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "schedule",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": ["cc-plugin-agents-md", "cc-plugin-telemetry", "cc-plugin-privacy", "cc-plugin-plugin-authoring"],
+          "mcp": [],
+          "ferramentas": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "Glob",
+            "Grep",
+            "ListAgents",
+            "Monitor",
+            "NotebookEdit",
+            "PowerShell",
+            "PushNotification",
+            "Read",
+            "RemoteTrigger",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SendMessage",
+            "Skill",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "origemDaChave": "none",
+          "problemas": []
+        },
+        "limites": {
+          "cincoHoras": 0.45,
+          "seteDias": 0.14,
+          "usoExtra": "rejected"
+        },
+        "modelos": {
+          "principal": ["claude-opus-5-5"],
+          "subagentes": []
+        },
+        "servidorEsquecido": [],
+        "portasDeFora": [],
+        "saiuSozinho": true,
+        "stderr": "",
+        "transcricao": "%LOCALAPPDATA%\\synapse-evals\\transcricoes\\2026-11-17-piloto\\ajuste\\comentarios-01-estrelas-1.jsonl",
+        "mensagemFinal": "As estrelas agora cobrem o céu inteiro, do alto até a crista, e aparecem bem mais. O commit está feito na branch `feat/estrelas-do-fundo` e a árvore está limpa.\n\n**O que mudou** (`componentes/Fundo.tsx`)\n- **Antes:** cada célula tinha uma chance pequena de virar estrela, maior no alto. No celular saíam só umas 5. As azuis ainda sumiam no azul claro perto da crista.\n- **Agora:** o céu é dividido em blocos de 5 × 5 células, e 4 de cada 5 blocos recebem uma estrela num ponto sorteado. Assim não sobra faixa vazia nem há estrelas grudadas. São cerca de 20 em 390×844 (eram 5) e 80 em 1440×900 (eram 33). O fundo continua igual em toda visita.\n- **Tipos:** poucas grandes com picos, claras, coloridas e fracas (a meia-luz). As azuis ficam só na parte escura de cima, onde aparecem.\n- **Picos das grandes:** as estrelas agora são desenhadas depois do céu. Antes, a linha de baixo e a textura cobriam parte dos picos.\n- Atualizei a descrição do fundo em `docs/especificacao.md` (§7). Nenhum critério do §5 mudou, então nenhum teste muda.\n\n**Verificação**\n\n| Etapa | Resultado | Evidência |\n| --- | --- | --- |\n| Lint | passou | `eslint .` sem saída |\n| Formatação | passou | \"All matched files use Prettier code style!\" |\n| Typecheck | passou | \"Types generated successfully\" |\n| Padrões | passou | \"G21, G22 e G26: nenhuma violação\" |\n| Build | passou | `/` estática (`○`), com `out/index.html` e `out/404.html` |\n| Testes | passou | 13 passed (36,2 s); G7 com 0,340 % dos pixels diferentes |\n| Capturas | conferidas | as 7 imagens: estrelas espalhadas até a crista, sem nada fora do lugar |\n| Lighthouse local | falhou, igual ao `develop` | veja abaixo |\n\n- **Lighthouse:** as três falhas acontecem também no `develop`, rodado na mesma máquina. Desempenho 85–89 com a mudança contra 86–92 sem ela; o TBT oscilou entre 366 e 490 ms com a mudança e entre 261 e 473 ms sem. A passada nova de estrelas custa uns 29 µs, então a diferença é ruído. Os outros dois problemas também já existiam: o contraste dos bits do rodapé (`sinapse-rodape-bits`) e o maior elemento da tela (LCP) ser o parágrafo, não o `h1`. A nota que vale vem do PageSpeed Insights.\n- Nenhum teste ou limite foi afrouxado. O console do navegador não foi conferido à parte.\n\n**Para você decidir:** com mais estrelas, algumas brancas caem encostadas nas letras grandes do nome e de \"SERVIÇOS\". Como a cor é quase a mesma do texto, parecem um pixel a mais na letra (dá para ver em `verificacao/screenshots/hero-1440.png`). Não atrapalha a leitura. Se incomodar, dá para trocar parte das brancas por fracas ou coloridas.\n\n**Commit**\n- `685b5e5 feat(fundo): espalha mais estrelas pelo céu inteiro`\n\n**Push**\n```sh\ngit push -u origin feat/estrelas-do-fundo\n```\n\n**PR para `develop`**\n\nTítulo: `feat(fundo): espalha mais estrelas pelo céu inteiro`\n\n```markdown\n## O que muda\n\nAs estrelas do fundo eram sorteadas célula a célula, com chance maior no alto: no celular saíam umas\ncinco, e as azuis sumiam no azul aberto perto da crista. Agora cada bloco de 5 × 5 células recebe no\nmáximo uma estrela, em quatro de cada cinco blocos, do alto até a crista. São cerca de 20 em\n390×844 e 80 em 1440×900, entre grandes com picos, claras, coloridas e fracas. Os picos das grandes\ndeixam de ser cobertos pelo céu. A descrição do fundo em `docs/especificacao.md` (§7) acompanha.\n\n## Como verificar\n\n- `pnpm build && pnpm start` e abrir `/` em 390×844 e 1440×900: estrelas espalhadas do alto até a\n  crista, sem faixa vazia.\n- `pnpm verificar:screenshots` e conferir `hero-*` e `pico-*`.\n\n## Checklist\n\n- [x] O título segue o padrão de commits.\n- [ ] O CI passa (install, auditoria, lint, formatação, padrões, typecheck, build e Playwright).\n- [x] Se a interface mudou: capturas de `/` em 375 e 1440 conferidas (`pnpm verificar:screenshots`) e console sem erro.\n- [x] Se uma regra mudou: `docs/especificacao.md` e testes atualizados juntos.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n```\n\nNo checklist, a parte de \"console sem erro\" ficou marcada, mas não foi conferida: confira o console ou desmarque. A caixa do CI fica para quando ele passar no PR."
+      },
+      "juiz": {
+        "custoUsd": 0.39495649999999993,
+        "chamadas": 12
+      },
+      "marcas": [],
+      "workspace": null,
+      "inicio": "f3af515e64815190c4765e5aa2e1337cc923bda5",
+      "final": "80ff1b0d66a04c25630f1becd1c0e1028b9ad8dd",
+      "diff": "diffs/comentarios-01-estrelas-1.diff",
+      "quando": "2026-11-17T15:43:59.850Z"
+    }
+  ]
+}

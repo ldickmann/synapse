@@ -1,0 +1,33 @@
+From a52fca4b2d4032d84c980a2f6200ac0f8915b563 Mon Sep 17 00:00:00 2001
+From: Synapse Evals <evals@synapse.invalid>
+Date: Mon, 16 Nov 2026 12:00:00 -0300
+Subject: [PATCH] =?UTF-8?q?feat(fundo):=20espalha=20as=20estrelas=20pelo?=
+ =?UTF-8?q?=20c=C3=A9u=20inteiro?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ componentes/Fundo.tsx | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/componentes/Fundo.tsx b/componentes/Fundo.tsx
+index c91560f..060f9af 100644
+--- a/componentes/Fundo.tsx
++++ b/componentes/Fundo.tsx
+@@ -101,9 +101,10 @@ export function Fundo({ ativo }: { ativo: boolean }) {
+             b.fillStyle = misturar(ceu, cores.alto, 0.5)
+             b.fillRect(c * t, l * t, t, t)
+           }
+-          // Estrelas: raras, mais no alto; as grandes ganham quatro picos.
++          // Estrelas espalhadas pelo céu inteiro: a mesma chance em qualquer altura, 2,5 % das células.
++          // As grandes ganham quatro picos.
+           const r = ruido(c, l, 3)
+-          if (r > 0.991 - (1 - y) * 0.006) {
++          if (r > 0.975) {
+             const grande = r > 0.9985
+             b.fillStyle = r > 0.992 ? cores.estrela : ruido(c, l, 4) > 0.5 ? cores.dourado : cores.azul
+             b.fillRect(c * t, l * t, t, t)
+-- 
+2.56.0.windows.4
+
