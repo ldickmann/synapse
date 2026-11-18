@@ -121,7 +121,7 @@ Cada critério tem a verificação que o prova, agrupado aqui pelo comando que r
 
 - **G25.** Primeira tela, pico (serviços no alto da tela) e final, em 375 e 1440, e foco em 1440. Mudança de interface se confere olhando cada uma.
 
-A assinatura de autoria (`componentes/AssinaturaEncaixe.tsx`) é autocontida, com paleta e fontes próprias, e fica fora das fontes do G22 e do G26 por exceção declarada em `scripts/checar-padroes.ts`, impressa a cada execução.
+A assinatura de autoria (`componentes/AssinaturaStory.tsx`, estilo Story) é autocontida, com paleta e fontes próprias, e fica fora das fontes do G22 e do G26 por exceção declarada em `scripts/checar-padroes.ts`, impressa a cada execução. O "Developer" dela, marcado com `lang="en"`, é a única exceção ao G19, que pede texto visível em português.
 
 Os códigos que faltam na lista não são usados: G2 (índice das rotas), G3 (coberto pelo X1), G5 e G6 (versão sem WebGL), G9 e G24 (FPS da cena 3D), G16 e G17 (dica inativa e botão fixo) e G18 e G20 (comparação entre rotas). O G13 (imagem de prévia de 1200×630) volta com `app/opengraph-image.tsx`, que está no backlog.
 

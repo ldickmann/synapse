@@ -14,7 +14,7 @@ const TOKENS = 'app/tokens.css'
 // Exceções declaradas, impressas a cada execução. A assinatura de autoria leva a outros projetos a mesma
 // paleta própria e a pilha de fontes do sistema (o Roboto é a do Android).
 const EXCECOES: Record<string, { fontes?: true; cores?: true }> = {
-  'componentes/AssinaturaEncaixe.tsx': { fontes: true, cores: true },
+  'componentes/AssinaturaStory.tsx': { fontes: true, cores: true },
 }
 const EXT_TEXTO = new Set([
   '.ts',

@@ -29,4 +29,4 @@ Outros números que, se mudarem, afrouxam a verificação:
 
 - `playwright.config.ts`: `timeout` de 90 s, `expect.timeout` de 10 s, sem `retries`.
 - `tests/site.spec.ts`: `ENTRADA_MS` de 3 000 ms e o `timeout` de 20 s do `esperarEntrada()`.
-- `scripts/checar-padroes.ts`: pastas `app`, `componentes` e `lib`; única exceção, `componentes/AssinaturaEncaixe.tsx` (fontes do G22 e G26).
+- `scripts/checar-padroes.ts`: pastas `app`, `componentes` e `lib`; única exceção, `componentes/AssinaturaStory.tsx` (fontes do G22 e G26).

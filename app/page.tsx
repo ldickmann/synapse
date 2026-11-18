@@ -1,9 +1,9 @@
-import { AssinaturaEncaixe } from '@/componentes/AssinaturaEncaixe'
+import { AssinaturaStory } from '@/componentes/AssinaturaStory'
 import { Pagina } from '@/componentes/Pagina'
 import { metadadosDaPagina } from '@/lib/metadados'
 
 export const metadata = metadadosDaPagina
 
 export default function SinapsePagina() {
-  return <Pagina assinatura={<AssinaturaEncaixe tom="escuro" />} />
+  return <Pagina assinatura={<AssinaturaStory />} />
 }
