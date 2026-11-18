@@ -14,6 +14,7 @@ Cada tentativa roda com `claude -p` num clone limpo do commit base (a tag `v1.0.
 | `avaliadores/`            | um arquivo por avaliador; `comentarios.ts` acha os comentários, o trecho e a classe de cada um                             |
 | `experimentos/`           | uma pasta por rodada, com o `INDICE.md` da sequência de experimentos                                                       |
 | `validacao/experimentos/` | o detalhe dos casos de validação de cada rodada, fora do que a sessão de ajuste lê                                         |
+| `falhas.md`               | cada procura por falha nova depois de uma entrega, o que achou e o que virou (ver [Rotina](#rotina))                       |
 
 ## Primeiro comportamento: comentários fiéis ao código
 
@@ -55,7 +56,7 @@ Uma tentativa passa quando todos os avaliadores da lista `avaliadores` do caso p
 
 - `checagens-do-site`, `pedido-cumprido`, `fluxo-git` e `escopo-arquivos`, que cobrem o que já funciona e precisa continuar;
 - `comentarios-narracao`, `comentarios-idioma`, `juiz-comentario-descreve`, `juiz-comentario-porque` e `juiz-comentario-antigo`, em todos os comentários julgados;
-- `comentario-vigiado` nos casos `deve` e `sem-comentario-novo` nos `nao-deve`.
+- `comentario-vigiado` nos casos `deve` (e nos que se graduaram deles) e `sem-comentario-novo` nos `nao-deve`.
 
 Item do juiz que termina em `UNKNOWN` não conta como passa: aparece à parte e vai para revisão do Lucas. Enquanto a concordância do juiz com os rótulos do Lucas não for medida, veredito do juiz não decide experimento sozinho.
 
@@ -109,6 +110,7 @@ Código sempre que a checagem é determinística; juiz só no que exige julgamen
 | `comportamento`       | `comentarios`                                                                                                                  |
 | `conjunto`            | `ajuste` (em `casos/`) ou `validacao` (em `validacao/`)                                                                        |
 | `tipo`                | `deve` (o comportamento tem de aparecer), `nao-deve` (a regra não pode virar exagero) ou `regressao` (algo que já funciona)    |
+| `graduacao`           | só no caso `deve` que virou `regressao`: a data, o tipo de antes e as rodadas em que passou 3/3 (ver [Rotina](#rotina))        |
 | `origem`              | a evidência: trecho de código, commit, PR, sessão ou o caso de que este é variação, com o commit do base                       |
 | `arquivos_esperados`  | o que a tentativa tem de tocar                                                                                                 |
 | `arquivos_permitidos` | o que ela pode tocar                                                                                                           |
@@ -124,11 +126,11 @@ Antes da linha de base, cada caso ganha `referencia.patch` (passa em todos os av
 
 ### Conjuntos
 
-| Caso de ajuste             | Tipo       | Pedido                                                  | O que decide                                                                                                                |
-| -------------------------- | ---------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `comentarios-01-estrelas`  | `deve`     | estrelas do fundo mais frequentes e espalhadas pelo céu | o comentário "Estrelas: raras, mais no alto" muda ou sai; a chance de estrela fica igual em toda a altura e maior que antes |
-| `comentarios-02-respostas` | `deve`     | confirmar as duas últimas respostas das perguntas       | o comentário que diz que elas aguardam confirmação sai ou muda, e a linha do §6 sai no mesmo commit                         |
-| `comentarios-03-frase`     | `nao-deve` | trocar a primeira frase do texto de apoio do hero       | nenhum comentário muda em `lib/texto.ts`                                                                                    |
+| Caso de ajuste             | Tipo                                | Pedido                                                  | O que decide                                                                                                                |
+| -------------------------- | ----------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `comentarios-01-estrelas`  | `deve`                              | estrelas do fundo mais frequentes e espalhadas pelo céu | o comentário "Estrelas: raras, mais no alto" muda ou sai; a chance de estrela fica igual em toda a altura e maior que antes |
+| `comentarios-02-respostas` | `regressao` (`deve` até 18/11/2026) | confirmar as duas últimas respostas das perguntas       | o comentário que diz que elas aguardam confirmação sai ou muda, e a linha do §6 sai no mesmo commit                         |
+| `comentarios-03-frase`     | `nao-deve`                          | trocar a primeira frase do texto de apoio do hero       | nenhum comentário muda em `lib/texto.ts`                                                                                    |
 
 A validação tem dois casos, um `deve` e um `nao-deve`, e um deles é variação de redação de um caso de ajuste. Os detalhes ficam só em `validacao/`.
 
@@ -201,11 +203,73 @@ Fora da conta de passa e falha:
 - **`UNKNOWN`:** item do juiz sem maioria, à parte, para revisão do Lucas.
 - **Marcas da `transcricao`:** tentativa contaminada, servidor esquecido numa porta e troca de modelo no meio da tentativa.
 
+## Rotina
+
+Toda rodada com modelo gasta do limite do plano do Lucas: só roda com o ok dele e com a sessão dele parada.
+
+### Quando rodar
+
+| Quando                                                    | O que roda                                                                                                  | Comparado com                                        |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| enquanto se itera numa mudança do harness                 | os casos de ajuste do comportamento que a mudança mira, de todos os tipos: `deve`, `nao-deve` e `regressao` | o harness em uso                                     |
+| antes do PR que adota uma mudança do harness              | a suíte inteira: ajuste e validação de todos os comportamentos                                              | o harness em uso                                     |
+| quando muda a versão do Claude Code ou o modelo do agente | a suíte inteira, com o harness em uso e sem mudança nele                                                    | a última rodada da suíte inteira com o mesmo harness |
+
+- **Rodada de versão.** O runner não roda com um Claude Code diferente do de `suite.json`. A rodada de versão começa trocando `claude_code` (ou `agente.modelo`) em `suite.json`, no mesmo commit do registro dela, e vem antes do próximo experimento. Quando saem várias versões em sequência, basta uma rodada, com a última. A partir dela, a rodada de versão é a referência do harness em uso, e o `comparar.ts` deixa de misturar versão com harness.
+- **Modelo do juiz.** Trocar `juiz.modelo` pede medir a concordância de novo antes de o veredito do juiz decidir alguma coisa.
+- **Leitura.** Toda tentativa que falhou tem a transcrição lida e a causa anotada em `anotacoes.json`, como na linha de base.
+
+### Falha nova vira caso
+
+Depois de cada PR feito pelo Claude Code, procure a falha que escapou da verificação da própria sessão:
+
+- **revisão de PR:** revisões e comentários no GitHub, e os achados das sessões de `/code-review`;
+- **commit de correção:** um commit que conserta, depois da entrega, o que um commit do Claude Code fez;
+- **reversão:** um `revert`, ou um arquivo restaurado à mão ou pelo `git reflog`.
+
+Cada procura entra em `falhas.md`, mesmo quando não acha nada. A falha vira caso quando:
+
+1. **é do Claude Code.** Os commits do PR (`gh pr view <N> --json commits`) ou a transcrição da sessão mostram que foi ele. O trailer `Co-Authored-By` some no squash, então o que vale são os commits do PR. Passo manual não conta: no #12, o check `titulo` falhou porque o PR foi aberto com o título que o GitHub tira do nome da branch, e não com o título sugerido no aviso.
+2. **é de um comportamento que já tem suíte.** Se o comportamento ainda não tem, a falha fica em `falhas.md` como evidência e vira caso quando a suíte dele for especificada.
+3. **cabe num `claude -p`:** um pedido completo, sem pergunta, dentro do teto de US$ 3,30, a partir do base. Se precisa de código posterior ao base, veja "Base".
+
+O caso segue [Como acrescentar um caso](#como-acrescentar-um-caso):
+
+- `origem.tipo` é `revisao-de-pr`, `commit-de-correcao` ou `reversao`, e `origem.referencia` aponta para o PR, o comentário ou o commit;
+- o caso nasce `deve`, ou `nao-deve` quando a falha foi a regra virar exagero;
+- o conjunto é decidido com o Lucas antes de qualquer tentativa. Caso de validação é escrito numa sessão que não ajusta o harness depois. Em `falhas.md`, ele aparece só como "caso de validação", porque a origem levaria a sessão de ajuste até a falha.
+
+Na primeira rodada com o harness em uso, um caso que passa 3/3 tem o pedido e o estado inicial conferidos contra a falha. Se eles reproduzem o que aconteceu, o caso fica e já conta para a graduação; se não reproduzem, o caso é reescrito, não o harness.
+
+### Quando um caso vira regressão
+
+- Um caso `deve` que passa 3/3 em duas rodadas seguidas, com qualquer harness, vira `regressao`: o `tipo` muda e o campo `graduacao` guarda a data, o tipo de antes e as rodadas. Contam só as tentativas que rodaram, então rodada com corte ou "não rodou" no caso não serve para a graduação.
+- O caso graduado continua no mesmo conjunto, com os mesmos avaliadores, e roda sempre que o comportamento dele é ajustado. Ele deixa de medir o que pode melhorar e passa a guardar o que já funciona: perder tentativa nele é regressão, pelas regras de decisão de `experimentos/INDICE.md`.
+- Caso de regressão que perde tentativa com o harness em uso, por exemplo numa rodada de versão, volta a `deve`: o que funcionava deixou de funcionar.
+- `nao-deve` não se gradua. Ele é o contrapeso do comportamento: passa enquanto a regra não vira exagero, e roda sempre que o comportamento é ajustado.
+
+Em 18/11/2026, `comentarios-02-respostas` tinha passado 3/3 na linha de base e nos dois experimentos, e virou regressão. Com isso, `comentarios-01-estrelas` é o único caso `deve` do ajuste. Na validação, só a linha de base rodou, e nenhum caso tem duas rodadas.
+
+### Base
+
+Enquanto nada fora de `evals/` mudar desde a tag, e em 18/11/2026 nada tinha mudado, o base continua em `v1.0.0`. Quando um caso novo precisar de código posterior a ele, o base anda:
+
+- o clone precisa ter a história reescrita sem `evals/`, para o agente não ver casos, resultados nem experimentos. Os commits que só tocam `evals/` somem junto. O runner ainda clona só a tag, e essa reescrita entra nele com o primeiro caso que precisar dela;
+- todos os casos rodam de novo sem modelo, porque os patches foram escritos sobre o base antigo;
+- uma rodada nova com o harness em uso passa a ser a referência, porque `comparar.ts` só vale entre rodadas com o mesmo base.
+
+### Decisões de 18/11/2026
+
+- **CI:** a suíte não roda no CI. O CI de sempre já passa lint, Prettier e typecheck no código de `evals/`.
+- **Linux, para as sessões na nuvem:** adiado. A nuvem roda Ubuntu 24.04 com Node 22, e o Synapse pede Node 26. Quando uma falha vista só numa sessão na nuvem virar caso, o ambiente será um contêiner Docker com `ubuntu:24.04` e o mesmo script de preparo da nuvem.
+- **Conta do Windows só para as evals:** não existe. Volta à mesa se o `transcricao` marcar uma tentativa como contaminada.
+- **Segundo comportamento:** a entrega que passa na verificação e que a revisão do PR reprova. Ele será especificado numa fase própria, depois de medida a concordância do juiz dos comentários.
+
 ## Como acrescentar um caso
 
 1. Escreva `pedido.md` e `caso.json` antes de qualquer tentativa com o caso, com o critério claro o bastante para dois revisores darem o mesmo veredito.
 2. Escolha o conjunto de uma vez. Cada conjunto mantém pelo menos um caso `deve` e um `nao-deve` ou `regressao`. Caso de validação não é lido pela sessão que ajusta o harness nem descrito neste README.
 3. Use um id curto: o workspace de cada tentativa fica numa raiz curta no Windows, por causa do limite de caminho.
-4. Aponte a `origem` para a evidência. Falha nova vista em revisão de PR, commit de correção ou reversão vira caso.
+4. Aponte a `origem` para a evidência. Falha nova vista em revisão de PR, commit de correção ou reversão vira caso, como em [Falha nova vira caso](#falha-nova-vira-caso).
 5. Escreva `referencia.patch` e `quebrada.patch`. Antes de o caso valer, os avaliadores rodam sem modelo sobre a referência (passa em tudo), a quebrada (reprova no avaliador do comportamento) e a tentativa nula, sem mudança nenhuma (reprova em `pedido-cumprido`).
 6. Código de caso vai em `.patch`, nunca em `.ts` ou `.tsx` solto: o lint, o typecheck e o Prettier olham `evals/` como o resto do repositório.
